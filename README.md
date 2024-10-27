@@ -8,6 +8,7 @@ Micro-Investment Education Platform is an innovative educational app designed to
 - [Code Structure](#code-structure)
 - [Installation](#installation)
 - [Requirements](#requirements)
+- [Using Postman](#using-postman)
 - [Contributing](#contributing)
 - [Contact](#contact)
 
@@ -65,6 +66,63 @@ The platform is built using the following technologies:
 - MongoDB
 - React (v17 or later)
 - Stock market API access key (e.g., Alpha Vantage)
+
+## Using Postman
+
+You can use Postman to interact with the API and perform various actions. Below are some common operations:
+
+### Start the Backend and Frontend
+
+- To start the backend:
+  ```bash
+  node index.js
+- To start the frontend:
+   ```bash
+   npm start
+### Register a New User
+Use the following steps to register a new user using Postman:
+
+- URL: http://localhost:5001/api/users/register
+- Method: POST
+- Body: Set the body type to JSON and include user details like this:
+  ```bash
+  {
+  "username": "testuser",
+  "email": "testuser@example.com",
+  "password": "password123"
+  }
+
+### Get User Portfolio
+Once you have a valid user ID (let’s say it is 60d21b4667d0d8992e610c85), you can use that ID to get the user's portfolio:
+
+- http://localhost:5001/api/users/60d21b4667d0d8992e610c85/portfolio
+- Method: GET
+
+### Fixing the URL in Your Frontend
+- Once you have a user ID, update your App.js like this:
+   ```bash
+   const userId = '60d21b4667d0d8992e610c85'
+
+### Fetch User Portfolio in Postman
+You can also test the endpoint to get the user's portfolio using Postman:
+
+- URL: http://localhost:5001/api/users/671e97b055d22be8e9600518/portfolio
+- Method: GET
+
+This should return an empty array ([]) since you just registered the user and there are no stocks in the portfolio yet.
+
+### Add Some Stocks (Optional)
+If you want to add stocks to the user's portfolio and see them in your application, you can create a POST request to your buy stock endpoint:
+
+- URL: http://localhost:5001/api/transactions/buy
+- Method: POST
+- Body: Set the body type to JSON and include stock purchase details, like this:
+   ```bash
+   {
+  "userId": "671e97b055d22be8e9600518",
+  "symbol": "AAPL",  // Example stock symbol
+  "shares": 5        // Number of shares to buy
+   }
 
 ## Contributing
 Feel free to submit issues or pull requests for improvements or bug fixes. You can also open issues to discuss potential changes or enhancements. All contributions are welcome to enhance the app’s features or functionality!
