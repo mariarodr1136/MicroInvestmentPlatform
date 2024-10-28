@@ -34,7 +34,7 @@ The platform is built using the following technologies:
    git clone https://github.com/mariarodr1136/MicroInvestmentEducationPlatform.git
 - Alternatively, if you prefer to use HTTPS:
    ```bash
-   git clone https://github.com/mariarodr1136/MicroInvestmentEducationPlatform.git
+   https://github.com/mariarodr1136/MicroInvestmentPlatform.git
 
 2. Navigate to the backend directory:
    ```bash
