@@ -101,7 +101,7 @@ You can use Postman to interact with the API and perform various actions. Below 
     - **Response**: The created `User` object with balance, portfolio, and ID.
 
 2. **Retrieve a User Portfolio by ID**
-    - **Endpoint**: `/api/users/{ID}/portfolio`
+    - **Endpoint**: `/api/users/{id}/portfolio`
     - **HTTP Method**: `GET`
     - **Description**: Fetches `User` portfolio by their ID.
     - **Response**:
@@ -129,7 +129,7 @@ You can use Postman to interact with the API and perform various actions. Below 
     - **Response**: "Stock purchased successfully"
 
 4. **Retrieve User Current Balance**
-    - **Endpoint**: `/api/users/{username}/balance`
+    - **Endpoint**: `/api/users/{id}/balance`
     - **HTTP Method**: `GET`
     - **Description**: Retrieves `User` current balance
     - **Request Body**:
