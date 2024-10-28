@@ -35,6 +35,73 @@ router.post('/buy', async (req, res) => {
   }
 });
 
+// Sell Stock
+router.post('/sell', async (req, res) => {
+  const { userId, symbol, shares } = req.body;
+
+  try {
+    console.log(`Selling stock: ${symbol}, Shares: ${shares}, User ID: ${userId}`);
+
+    // Input validation
+    if (!userId || !symbol || !shares) {
+      return res.status(400).json({ error: 'Missing required fields' });
+    }
+
+    const user = await User.findById(userId);
+    if (!user) {
+      console.log('User not found');
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    // Find the stock in user's portfolio
+    const existingStock = user.portfolio.find(stock => stock.symbol.toUpperCase() === symbol.toUpperCase());
+    if (!existingStock) {
+      return res.status(400).json({ error: `You don't own any shares of ${symbol}` });
+    }
+    if (existingStock.shares < shares) {
+      return res.status(400).json({ error: `You only have ${existingStock.shares} shares of ${symbol}` });
+    }
+
+    // Fetch current stock price
+    const price = await fetchStockPrice(symbol);
+    if (!price) {
+      return res.status(500).json({ error: 'Unable to fetch current stock price' });
+    }
+
+    const revenue = shares * price;
+
+    // Update portfolio
+    existingStock.shares -= shares;
+    if (existingStock.shares === 0) {
+      user.portfolio = user.portfolio.filter(stock => stock.symbol.toUpperCase() !== symbol.toUpperCase());
+    }
+
+    // Update user balance
+    user.balance += revenue;
+    await user.save();
+
+    // Record transaction
+    const newTransaction = new Transaction({
+      userId,
+      symbol: symbol.toUpperCase(),
+      shares,
+      pricePerShare: price,
+      type: 'sell'
+    });
+    await newTransaction.save();
+
+    res.status(200).json({ 
+      message: 'Stock sold successfully', 
+      balance: user.balance,
+      soldShares: shares,
+      revenue: revenue
+    });
+  } catch (error) {
+    console.error('Error during selling stock:', error);
+    res.status(500).json({ error: 'An error occurred while selling stock: ' + error.message });
+  }
+});
+
 async function fetchStockPrice(symbol) {
   try {
     const response = await axios.get('https://www.alphavantage.co/query', {
@@ -42,7 +109,7 @@ async function fetchStockPrice(symbol) {
         function: 'TIME_SERIES_INTRADAY',
         symbol: symbol,
         interval: '5min',
-        apikey: process.env.STOCK_API_KEY, // Ensure your .env file has this key
+        apikey: process.env.REACT_APP_STOCK_API_KEY, // Ensure your .env file has this key
       },
     });
 

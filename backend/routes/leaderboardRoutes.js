@@ -7,7 +7,7 @@ router.get('/', async (req, res) => {
   try {
     const leaders = await User.find()
       .sort({ balance: -1 }) // Sort users by balance in descending order
-      .limit(10) // Limit to top 10 users
+      .limit(5) // Limit to top 5 users
       .select('username balance'); // Select only username and balance fields
     res.json(leaders);
   } catch (error) {
