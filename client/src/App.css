@@ -29,3 +29,9 @@
   width: 50%; 
   margin: 10px auto; 
 }
+
+.balance {
+  font-size: 1.5rem;
+  margin: 10px 0;
+  color: rgb(34, 139, 34); /* Green color for positive balance */
+}
