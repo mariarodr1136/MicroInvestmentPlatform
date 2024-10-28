@@ -82,7 +82,7 @@ Once you have a user ID, update your App.js to view data in frontend:
 
 ---
 
-## Using Postman 📫
+## API Interaction with Postman
 
 You can use Postman to interact with the API and perform various actions. Below are some common operations:
 
