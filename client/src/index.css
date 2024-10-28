@@ -8,13 +8,14 @@
 }
 
 .App-header {
-  background-color: #282c34;
+  background-image: url('./background.jpg'); /* Relative path to the image */
+  background-size: cover; /* Makes the background image cover the entire header */
+  background-position: center; /* Centers the background image */
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
-  color: white;
   text-align: center; /* Centers text */
 }
