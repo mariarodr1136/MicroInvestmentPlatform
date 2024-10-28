@@ -107,10 +107,10 @@ You can use Postman to interact with the API and perform various actions. Below 
     - **Response**:
       ```json
       {
-        "symbol": "Stock String",
-        "shares": "Integer",
-        "avgPrice": "Integer",
-        "id": "Integer"
+        "symbol": "stock string",
+        "shares": "integer",
+        "avgPrice": "integer",
+        "id": "integer"
       }
       ```
 
@@ -121,9 +121,9 @@ You can use Postman to interact with the API and perform various actions. Below 
     - **Request Body**:
       ```json
       {
-        "userId": "Integer",
-        "symbol": "String - Stock symbol",
-        "shares": "Integer - Number of shares to buy",    
+        "userId": "integer",
+        "symbol": "string - Stock symbol",
+        "shares": "integer - Number of shares to buy",    
       }
       ```
     - **Response**: "Stock purchased successfully"
@@ -135,7 +135,7 @@ You can use Postman to interact with the API and perform various actions. Below 
     - **Request Body**:
       ```json
       {
-        "balance": "Integer"
+        "balance": "integer"
       }
       ```
 
