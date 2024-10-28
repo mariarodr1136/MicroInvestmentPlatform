@@ -5,7 +5,6 @@ const Portfolio = ({ userId, balance }) => {
   const [portfolio, setPortfolio] = useState([]);
   const [livePrices, setLivePrices] = useState({});
 
-  // Fetch user's portfolio
   useEffect(() => {
     const fetchPortfolio = async () => {
       try {
@@ -15,11 +14,9 @@ const Portfolio = ({ userId, balance }) => {
         console.error("Error fetching portfolio:", error);
       }
     };
-
-    fetchPortfolio(); // Fetch portfolio on component mount
+    fetchPortfolio();
   }, [userId]);
 
-  // Fetch live stock prices
   useEffect(() => {
     const fetchLivePrices = async () => {
       const updatedLivePrices = {};
@@ -35,13 +32,11 @@ const Portfolio = ({ userId, balance }) => {
                 apikey: process.env.REACT_APP_STOCK_API_KEY,
               },
             });
-
             const timeSeries = response.data['Time Series (5min)'];
-
             if (timeSeries) {
               const latestTime = Object.keys(timeSeries)[0];
               const latestData = timeSeries[latestTime];
-              updatedLivePrices[symbol] = parseFloat(latestData['4. close']); // Use the closing price
+              updatedLivePrices[symbol] = parseFloat(latestData['4. close']);
             } else {
               console.error('No time series data returned for:', symbol);
             }
@@ -50,13 +45,12 @@ const Portfolio = ({ userId, balance }) => {
           }
         }
       });
-
-      await Promise.all(pricePromises); // Wait for all price fetches to complete
-      setLivePrices(updatedLivePrices); // Update live prices state
+      await Promise.all(pricePromises);
+      setLivePrices(updatedLivePrices);
     };
 
     if (portfolio.length > 0) {
-      fetchLivePrices(); // Fetch live stock prices when the portfolio is populated
+      fetchLivePrices();
     }
   }, [portfolio]);
 
