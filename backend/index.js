@@ -17,18 +17,19 @@ app.use((req, res, next) => {
 });
 
 // Import Routes
-const userRoutes = require('./routes/userRoutes');
+const userRoutes = require('./routes/userRoutes'); 
 const transactionRoutes = require('./routes/transactionRoutes');
 const leaderboardRoutes = require('./routes/leaderboardRoutes');
 
 // Use Routes
-app.use('/api/users', userRoutes);
-app.use('/api/transactions', transactionRoutes);
-app.use('/api/leaderboard', leaderboardRoutes);
+app.use('/api/user', userRoutes); 
+app.use('/api/transactions', transactionRoutes); 
+app.use('/api/leaderboard', leaderboardRoutes); 
 
+// Connect to MongoDB
 mongoose.connect(process.env.MONGODB_URI)
   .then(() => console.log('MongoDB connected'))
-  .catch(err => console.log(err));
+  .catch(err => console.log('MongoDB connection error:', err));
 
 const PORT = process.env.PORT || 5001;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
