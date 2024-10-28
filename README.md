@@ -2,7 +2,8 @@
 
 The Micro-Investment Education Platform is an innovative educational app crafted to empower beginners in the world of investing. By simulating micro-investments within a risk-free environment using virtual money, this platform allows users to explore various investment strategies and gain insights into market dynamics without the fear of losing real funds. Our goal is to instill the knowledge and confidence necessary for users to navigate the complexities of investing, enabling them to understand market trends, evaluate risks, and appreciate the potential rewards of their investment decisions in a safe and engaging manner. 📈
 
-<img width="1466" alt="MicroInvestmentDemo" src="https://github.com/user-attachments/assets/dea13994-6429-4c8e-869b-d00230bf18f3">
+<img width="1443" alt="Screenshot 2024-10-28 at 11 51 56 AM" src="https://github.com/user-attachments/assets/f01a5d4f-a0f9-404b-b457-58c608d5b168">
+
 
 ## Table of Contents
 - [Features](#features)
@@ -64,65 +65,26 @@ The platform is built using the following technologies:
 - React (v17 or later)
 - Stock market API access key (e.g., Alpha Vantage)
 
+## Fixing the URL in Your Frontend
+Once you have a user ID, update your App.js to view data in frontend:
+
+- const userId = '60d21b4667d0d8992e610c85'
+
 ## Using Postman 📫
 
 You can use Postman to interact with the API and perform various actions. Below are some common operations:
 
-### Start the Backend and Frontend
+<p align="center">
+ - Add Stocks & Register a New User -
+</p>
 
-- To start the backend:
-  ```bash
-  node index.js
-- To start the frontend:
-   ```bash
-   npm start
-   
-### Register a New User
-Use the following steps to register a new user using Postman:
+![IMG_9185](https://github.com/user-attachments/assets/33676fe3-f19a-4fb0-b4f3-16462332fc61)
 
-- URL: http://localhost:5001/api/users/register
-- Method: POST
-- Body: Set the body type to JSON and include user details like this:
-  
-   ```bash
-  {
-  "username": "testuser",
-  "email": "testuser@example.com",
-  "password": "password123"
-  }
+<p align="center">
+- Fetch Current Balance & Portfolio -
+</p>
 
-### Get User Portfolio
-Once you have a valid user ID (let’s say it is 60d21b4667d0d8992e610c85), you can use that ID to get the user's portfolio:
-
-- http://localhost:5001/api/users/60d21b4667d0d8992e610c85/portfolio
-- Method: GET
-
-### Fixing the URL in Your Frontend
-Once you have a user ID, update your App.js like this:
-
-- const userId = '60d21b4667d0d8992e610c85'
-
-### Fetch User Portfolio in Postman
-You can also test the endpoint to get the user's portfolio using Postman:
-
-- URL: http://localhost:5001/api/users/671e97b055d22be8e9600518/portfolio
-- Method: GET
-
-This should return an empty array ([]) since you just registered the user and there are no stocks in the portfolio yet.
-
-### Add Some Stocks (Optional)
-If you want to add stocks to the user's portfolio and see them in your application, you can create a POST request to your buy stock endpoint:
-
-- URL: http://localhost:5001/api/transactions/buy
-- Method: POST
-- Body: Set the body type to JSON and include stock purchase details, like this:
-
-   ```bash
-   {
-  "userId": "671e97b055d22be8e9600518",
-  "symbol": "AAPL",  // Example stock symbol
-  "shares": 5        // Number of shares to buy
-   }
+![IMG_9184](https://github.com/user-attachments/assets/492e2dfd-f01d-44eb-acab-fa77363149f4)
 
 ## Contributing 📖
 Feel free to submit issues or pull requests for improvements or bug fixes. You can also open issues to discuss potential changes or enhancements. All contributions are welcome to enhance the app’s features or functionality!
