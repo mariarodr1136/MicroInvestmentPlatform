@@ -2,8 +2,7 @@
 
 The Micro-Investment Education Platform is an innovative educational app crafted to empower beginners in the world of investing. By simulating micro-investments within a risk-free environment using virtual money, this platform allows users to explore various investment strategies and gain insights into market dynamics without the fear of losing real funds. The goal is to instill the knowledge and confidence necessary for users to navigate the complexities of investing, enabling them to understand market trends, evaluate risks, and appreciate the potential rewards of their investment decisions safely and engagingly. 📈
 
-<img width="1443" alt="Screenshot 2024-10-28 at 11 51 56 AM" src="https://github.com/user-attachments/assets/f01a5d4f-a0f9-404b-b457-58c608d5b168">
-
+<img width="1440" alt="Screenshot 2024-10-28 at 7 02 49 PM" src="https://github.com/user-attachments/assets/3bf0753d-046a-4e38-9b74-735f5454e071">
 
 ### Table of Contents
 - [Features](#features)
