@@ -87,7 +87,7 @@ Once you have a user ID, update your App.js to view data in frontend:
 You can use Postman to interact with the API and perform various actions. Below are some common operations:
 
 1. **Register a User**
-    - **Endpoint**: `/api/users/register`
+    - **Endpoint**: `/api/user/register`
     - **HTTP Method**: `POST`
     - **Description**: Adds a new `User` with username, email, and password.
     - **Request Body**:
@@ -99,9 +99,16 @@ You can use Postman to interact with the API and perform various actions. Below 
       }
       ```
     - **Response**: The created `User` object with balance, portfolio, and ID.
+  
+2. **Retrieve All Users**
+    - **Endpoint**: `api/user`
+    - **HTTP Method**: `GET`
+    - **Description**: Retrieves all registered `User` objects
+  
+    - **Response**: All `User` objects with `id, username, balance`, and `stock portfolio`.
 
-2. **Retrieve a User Portfolio by ID**
-    - **Endpoint**: `/api/users/{id}/portfolio`
+3. **Retrieve a User Portfolio by ID**
+    - **Endpoint**: `/api/user/{id}/portfolio`
     - **HTTP Method**: `GET`
     - **Description**: Fetches `User` portfolio by their ID.
     - **Response**:
@@ -114,7 +121,7 @@ You can use Postman to interact with the API and perform various actions. Below 
       }
       ```
 
-3. **Create a Transaction**
+4. **Create a Transaction**
     - **Endpoint**: `/api/transactions/buy`
     - **HTTP Method**: `POST`
     - **Description**: Purchase Stock Option
@@ -141,30 +148,16 @@ You can use Postman to interact with the API and perform various actions. Below 
       ```
     - **Response**: "Stock sold successfully"
 
-4. **Retrieve User Current Balance**
-    - **Endpoint**: `/api/users/{id}/balance`
+5. **Retrieve User Current Balance**
+    - **Endpoint**: `/api/user/{id}/balance`
     - **HTTP Method**: `GET`
     - **Description**: Retrieves `User` current balance
-    - **Request Body**:
+    - **Response**:
       ```json
       {
         "balance": "integer"
       }
       ```
-
----
-
-<p align="center">
- - Add Stocks & Register a New User -
-</p>
-
-![IMG_9185](https://github.com/user-attachments/assets/33676fe3-f19a-4fb0-b4f3-16462332fc61)
-
-<p align="center">
-- Fetch Current Balance & Portfolio -
-</p>
-
-![IMG_9184](https://github.com/user-attachments/assets/492e2dfd-f01d-44eb-acab-fa77363149f4)
 
 ---
 
