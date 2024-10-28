@@ -127,6 +127,19 @@ You can use Postman to interact with the API and perform various actions. Below 
       }
       ```
     - **Response**: "Stock purchased successfully"
+  
+    - **Endpoint**: `/api/transactions/sell`
+    - **HTTP Method**: `POST`
+    - **Description**: Sell Stock Option
+    - **Request Body**:
+      ```json
+      {
+        "userId": "integer",
+        "symbol": "string - Stock symbol",
+        "shares": "integer - Number of shares to sell",    
+      }
+      ```
+    - **Response**: "Stock sold successfully"
 
 4. **Retrieve User Current Balance**
     - **Endpoint**: `/api/users/{id}/balance`
