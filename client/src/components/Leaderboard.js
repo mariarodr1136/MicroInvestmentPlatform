@@ -19,9 +19,11 @@ const Leaderboard = () => {
   return (
     <div>
       <h2>Leaderboard</h2>
-      <ul>
+      <ul style={{ listStyleType: 'none', padding: 0, margin: 0 }}>
         {leaders.map((user, index) => (
-          <li key={user._id}>{index + 1}. {user.username}: ${user.balance.toFixed(2)}</li>
+          <li key={user._id}>
+            {index + 1}. {user.username}: ${user.balance.toFixed(2)}
+          </li>
         ))}
       </ul>
     </div>
