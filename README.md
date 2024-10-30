@@ -36,7 +36,7 @@ The platform is built using the following technologies:
 - **Frontend**: Developed with React for an engaging user interface.
 - **Backend**: Node.js with Express for handling user authentication, data processing, and API integrations.
 - **Database**: MongoDB stores user profiles, transaction history, and leaderboard data.
-- **API**: Integrated with stock market APIs (Alpha Vantage) for real-time market data and news.
+- **API**: Integrated with Alpha Vantage for real-time stock market data and a NEWS API for the latest news.
 
 ---
 
@@ -75,7 +75,7 @@ The platform is built using the following technologies:
 - Node.js (v14 or later)
 - MongoDB
 - React (v17 or later)
-- Stock market API access key (e.g., Alpha Vantage)
+- Stock market and NEWS API access key (e.g., Alpha Vantage)
 
 ---
 
