@@ -11,42 +11,47 @@
   background-position: center; 
 }
 
-.App-header {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  text-align: center; 
-  color: rgb(0, 0, 0); 
-}
-
 .container {
-  background-color: rgb(255, 255, 255); 
-  padding: 20px; 
+  background-color: rgba(255, 255, 255, 0.95); /* Slight transparency for a softer look */
+  padding: 30px; 
   color: rgb(0, 0, 0); 
-  width: 70%; 
-  margin: 10px auto; 
+  width: 80%; /* Slightly wider for a more spacious layout */
+  margin: 20px auto; 
+  border-radius: 12px; /* More rounded corners for a softer look */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Enhanced shadow for depth */
 }
 
-.popular-stocks {
-  background-color: rgba(255, 255, 255, 0.8); /* Slightly transparent background */
+.error-banner {
+  background-color: rgba(255, 204, 204, 0.9); /* Light red background for errors */
   color: rgb(0, 0, 0); 
+  padding: 15px; 
+  border-radius: 6px; 
+  margin-bottom: 20px; 
+  font-weight: bold; /* Make the error message stand out */
 }
 
-.stock-item {
-  font-size: 1.2rem; /* Adjust the font size */
-  margin: 8px 0; /* Margin for spacing between stocks */
+.error-details {
+  list-style-type: disc;
+  margin-left: 20px;
+  text-align: left; /* Align the error details to the left for better readability */
+}
+
+.loading {
+  text-align: center;
+  padding: 20px;
+  font-size: 1.2rem; /* Increase font size for better visibility */
+  color: rgb(34, 34, 34); /* Darker text for better contrast */
 }
 
 .main-content {
   display: flex;
+  justify-content: space-between;
+  margin-top: 30px; /* Increase space above the main content */
 }
 
 .left-section, .right-section {
   flex: 1;
-  padding: 0 16px; /* Adjust padding as needed */
+  padding: 0 20px; /* Increased padding for a more spacious layout */
 }
 
 .center-section {
@@ -54,10 +59,24 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: space-between; /* Space out components in the center section */
 }
 
-.leaderboard-list {
-  list-style-type: none;
-  padding: 0; /* Remove padding */
-  margin: 0; /* Remove margin */
+/* Component container styles */
+.component-container {
+  background-color: rgba(255, 255, 255, 0.95); /* White background with slight transparency */
+  border-radius: 12px; /* More rounded corners */
+  padding: 20px; /* Increased padding for a more spacious feel */
+  margin: 16px 0; /* Margin for spacing between components */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* More noticeable shadow for depth */
+}
+
+.component-title {
+  font-size: 1.75rem; /* Increased font size for component titles */
+  margin-bottom: 16px; /* Margin below the title */
+  color: rgb(34, 34, 34); /* Darker color for better visibility */
+  font-weight: bold; /* Make the titles stand out */
+  text-align: left; /* Align titles to the left */
+  border-bottom: 2px solid rgba(34, 34, 34, 0.2); /* Subtle underline for visual separation */
+  padding-bottom: 8px; /* Space between title and content */
 }
