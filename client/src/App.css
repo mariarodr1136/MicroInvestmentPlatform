@@ -11,8 +11,8 @@
   justify-content: center; 
   min-height: 100vh; 
   text-align: center; 
-  color: rgb(0, 0, 0); 
-  background-image: url('./background.jpg');
+  color: rgb(56, 56, 56);
+  background-color: rgb(233, 233, 233); 
   background-size: cover;
   background-position: center; 
 }
@@ -138,4 +138,44 @@ button:disabled {
   text-decoration: underline; 
   text-decoration-color: rgb(34, 34, 34); 
   text-decoration-thickness: 2px; 
+}
+
+.wider-portfolio {
+  width: 100%; 
+  max-width: 800px; 
+  padding: 10px; 
+  background-color: #ffffff; 
+  border-radius: 8px; 
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); 
+}
+
+.transaction-history {
+  max-width: 800px; 
+}
+
+.loading-message {
+  text-align: center;
+  margin: 20px 0; 
+}
+
+.table-auto {
+  border: 1px solid #ddd; 
+}
+
+.table-auto th {
+  background-color: #333333; 
+  color: #f4f4f4; 
+}
+
+.table-auto td {
+  border: 1px solid #ddd;
+}
+
+.latest-news a {
+  color: black; 
+  text-decoration: none; /* Optional: Remove underline from link */
+}
+
+.latest-news a:hover {
+  text-decoration: underline; /* Optional: Add underline on hover */
 }

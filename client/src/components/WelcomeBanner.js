@@ -20,7 +20,7 @@ const WelcomeBanner = ({ username, balance, isLoading, error }) => {
             Welcome, {username}!
           </p>
           <p className="text-lg bold-text">
-            Your Balance: ${balance.toFixed(2)}
+            Current Balance: ${balance.toFixed(2)}
           </p>
         </>
       ) : (

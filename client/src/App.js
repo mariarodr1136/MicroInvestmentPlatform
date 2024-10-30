@@ -5,6 +5,8 @@ import PopularStocks from './components/PopularStocks';
 import SellStock from './components/SellStock';
 import BuyStock from './components/BuyStock';
 import WelcomeBanner from './components/WelcomeBanner';
+import TransactionHistory from './components/TransactionHistory';
+import LatestNews from './components/LatestNews'; 
 import axios from 'axios';
 import './App.css';
 
@@ -65,53 +67,57 @@ const App = () => {
 
   return (
     <div className="App">
-      <div className="container">
-        <WelcomeBanner 
-          username={username}
-          balance={balance}
-          isLoading={isLoading}
-          error={error}
-        />
+      <WelcomeBanner 
+        username={username}
+        balance={balance}
+        isLoading={isLoading}
+        error={error}
+      />
 
-        {error && (
-          <div className="error-banner">
-            {error}
-            <ul className="error-details">
-              <li>The backend server is running on port 5001</li>
-              <li>The user ID ({userId}) exists in the database</li>
-              <li>You have CORS enabled on your backend</li>
-            </ul>
-          </div>
-        )}
+      {error && (
+        <div className="error-banner">
+          {error}
+          <ul className="error-details">
+            <li>The backend server is running on port 5001</li>
+            <li>The user ID ({userId}) exists in the database</li>
+            <li>You have CORS enabled on your backend</li>
+          </ul>
+        </div>
+      )}
 
-        {isLoading ? (
-          <div className="loading">Loading...</div>
-        ) : (
-          <div className="main-content">
-            <div className="left-section">
-              <div className="component-container">
-                <PopularStocks />
-              </div>
-              <div className="component-container">
-                <BuyStock userId={userId} onBuyComplete={handleBuyComplete} />
-              </div>
+      {isLoading ? (
+        <div className="loading">Loading...</div>
+      ) : (
+        <div className="main-content">
+          <div className="left-section">
+            <div className="component-container">
+              <BuyStock userId={userId} onBuyComplete={handleBuyComplete} />
             </div>
-            <div className="center-section">
-              <div className="component-container">
-                <Portfolio userId={userId} balance={balance} key={refreshTrigger} />
-              </div>
+            <div className="component-container">
+              <SellStock userId={userId} onSellComplete={handleSellComplete} />
             </div>
-            <div className="right-section">
-              <div className="component-container">
-                <Leaderboard />
-              </div>
-              <div className="component-container">
-                <SellStock userId={userId} onSellComplete={handleSellComplete} />
-              </div>
+            <div className="component-container">
+              <LatestNews />
             </div>
           </div>
-        )}
-      </div>
+          <div className="center-section">
+            <div className="component-container wider-portfolio">
+              <Portfolio userId={userId} balance={balance} key={refreshTrigger} />
+            </div>
+            <div className="component-container transaction-history">
+              <TransactionHistory userId={userId} />
+            </div>
+          </div>
+          <div className="right-section">
+            <div className="component-container">
+              <PopularStocks />
+            </div>
+            <div className="component-container">
+              <Leaderboard />
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

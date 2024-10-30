@@ -89,7 +89,7 @@ const BuyStock = ({ userId, onBuyComplete }) => {
       <div className="input-group space-y-4">
         <input
           type="text"
-          placeholder="Stock Symbol (e.g., AAPL)"
+          placeholder="Stock Symbol"
           value={symbol}
           onChange={(e) => {
             const value = e.target.value;
