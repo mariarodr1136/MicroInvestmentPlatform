@@ -1,7 +1,7 @@
 // WelcomeBanner.js
 import React from 'react';
 
-const WelcomeBanner = ({ username, isLoading, error }) => {
+const WelcomeBanner = ({ username, balance, isLoading, error }) => {
   return (
     <div className="mb-8">
       <h1 className="text-3xl font-bold mb-2">
@@ -15,9 +15,14 @@ const WelcomeBanner = ({ username, isLoading, error }) => {
           Unable to load user information
         </p>
       ) : username ? (
-        <p className="text-sm text-gray-500">
-          Welcome, {username}!
-        </p>
+        <>
+          <p className="text-lg bold-text mb-1">
+            Welcome, {username}!
+          </p>
+          <p className="text-lg bold-text">
+            Your Balance: ${balance.toFixed(2)}
+          </p>
+        </>
       ) : (
         <p className="text-sm text-gray-500">
           Welcome, Guest!
