@@ -4,17 +4,16 @@ The Micro-Investment Education Platform is an innovative educational app crafted
 
 ![Node.js](https://img.shields.io/badge/Node.js-Node.js-brightgreen) ![Express](https://img.shields.io/badge/Express-Express-blue) ![MongoDB](https://img.shields.io/badge/MongoDB-MongoDB-darkgreen) ![React](https://img.shields.io/badge/React-React-lightblue) ![JavaScript](https://img.shields.io/badge/JavaScript-JavaScript-yellow) ![Alpha Vantage](https://img.shields.io/badge/API-Alpha%20Vantage-orange)
 
-
-<img width="1440" alt="Screenshot 2024-10-28 at 7 02 49 PM" src="https://github.com/user-attachments/assets/3bf0753d-046a-4e38-9b74-735f5454e071">
+<img width="1451" alt="Screenshot 2024-10-30 at 4 00 09 PM" src="https://github.com/user-attachments/assets/7aa5e4df-401e-4d7d-a631-ccf29ce1abaa">
 
 ### Table of Contents
 - [Features](#features)
 - [Code Structure](#code-structure)
 - [Installation](#installation)
 - [Requirements](#requirements)
-- [Using Postman](#using-postman)
+- [API Interaction with Postman](#api-interaction-with-postman)
 - [Contributing](#contributing)
-- [Contact](#contact)
+- [Contact](#contact-)
 
 ---
 
@@ -22,6 +21,9 @@ The Micro-Investment Education Platform is an innovative educational app crafted
 
 - **Virtual Money Management**: Each user receives a set amount of virtual currency to simulate real-world investing.
 - **Real-Time Market Data**: Users can access up-to-date stock prices and market conditions through integrated stock market APIs.
+- **Latest Stock News**: The platform provides the latest stock news through a news API, keeping users informed about market trends and events.
+- **Transaction History**: Users can view their transaction histories for buying and selling in a detailed table format, including price per share, date, and time.
+- **Popular Stocks Section**: A dedicated section displays current popular stocks with clickable links to view their live prices.
 - **Leaderboard & Gamification**: Track portfolio performance and foster healthy competition through a leaderboard showcasing top-performing users.
 - **User-Friendly Interface**: A responsive and interactive UI built with React, providing a seamless user experience.
 
@@ -34,7 +36,7 @@ The platform is built using the following technologies:
 - **Frontend**: Developed with React for an engaging user interface.
 - **Backend**: Node.js with Express for handling user authentication, data processing, and API integrations.
 - **Database**: MongoDB stores user profiles, transaction history, and leaderboard data.
-- **API**: Integrated with stock market APIs (Alpha Vantage) for real-time market data.
+- **API**: Integrated with stock market APIs (Alpha Vantage) for real-time market data and news.
 
 ---
 
@@ -148,8 +150,16 @@ You can use Postman to interact with the API and perform various actions. Below 
         "shares": "integer - Number of shares to sell",    
       }
       ```
-    - **Response**: "Stock sold successfully"
-
+    - **Response**:
+      ```json
+      {
+          "message": "Stock sold successfully",
+          "balance": "integer",
+          "soldShares": "integer",
+          "revenue": "integer"
+      }
+      ```
+      
 5. **Retrieve User Current Balance**
     - **Endpoint**: `/api/user/{id}/balance`
     - **HTTP Method**: `GET`
