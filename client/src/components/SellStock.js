@@ -104,7 +104,7 @@ const SellStock = ({ userId, onSellComplete }) => {
       <div className="input-group space-y-3">
         <input
           type="text"
-          placeholder="Stock Symbol (e.g., AAPL)"
+          placeholder="Stock Symbol"
           value={symbol}
           onChange={(e) => {
             const value = e.target.value;
@@ -130,11 +130,9 @@ const SellStock = ({ userId, onSellComplete }) => {
         <button
           onClick={handleSell}
           disabled={isLoading}
-          className={`w-full p-2 rounded text-white ${
-            isLoading ? 'bg-gray-400' : 'bg-blue-600 hover:bg-blue-700'
-          }`}
+          className={`w-full p-2 bg-blue-500 text-white rounded ${isLoading ? 'opacity-50 cursor-not-allowed' : ''}`}
         >
-          {isLoading ? 'Processing...' : 'Sell'}
+          {isLoading ? 'Selling...' : 'Sell Stock'}
         </button>
       </div>
     </div>

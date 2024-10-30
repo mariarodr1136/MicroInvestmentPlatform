@@ -4,6 +4,22 @@ const User = require('../models/User');
 const Transaction = require('../models/Transaction');
 const axios = require('axios');
 
+// Get transaction history for a user
+router.get('/:userId/history', async (req, res) => {
+  const { page = 1, limit = 5 } = req.query; // Default to page 1, 5 transactions per page
+  try {
+    const transactions = await Transaction.find({ userId: req.params.userId })
+      .sort({ date: -1 })
+      .skip((page - 1) * limit)
+      .limit(Number(limit));
+
+    res.status(200).json(transactions);
+  } catch (error) {
+    console.error('Error fetching transaction history:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
 // Buy Stock
 router.post('/buy', async (req, res) => {
   const { userId, symbol, shares } = req.body;
@@ -26,7 +42,13 @@ router.post('/buy', async (req, res) => {
     user.balance -= cost;
     await user.save();
 
-    const newTransaction = new Transaction({ userId, symbol, shares, pricePerShare: price, type: 'buy' });
+    const newTransaction = new Transaction({ 
+      userId, 
+      symbol, 
+      shares, 
+      pricePerShare: price, 
+      type: 'buy' 
+    });
     await newTransaction.save();
 
     res.status(200).json({ message: 'Stock purchased successfully', user });
@@ -86,7 +108,9 @@ router.post('/sell', async (req, res) => {
       symbol: symbol.toUpperCase(),
       shares,
       pricePerShare: price,
-      type: 'sell'
+      type: 'sell',
+      buyPricePerShare: existingStock.avgPrice,
+      revenue: revenue
     });
     await newTransaction.save();
 
@@ -102,6 +126,7 @@ router.post('/sell', async (req, res) => {
   }
 });
 
+// Fetch stock price helper function
 async function fetchStockPrice(symbol) {
   try {
     const response = await axios.get('https://www.alphavantage.co/query', {

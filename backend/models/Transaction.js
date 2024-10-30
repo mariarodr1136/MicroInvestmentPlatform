@@ -5,8 +5,11 @@ const transactionSchema = new mongoose.Schema({
   symbol: { type: String, required: true },
   shares: { type: Number, required: true },
   pricePerShare: { type: Number, required: true },
+  buyPricePerShare: { type: Number }, 
+  revenue: { type: Number }, 
   type: { type: String, enum: ['buy', 'sell'], required: true },
   date: { type: Date, default: Date.now }
 });
 
-module.exports = mongoose.model('Transaction', transactionSchema);
+const Transaction = mongoose.model('Transaction', transactionSchema);
+module.exports = Transaction;
