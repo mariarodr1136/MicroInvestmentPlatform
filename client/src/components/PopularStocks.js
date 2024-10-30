@@ -1,57 +1,28 @@
-import React, { useEffect, useState, useMemo } from 'react';
-import axios from 'axios';
+import React, { useMemo } from 'react';
 
 const PopularStocks = () => {
-  const [livePrices, setLivePrices] = useState({});
-
-  // Memoize popular stock symbols
-  const stockSymbols = useMemo(() => ['AAPL', 'TSLA', 'AMZN', 'GOOGL', 'MSFT'], []);
-
-  // Fetch live prices for popular stocks
-  useEffect(() => {
-    const fetchLivePrices = async () => {
-      const updatedLivePrices = {};
-      const pricePromises = stockSymbols.map(async (symbol) => {
-        try {
-          const response = await axios.get('https://www.alphavantage.co/query', {
-            params: {
-              function: 'TIME_SERIES_INTRADAY',
-              symbol: symbol,
-              interval: '5min',
-              apikey: process.env.REACT_APP_STOCK_API_KEY,
-            },
-          });
-
-          const timeSeries = response.data['Time Series (5min)'];
-
-          if (timeSeries) {
-            const latestTime = Object.keys(timeSeries)[0];
-            const latestData = timeSeries[latestTime];
-            updatedLivePrices[symbol] = parseFloat(latestData['4. close']);
-          } else {
-            console.error('No time series data returned for:', symbol);
-          }
-        } catch (error) {
-          console.error(`Error fetching live stock price for ${symbol}:`, error);
-        }
-      });
-
-      await Promise.all(pricePromises);
-      setLivePrices(updatedLivePrices);
-    };
-
-    fetchLivePrices(); // Call function to fetch prices
-  }, [stockSymbols]); // stockSymbols is now memoized
+  //Popular stock symbols and their links
+  const stockData = useMemo(() => ({
+    AAPL: 'https://finance.yahoo.com/quote/TTWO/', 
+    TSLA: 'https://finance.yahoo.com/quote/TSLA/',
+    AMZN: 'https://finance.yahoo.com/quote/AMZN/', 
+    GOOGL: 'https://finance.yahoo.com/quote/GOOGL/', 
+    MSFT: 'https://finance.yahoo.com/quote/MSFT/',
+  }), []);
 
   return (
     <div className="popular-stocks">
-      <h2>Most Popular Stocks</h2>
-      {stockSymbols.map((symbol) => (
+      <h3 className="text-xl font-semibold mb-4 underline">Popular Stocks</h3>
+      {Object.entries(stockData).map(([symbol, link]) => (
         <div key={symbol} className="stock-item">
-          <span>{symbol}: </span>
-          <strong>
-            ${livePrices[symbol] ? livePrices[symbol].toFixed(2) : 'Fetching...'}
-          </strong>
+          <a 
+            href={link} 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            className="stock-link"
+          >
+            {symbol}
+          </a>
         </div>
       ))}
     </div>

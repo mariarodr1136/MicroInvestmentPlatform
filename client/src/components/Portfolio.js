@@ -18,8 +18,7 @@ const Portfolio = ({ userId, balance }) => {
 
   return (
     <div>
-      <h2>Your Portfolio</h2>
-      <h3>Current Balance: ${balance.toFixed(2)}</h3>
+      <h3 className="text-xl font-semibold mb-4 underline">Your Portfolio</h3>
       {portfolio.length === 0 ? (
         <p>No shares in your portfolio.</p>
       ) : (
