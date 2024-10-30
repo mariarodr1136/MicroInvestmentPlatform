@@ -1,5 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import axios from 'axios';
+import '../App.css'; 
 
 const SellStock = ({ userId, onSellComplete }) => {
   const [symbol, setSymbol] = useState('');
@@ -93,10 +94,10 @@ const SellStock = ({ userId, onSellComplete }) => {
   };
 
   return (
-    <div className="sell-stock-container p-4 border rounded">
-      <h3>Sell Stock</h3>
+    <div className="buy-stock-container p-6 bg-white rounded-lg shadow-lg">
+      <h3 className="text-xl font-semibold mb-4 underline">Sell Stock</h3>
       {error && (
-        <div className="error-message text-red-500 mb-3">
+        <div className="error-message text-red-600 mb-3">
           {error}
         </div>
       )}

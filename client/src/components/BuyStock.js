@@ -1,5 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import axios from 'axios';
+import '../App.css'; 
 
 const BuyStock = ({ userId, onBuyComplete }) => {
   const [symbol, setSymbol] = useState('');
@@ -9,11 +10,9 @@ const BuyStock = ({ userId, onBuyComplete }) => {
 
   const verifyConnection = useCallback(async () => {
     try {
-      // Verify user exists
       const userResponse = await axios.get(`http://localhost:5001/api/user/${userId}`);
       console.log('User verification:', userResponse.data);
       
-      // Verify server connection
       const balanceResponse = await axios.get(`http://localhost:5001/api/user/${userId}/balance`);
       console.log('Balance verification:', balanceResponse.data);
     } catch (error) {
@@ -21,20 +20,13 @@ const BuyStock = ({ userId, onBuyComplete }) => {
     }
   }, [userId]);
 
-  // Run verification on component mount
   React.useEffect(() => {
     verifyConnection();
   }, [verifyConnection]);
 
   const handleBuy = async () => {
-    // Debug log - Input values
-    console.log('Attempting to buy with values:', {
-      userId,
-      symbol,
-      shares,
-    });
+    console.log('Attempting to buy with values:', { userId, symbol, shares });
 
-    // Input validation
     if (!symbol.trim()) {
       setError("Please enter a stock symbol");
       return;
@@ -48,20 +40,15 @@ const BuyStock = ({ userId, onBuyComplete }) => {
     setError('');
 
     try {
-      // Debug log - API request
       console.log('Sending request to:', 'http://localhost:5001/api/transactions/buy');
-      
       const requestData = {
         userId,
         symbol: symbol.toUpperCase(),
         shares: Number(shares)
       };
-      
       console.log('Request data:', requestData);
 
       const response = await axios.post('http://localhost:5001/api/transactions/buy', requestData);
-      
-      // Debug log - Successful response
       console.log('Successful response:', response.data);
 
       alert("Stock purchased successfully!");
@@ -72,7 +59,6 @@ const BuyStock = ({ userId, onBuyComplete }) => {
         onBuyComplete();
       }
     } catch (error) {
-      // Enhanced error logging
       console.error('Detailed error information:', {
         message: error.message,
         response: error.response?.data,
@@ -93,14 +79,14 @@ const BuyStock = ({ userId, onBuyComplete }) => {
   };
 
   return (
-    <div className="buy-stock-container p-4 border rounded">
-      <h3>Buy Stock</h3>
+    <div className="buy-stock-container p-6 bg-white rounded-lg shadow-lg">
+      <h3 className="text-xl font-semibold mb-4 underline">Buy Stock</h3>
       {error && (
-        <div className="error-message text-red-500 mb-3">
+        <div className="error-message text-red-600 mb-3">
           {error}
         </div>
       )}
-      <div className="input-group space-y-3">
+      <div className="input-group space-y-4">
         <input
           type="text"
           placeholder="Stock Symbol (e.g., AAPL)"
@@ -111,7 +97,7 @@ const BuyStock = ({ userId, onBuyComplete }) => {
             setSymbol(value);
           }}
           disabled={isLoading}
-          className="w-full p-2 border rounded"
+          className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200"
         />
         <input
           type="number"
@@ -124,12 +110,12 @@ const BuyStock = ({ userId, onBuyComplete }) => {
           }}
           min="1"
           disabled={isLoading}
-          className="w-full p-2 border rounded"
+          className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200"
         />
         <button
           onClick={handleBuy}
           disabled={isLoading}
-          className={`w-full p-2 rounded text-white ${
+          className={`w-full p-3 rounded-lg text-white transition duration-200 ${
             isLoading ? 'bg-gray-400' : 'bg-blue-600 hover:bg-blue-700'
           }`}
         >

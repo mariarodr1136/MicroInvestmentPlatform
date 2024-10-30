@@ -1,3 +1,9 @@
+* {
+  margin: 1px;
+  padding: 2px;
+  box-sizing: border-box; 
+}
+
 .App {
   display: flex;
   flex-direction: column;
@@ -12,46 +18,45 @@
 }
 
 .container {
-  background-color: rgba(255, 255, 255, 0.95); /* Slight transparency for a softer look */
+  background-color: rgba(255, 255, 255, 1); 
   padding: 30px; 
   color: rgb(0, 0, 0); 
-  width: 80%; /* Slightly wider for a more spacious layout */
+  width: 80%; 
   margin: 20px auto; 
-  border-radius: 12px; /* More rounded corners for a softer look */
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Enhanced shadow for depth */
+  border-radius: 12px; 
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); 
 }
 
 .error-banner {
-  background-color: rgba(255, 204, 204, 0.9); /* Light red background for errors */
+  background-color: rgba(255, 204, 204, 0.9); 
   color: rgb(0, 0, 0); 
   padding: 15px; 
   border-radius: 6px; 
   margin-bottom: 20px; 
-  font-weight: bold; /* Make the error message stand out */
+  font-weight: bold; 
 }
 
 .error-details {
   list-style-type: disc;
   margin-left: 20px;
-  text-align: left; /* Align the error details to the left for better readability */
+  text-align: left; 
 }
 
 .loading {
   text-align: center;
   padding: 20px;
-  font-size: 1.2rem; /* Increase font size for better visibility */
-  color: rgb(34, 34, 34); /* Darker text for better contrast */
+  font-size: 1.2rem; 
+  color: rgb(34, 34, 34); 
 }
 
 .main-content {
   display: flex;
   justify-content: space-between;
-  margin-top: 30px; /* Increase space above the main content */
 }
 
 .left-section, .right-section {
   flex: 1;
-  padding: 0 20px; /* Increased padding for a more spacious layout */
+  padding: 0 20px; 
 }
 
 .center-section {
@@ -59,24 +64,78 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between; /* Space out components in the center section */
+  justify-content: space-between; 
 }
 
-/* Component container styles */
 .component-container {
-  background-color: rgba(255, 255, 255, 0.95); /* White background with slight transparency */
-  border-radius: 12px; /* More rounded corners */
-  padding: 20px; /* Increased padding for a more spacious feel */
-  margin: 16px 0; /* Margin for spacing between components */
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* More noticeable shadow for depth */
+  background-color: rgba(255, 255, 255, 0.95); 
+  border-radius: 12px; 
+  padding: 35px; 
+  margin: 10px 0; 
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); 
 }
 
 .component-title {
-  font-size: 1.75rem; /* Increased font size for component titles */
-  margin-bottom: 16px; /* Margin below the title */
-  color: rgb(34, 34, 34); /* Darker color for better visibility */
-  font-weight: bold; /* Make the titles stand out */
-  text-align: left; /* Align titles to the left */
-  border-bottom: 2px solid rgba(34, 34, 34, 0.2); /* Subtle underline for visual separation */
-  padding-bottom: 8px; /* Space between title and content */
+  font-size: 1.75rem; 
+  margin: 0; 
+  padding: 8px 0; 
+  color: rgb(34, 34, 34); 
+  font-weight: bold; 
+  text-align: left; 
+  border-bottom: 2px solid rgba(34, 34, 34, 0.2); 
+}
+
+.stock-link {
+  text-decoration: none; 
+  color: rgb(34, 34, 34); 
+  padding: 3px; 
+}
+
+.stock-link:hover {
+  outline: 2px solid rgb(0, 0, 0); 
+  border-radius: 2px; 
+}
+
+.stock-item {
+  margin: 10px 0; 
+}
+
+input {
+  width: 100%; 
+  padding: 10px; 
+  border: 1px solid #ccc; 
+  border-radius: 5px; 
+  outline: none; 
+  transition: border-color 0.3s; 
+}
+
+input:focus {
+  border-color: #000000; 
+}
+
+button {
+  width: 100%; 
+  padding: 10px; 
+  border: none; 
+  border-radius: 5px; 
+  color: #fff; 
+  background-color: #2b3035; 
+  cursor: pointer; 
+  transition: background-color 0.3s; 
+  margin-bottom: 10px; 
+}
+
+button:hover {
+  background-color: #060606; 
+}
+
+button:disabled {
+  background-color: #6c757d; 
+  cursor: not-allowed; 
+}
+
+.underline {
+  text-decoration: underline; 
+  text-decoration-color: rgb(34, 34, 34); 
+  text-decoration-thickness: 2px; 
 }

@@ -90,20 +90,20 @@ const App = () => {
           <div className="main-content">
             <div className="left-section">
               <div className="component-container">
-                <Portfolio userId={userId} balance={balance} key={refreshTrigger} />
+                <PopularStocks />
+              </div>
+              <div className="component-container">
+                <BuyStock userId={userId} onBuyComplete={handleBuyComplete} />
               </div>
             </div>
             <div className="center-section">
               <div className="component-container">
-                <PopularStocks />
-              </div>
-              <div className="component-container">
-                <Leaderboard />
+                <Portfolio userId={userId} balance={balance} key={refreshTrigger} />
               </div>
             </div>
             <div className="right-section">
               <div className="component-container">
-                <BuyStock userId={userId} onBuyComplete={handleBuyComplete} />
+                <Leaderboard />
               </div>
               <div className="component-container">
                 <SellStock userId={userId} onSellComplete={handleSellComplete} />
