@@ -61,7 +61,7 @@ The platform is built using the following technologies:
    node index.js
 6. **In a new terminal, navigate to the frontend directory**:
    ```bash
-   cd MicroInvestmentEducationPlatform/client
+   cd MicroInvestmentPlatform/client
 7. **Install frontend dependencies**:
    ```bash
    npm install
