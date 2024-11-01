@@ -10,6 +10,7 @@ The Micro-Investment Education Platform is an innovative educational app crafted
 - [Features](#features)
 - [Code Structure](#code-structure)
 - [Installation](#installation)
+- [Demo Recording](#demo-recording)
 - [Requirements](#requirements)
 - [API Interaction with Postman](#api-interaction-with-postman)
 - [Contributing](#contributing)
@@ -68,6 +69,15 @@ The platform is built using the following technologies:
 8. **Start the frontend server**:
    ```bash
    npm start
+
+---
+### Demo Recording
+
+
+
+https://github.com/user-attachments/assets/47d8ec34-643b-4425-ae3c-0ce502bc33f8
+
+
 
 ---
 
