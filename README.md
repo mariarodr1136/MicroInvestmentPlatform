@@ -51,7 +51,7 @@ The platform is built using the following technologies:
 
 2. **Navigate to the backend directory**:
    ```bash
-   cd MicroInvestmentEducationPlatform/backend
+   cd MicroInvestmentPlatform/backend
 3. **Install backend dependencies**:
    ```bash
    npm install
