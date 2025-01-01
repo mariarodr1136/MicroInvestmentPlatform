@@ -4,7 +4,7 @@ import axios from 'axios';
 const LatestNews = () => {
   const [news, setNews] = useState([]);
   const [error, setError] = useState('');
-  const API_KEY = 'e87db86605234c56a1ac5c491ce68a41'; // Your API key
+  const API_KEY = 
   const API_URL = `https://newsapi.org/v2/everything?q=stocks&apiKey=${API_KEY}`;
 
   useEffect(() => {
