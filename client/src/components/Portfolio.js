@@ -1,3 +1,4 @@
+import  './Portfolio.css';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
@@ -35,3 +36,4 @@ const Portfolio = ({ userId, balance }) => {
 };
 
 export default Portfolio;
+
