@@ -16,6 +16,7 @@ The ultimate goal is to equip users with the **technical knowledge** and **pract
 - [Features](#features)
 - [Code Structure](#code-structure)
 - [Installation](#installation)
+- [Deployment](#deployment)
 - [Demo Recording](#demo-recording)
 - [Future Enhancements](#ideas-for-improvement-and-future-enhancements)
 - [Requirements](#requirements)
@@ -98,7 +99,26 @@ The platform is built using the following technologies:
 
 **Note**: To get the necessary API keys:
   - For stock market data, register at [Alpha Vantage](https://www.alphavantage.co).
-  - For news data, register at [NewsAPI](https://newsapi.org).  
+  - For news data, register at [NewsAPI](https://newsapi.org).
+
+---
+
+### Deployment
+
+Want to deploy your own live demo? The platform is ready for deployment on Render.com's free tier!
+
+**Quick Deploy:**
+1. Fork this repository to your GitHub account
+2. Sign up at [Render.com](https://render.com)
+3. Follow the step-by-step guide in [DEPLOYMENT.md](./DEPLOYMENT.md)
+
+**Features:**
+- Free hosting for both frontend and backend
+- Auto-deploy from GitHub on every push
+- Environment variable support for API keys
+- In-memory database (no external DB setup required)
+
+See the complete [Deployment Guide](./DEPLOYMENT.md) for detailed instructions.
 
 ---
 ### Demo Recording
