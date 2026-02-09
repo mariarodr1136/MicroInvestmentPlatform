@@ -1,5 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import axios from 'axios';
+import API_URL from '../config';
 import '../App.css'; 
 
 const BuyStock = ({ userId, onBuyComplete }) => {
@@ -10,10 +11,10 @@ const BuyStock = ({ userId, onBuyComplete }) => {
 
   const verifyConnection = useCallback(async () => {
     try {
-      const userResponse = await axios.get(`http://localhost:5001/api/user/${userId}`);
+      const userResponse = await axios.get(``${API_URL}`/api/user/${userId}`);
       console.log('User verification:', userResponse.data);
       
-      const balanceResponse = await axios.get(`http://localhost:5001/api/user/${userId}/balance`);
+      const balanceResponse = await axios.get(``${API_URL}`/api/user/${userId}/balance`);
       console.log('Balance verification:', balanceResponse.data);
     } catch (error) {
       console.error('Connection verification failed:', error);
@@ -40,7 +41,7 @@ const BuyStock = ({ userId, onBuyComplete }) => {
     setError('');
 
     try {
-      console.log('Sending request to:', 'http://localhost:5001/api/transactions/buy');
+      console.log('Sending request to:', '`${API_URL}`/api/transactions/buy');
       const requestData = {
         userId,
         symbol: symbol.toUpperCase(),
@@ -48,7 +49,7 @@ const BuyStock = ({ userId, onBuyComplete }) => {
       };
       console.log('Request data:', requestData);
 
-      const response = await axios.post('http://localhost:5001/api/transactions/buy', requestData);
+      const response = await axios.post('`${API_URL}`/api/transactions/buy', requestData);
       console.log('Successful response:', response.data);
 
       alert("Stock purchased successfully!");
@@ -63,7 +64,7 @@ const BuyStock = ({ userId, onBuyComplete }) => {
         message: error.message,
         response: error.response?.data,
         status: error.response?.status,
-        endpoint: 'http://localhost:5001/api/transactions/buy',
+        endpoint: '`${API_URL}`/api/transactions/buy',
         requestData: {
           userId,
           symbol: symbol.toUpperCase(),

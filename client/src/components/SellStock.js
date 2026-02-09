@@ -1,5 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import axios from 'axios';
+import API_URL from '../config';
 import '../App.css'; 
 
 const SellStock = ({ userId, onSellComplete }) => {
@@ -11,11 +12,11 @@ const SellStock = ({ userId, onSellComplete }) => {
   const verifyConnection = useCallback(async () => {
     try {
       // Verify user exists
-      const userResponse = await axios.get(`http://localhost:5001/api/user/${userId}`);
+      const userResponse = await axios.get(``${API_URL}`/api/user/${userId}`);
       console.log('User verification:', userResponse.data);
       
       // Verify server connection
-      const balanceResponse = await axios.get(`http://localhost:5001/api/user/${userId}/balance`);
+      const balanceResponse = await axios.get(``${API_URL}`/api/user/${userId}/balance`);
       console.log('Balance verification:', balanceResponse.data);
     } catch (error) {
       console.error('Connection verification failed:', error);
@@ -50,7 +51,7 @@ const SellStock = ({ userId, onSellComplete }) => {
 
     try {
       // Debug log - API request
-      console.log('Sending request to:', 'http://localhost:5001/api/transactions/sell');
+      console.log('Sending request to:', '`${API_URL}`/api/transactions/sell');
       
       const requestData = {
         userId,
@@ -60,7 +61,7 @@ const SellStock = ({ userId, onSellComplete }) => {
       
       console.log('Request data:', requestData);
 
-      const response = await axios.post('http://localhost:5001/api/transactions/sell', requestData);
+      const response = await axios.post('`${API_URL}`/api/transactions/sell', requestData);
       
       // Debug log - Successful response
       console.log('Successful response:', response.data);
@@ -78,7 +79,7 @@ const SellStock = ({ userId, onSellComplete }) => {
         message: error.message,
         response: error.response?.data,
         status: error.response?.status,
-        endpoint: 'http://localhost:5001/api/transactions/sell',
+        endpoint: '`${API_URL}`/api/transactions/sell',
         requestData: {
           userId,
           symbol: symbol.toUpperCase(),

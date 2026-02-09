@@ -1,5 +1,6 @@
-import React, { useEffect, useState, useCallback } from 'react'; 
+import React, { useEffect, useState, useCallback } from 'react';
 import axios from 'axios';
+import API_URL from '../config';
 import '../App.css';
 
 const TransactionHistory = ({ userId }) => {
@@ -12,7 +13,7 @@ const TransactionHistory = ({ userId }) => {
     setLoading(true);
     setError('');
     try {
-      const response = await axios.get(`http://localhost:5001/api/transactions/${userId}/history`, {
+      const response = await axios.get(``${API_URL}`/api/transactions/${userId}/history`, {
         params: { limit: 100 },
       });
       setTransactions(response.data);

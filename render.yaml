@@ -1,0 +1,30 @@
+services:
+  # Backend API Service
+  - type: web
+    name: microinvestment-backend
+    runtime: node
+    region: oregon
+    plan: free
+    buildCommand: cd backend && npm install
+    startCommand: cd backend && node index.js
+    envVars:
+      - key: PORT
+        value: 5001
+      - key: REACT_APP_STOCK_API_KEY
+        sync: false
+      - key: NODE_ENV
+        value: production
+    healthCheckPath: /
+
+  # Frontend Static Site
+  - type: web
+    name: microinvestment-frontend
+    runtime: static
+    buildCommand: cd client && npm install && npm run build
+    staticPublishPath: ./client/build
+    envVars:
+      - key: REACT_APP_API_URL
+        fromService:
+          type: web
+          name: microinvestment-backend
+          envVarKey: RENDER_EXTERNAL_URL

@@ -1,0 +1,10 @@
+#  Build configuration
+build:
+  - npm install
+
+start:
+  - node index.js
+
+env:
+  - REACT_APP_STOCK_API_KEY
+  - PORT=5001

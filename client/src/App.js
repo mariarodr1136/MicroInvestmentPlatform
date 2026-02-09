@@ -10,6 +10,7 @@ import LatestNews from './components/LatestNews';
 import StockChart from './components/StockChart';
 import AuthScreen from './components/AuthScreen';
 import axios from 'axios';
+import API_URL from './config';
 import './App.css';
 
 const App = () => {
@@ -47,7 +48,7 @@ const App = () => {
       setError('');
 
       try {
-        const balanceResponse = await axios.get(`http://localhost:5001/api/user/${user._id}/balance`);
+        const balanceResponse = await axios.get(``${API_URL}`/api/user/${user._id}/balance`);
 
         if (balanceResponse.data?.balance !== undefined) {
           setBalance(balanceResponse.data.balance);
