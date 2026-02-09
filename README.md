@@ -4,6 +4,7 @@ The **Micro-Investment Education Platform** is a highly scalable and robust **ed
 
 The ultimate goal is to equip users with the **technical knowledge** and **practical skills** required to assess risks, forecast market behavior, and appreciate the complexities of **portfolio management**, all while gaining the confidence to navigate the stock market with informed decision-making capabilities. 🚀📈
 
+**Live Demo:** https://microinvestmentplatform-frontend.onrender.com/
 
 ---
 
