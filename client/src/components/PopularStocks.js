@@ -11,26 +11,26 @@ const PopularStocks = () => {
     META: 'https://finance.yahoo.com/quote/META/',        
     NFLX: 'https://finance.yahoo.com/quote/NFLX/',     
     NVDA: 'https://finance.yahoo.com/quote/NVDA/',    
-    BABA: 'https://finance.yahoo.com/quote/BABA/',     
-    DIS: 'https://finance.yahoo.com/quote/DIS/',      
+    BABA: 'https://finance.yahoo.com/quote/BABA/',
   }), []);
 
   return (
-    <div className="popular-stocks">
-      <h3 className="text-xl font-semibold mb-4 underline">Popular Stocks</h3>
-      <div className="flex flex-wrap"> 
-        {Object.entries(stockData).map(([symbol, link]) => (
-          <div key={symbol} className="stock-item mr-4 mb-2"> 
-            <a 
-              href={link} 
-              target="_blank" 
-              rel="noopener noreferrer" 
-              className="stock-link"
+    <div>
+      <div className="section-header teal">Popular Stocks</div>
+      <div className="section-body">
+        <div className="popular-stocks-grid">
+          {Object.entries(stockData).map(([symbol, link]) => (
+            <a
+              key={symbol}
+              href={link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="stock-chip"
             >
               {symbol}
             </a>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </div>
   );

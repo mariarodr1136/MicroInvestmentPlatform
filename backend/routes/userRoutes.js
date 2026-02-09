@@ -16,6 +16,26 @@ router.post('/register', async (req, res) => {
   }
 });
 
+// Login user
+router.post('/login', async (req, res) => {
+  try {
+    const { username, password } = req.body;
+    if (!username || !password) {
+      return res.status(400).json({ error: 'Username and password are required' });
+    }
+    const user = await User.findOne({ username });
+    if (!user) {
+      return res.status(401).json({ error: 'Invalid username or password' });
+    }
+    if (user.password !== password) {
+      return res.status(401).json({ error: 'Invalid username or password' });
+    }
+    res.status(200).json({ _id: user._id, username: user.username, balance: user.balance });
+  } catch (error) {
+    res.status(500).json({ error: 'Login failed' });
+  }
+});
+
 // Get user portfolio
 router.get('/:userId/portfolio', async (req, res) => {
   try {

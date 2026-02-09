@@ -1,0 +1,27 @@
+# Dependencies
+node_modules/
+*/node_modules/
+
+# Environment variables
+.env
+*/.env
+
+# Cache
+.cache/
+*/.cache/
+
+# Build
+build/
+dist/
+
+# OS files
+.DS_Store
+*/.DS_Store
+
+# Logs
+*.log
+npm-debug.log*
+
+# Editor
+.vscode/
+.idea/

@@ -131,22 +131,23 @@ async function fetchStockPrice(symbol) {
   try {
     const response = await axios.get('https://www.alphavantage.co/query', {
       params: {
-        function: 'TIME_SERIES_INTRADAY',
+        function: 'TIME_SERIES_DAILY',
         symbol: symbol,
-        interval: '5min',
-        apikey: process.env.REACT_APP_STOCK_API_KEY, // Ensure your .env file has this key
+        apikey: process.env.ALPHA_VANTAGE_API_KEY,
       },
     });
 
-    // Access the latest closing price
-    const timeSeries = response.data['Time Series (5min)'];
+    const timeSeries = response.data['Time Series (Daily)'];
+    if (!timeSeries) {
+      throw new Error('Unable to fetch stock price. API rate limit may have been reached.');
+    }
     const latestTimestamp = Object.keys(timeSeries)[0];
     const latestData = timeSeries[latestTimestamp];
 
-    return parseFloat(latestData['4. close']); // Return the latest closing price
+    return parseFloat(latestData['4. close']);
   } catch (error) {
     console.error('Error fetching stock price:', error.message);
-    throw error; // Rethrow the error for further handling
+    throw error;
   }
 }
 

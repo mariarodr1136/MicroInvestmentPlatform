@@ -94,46 +94,34 @@ const SellStock = ({ userId, onSellComplete }) => {
   };
 
   return (
-    <div className="buy-stock-container p-6 bg-white rounded-lg shadow-lg">
-      <h3 className="text-xl font-semibold mb-4 underline">Sell Stock</h3>
-      {error && (
-        <div className="error-message text-red-600 mb-3">
-          {error}
+    <div className="trade-form">
+      <div className="section-header red">Sell Stock</div>
+      <div className="section-body">
+        {error && <div className="form-error">{error}</div>}
+        <div className="input-group">
+          <input
+            type="text"
+            placeholder="Stock Symbol (e.g. AAPL)"
+            value={symbol}
+            onChange={(e) => setSymbol(e.target.value)}
+            disabled={isLoading}
+          />
+          <input
+            type="number"
+            placeholder="Number of Shares"
+            value={shares}
+            onChange={(e) => setShares(e.target.value)}
+            min="1"
+            disabled={isLoading}
+          />
+          <button
+            onClick={handleSell}
+            disabled={isLoading}
+            className="sell-btn"
+          >
+            {isLoading ? 'Selling...' : 'Sell Stock'}
+          </button>
         </div>
-      )}
-      <div className="input-group space-y-3">
-        <input
-          type="text"
-          placeholder="Stock Symbol"
-          value={symbol}
-          onChange={(e) => {
-            const value = e.target.value;
-            console.log('Symbol input changed:', value);
-            setSymbol(value);
-          }}
-          disabled={isLoading}
-          className="w-full p-2 border rounded"
-        />
-        <input
-          type="number"
-          placeholder="Number of Shares"
-          value={shares}
-          onChange={(e) => {
-            const value = e.target.value;
-            console.log('Shares input changed:', value);
-            setShares(value);
-          }}
-          min="1"
-          disabled={isLoading}
-          className="w-full p-2 border rounded"
-        />
-        <button
-          onClick={handleSell}
-          disabled={isLoading}
-          className={`w-full p-2 bg-blue-500 text-white rounded ${isLoading ? 'opacity-50 cursor-not-allowed' : ''}`}
-        >
-          {isLoading ? 'Selling...' : 'Sell Stock'}
-        </button>
       </div>
     </div>
   );

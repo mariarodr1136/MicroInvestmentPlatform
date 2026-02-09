@@ -4,7 +4,8 @@ import axios from 'axios';
 const LatestNews = () => {
   const [news, setNews] = useState([]);
   const [error, setError] = useState('');
-  const API_KEY = 'e87db86605234c56a1ac5c491ce68a41'; // Your API key
+  const [visibleCount, setVisibleCount] = useState(5);
+  const API_KEY = process.env.REACT_APP_NEWS_API_KEY;
   const API_URL = `https://newsapi.org/v2/everything?q=stocks&apiKey=${API_KEY}`;
 
   useEffect(() => {
@@ -21,18 +22,46 @@ const LatestNews = () => {
   }, [API_URL]); 
 
   return (
-    <div className="latest-news">
-      <h3 className="text-xl font-semibold mb-4 underline">Latest Stock News</h3>
-      {error && <p className="error">{error}</p>}
-      {news.length > 0 ? (
-        <div className="news-item">
-          <a href={news[0].url} target="_blank" rel="noopener noreferrer">
-            <h4 className="news-title">{news[0].title}</h4>
-          </a>
-        </div>
-      ) : (
-        <p>No news available.</p>
-      )}
+    <div>
+      <div className="section-header blue">Latest Stock News</div>
+      <div className="section-body">
+        {error && <div className="form-error">{error}</div>}
+        {news.length > 0 ? (
+          <>
+            {news.slice(0, visibleCount).map((article, index) => (
+              <a
+                key={index}
+                href={article.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="news-card"
+              >
+                <div className="news-title">{article.title}</div>
+              </a>
+            ))}
+            <div className="news-buttons">
+              {visibleCount < news.length && (
+                <button
+                  className="news-toggle-btn"
+                  onClick={() => setVisibleCount(visibleCount + 5)}
+                >
+                  Show More
+                </button>
+              )}
+              {visibleCount > 5 && (
+                <button
+                  className="news-toggle-btn"
+                  onClick={() => setVisibleCount(Math.max(visibleCount - 5, 5))}
+                >
+                  Show Less
+                </button>
+              )}
+            </div>
+          </>
+        ) : (
+          <p className="news-empty">No news available.</p>
+        )}
+      </div>
     </div>
   );
 };

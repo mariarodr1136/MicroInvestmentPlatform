@@ -79,48 +79,34 @@ const BuyStock = ({ userId, onBuyComplete }) => {
   };
 
   return (
-    <div className="buy-stock-container p-6 bg-white rounded-lg shadow-lg">
-      <h3 className="text-xl font-semibold mb-4 underline">Buy Stock</h3>
-      {error && (
-        <div className="error-message text-red-600 mb-3">
-          {error}
+    <div className="trade-form">
+      <div className="section-header green">Buy Stock</div>
+      <div className="section-body">
+        {error && <div className="form-error">{error}</div>}
+        <div className="input-group">
+          <input
+            type="text"
+            placeholder="Stock Symbol (e.g. AAPL)"
+            value={symbol}
+            onChange={(e) => setSymbol(e.target.value)}
+            disabled={isLoading}
+          />
+          <input
+            type="number"
+            placeholder="Number of Shares"
+            value={shares}
+            onChange={(e) => setShares(e.target.value)}
+            min="1"
+            disabled={isLoading}
+          />
+          <button
+            onClick={handleBuy}
+            disabled={isLoading}
+            className="buy-btn"
+          >
+            {isLoading ? 'Processing...' : 'Buy Stock'}
+          </button>
         </div>
-      )}
-      <div className="input-group space-y-4">
-        <input
-          type="text"
-          placeholder="Stock Symbol"
-          value={symbol}
-          onChange={(e) => {
-            const value = e.target.value;
-            console.log('Symbol input changed:', value);
-            setSymbol(value);
-          }}
-          disabled={isLoading}
-          className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200"
-        />
-        <input
-          type="number"
-          placeholder="Number of Shares"
-          value={shares}
-          onChange={(e) => {
-            const value = e.target.value;
-            console.log('Shares input changed:', value);
-            setShares(value);
-          }}
-          min="1"
-          disabled={isLoading}
-          className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200"
-        />
-        <button
-          onClick={handleBuy}
-          disabled={isLoading}
-          className={`w-full p-3 rounded-lg text-white transition duration-200 ${
-            isLoading ? 'bg-gray-400' : 'bg-blue-600 hover:bg-blue-700'
-          }`}
-        >
-          {isLoading ? 'Processing...' : 'Buy'}
-        </button>
       </div>
     </div>
   );

@@ -6,52 +6,60 @@ import SellStock from './components/SellStock';
 import BuyStock from './components/BuyStock';
 import WelcomeBanner from './components/WelcomeBanner';
 import TransactionHistory from './components/TransactionHistory';
-import LatestNews from './components/LatestNews'; 
+import LatestNews from './components/LatestNews';
+import StockChart from './components/StockChart';
+import AuthScreen from './components/AuthScreen';
 import axios from 'axios';
 import './App.css';
 
 const App = () => {
-  const userId = '671ec18d92f58dc23f009b9b'; 
-  const [username, setUsername] = useState('');
+  const [user, setUser] = useState(() => {
+    const saved = localStorage.getItem('user');
+    return saved ? JSON.parse(saved) : null;
+  });
   const [balance, setBalance] = useState(0);
   const [refreshTrigger, setRefreshTrigger] = useState(0);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
 
   const handleSellComplete = () => setRefreshTrigger(prev => prev + 1);
   const handleBuyComplete = () => setRefreshTrigger(prev => prev + 1);
 
+  const handleLogin = (userData) => {
+    setUser(userData);
+    localStorage.setItem('user', JSON.stringify(userData));
+    setBalance(userData.balance);
+    setRefreshTrigger(0);
+  };
+
+  const handleLogout = () => {
+    setUser(null);
+    localStorage.removeItem('user');
+    setBalance(0);
+    setError('');
+  };
+
   useEffect(() => {
+    if (!user) return;
+
     const fetchUserData = async () => {
       setIsLoading(true);
       setError('');
-      
+
       try {
-        const balanceUrl = `http://localhost:5001/api/user/${userId}/balance`;
-        const usernameUrl = `http://localhost:5001/api/user/${userId}/username`;
-        
-        const [balanceResponse, usernameResponse] = await Promise.all([
-          axios.get(balanceUrl),
-          axios.get(usernameUrl)
-        ]);
+        const balanceResponse = await axios.get(`http://localhost:5001/api/user/${user._id}/balance`);
 
         if (balanceResponse.data?.balance !== undefined) {
           setBalance(balanceResponse.data.balance);
         } else {
           setError('Invalid balance data received');
         }
-
-        if (usernameResponse.data?.username) {
-          setUsername(usernameResponse.data.username);
-        } else {
-          setError('Invalid username data received');
-        }
-
       } catch (error) {
         if (error.code === 'ECONNREFUSED') {
           setError('Cannot connect to server. Please ensure the backend is running.');
         } else if (error.response?.status === 404) {
-          setError('User not found. Please check the user ID.');
+          setError('User not found.');
+          handleLogout();
         } else if (error.response?.status === 500) {
           setError('Server error. Please try again later.');
         } else {
@@ -63,15 +71,19 @@ const App = () => {
     };
 
     fetchUserData();
-  }, [userId, refreshTrigger]);
+  }, [user?._id, refreshTrigger]);
+
+  if (!user) {
+    return <AuthScreen onLogin={handleLogin} />;
+  }
 
   return (
     <div className="App">
-      <WelcomeBanner 
-        username={username}
-        balance={balance}
+      <WelcomeBanner
+        username={user.username}
         isLoading={isLoading}
         error={error}
+        onLogout={handleLogout}
       />
 
       {error && (
@@ -79,7 +91,6 @@ const App = () => {
           {error}
           <ul className="error-details">
             <li>The backend server is running on port 5001</li>
-            <li>The user ID ({userId}) exists in the database</li>
             <li>You have CORS enabled on your backend</li>
           </ul>
         </div>
@@ -88,24 +99,27 @@ const App = () => {
       {isLoading ? (
         <div className="loading">Loading...</div>
       ) : (
-        <div className="main-content">
+        <>
+        <div className="full-width-section">
+          <div className="component-container">
+            <Portfolio userId={user._id} balance={balance} key={refreshTrigger} />
+          </div>
+        </div>
+        <div className="full-width-section">
+          <div className="component-container">
+            <StockChart />
+          </div>
+        </div>
+        <div className="main-content two-column">
           <div className="left-section">
             <div className="component-container">
-              <BuyStock userId={userId} onBuyComplete={handleBuyComplete} />
+              <BuyStock userId={user._id} onBuyComplete={handleBuyComplete} />
             </div>
             <div className="component-container">
-              <SellStock userId={userId} onSellComplete={handleSellComplete} />
+              <SellStock userId={user._id} onSellComplete={handleSellComplete} />
             </div>
             <div className="component-container">
               <LatestNews />
-            </div>
-          </div>
-          <div className="center-section">
-            <div className="component-container wider-portfolio">
-              <Portfolio userId={userId} balance={balance} key={refreshTrigger} />
-            </div>
-            <div className="component-container transaction-history">
-              <TransactionHistory userId={userId} />
             </div>
           </div>
           <div className="right-section">
@@ -115,8 +129,12 @@ const App = () => {
             <div className="component-container">
               <Leaderboard />
             </div>
+            <div className="component-container transaction-history">
+              <TransactionHistory userId={user._id} />
+            </div>
           </div>
         </div>
+        </>
       )}
     </div>
   );

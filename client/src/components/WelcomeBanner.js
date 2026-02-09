@@ -1,33 +1,27 @@
-// WelcomeBanner.js
 import React from 'react';
 
-const WelcomeBanner = ({ username, balance, isLoading, error }) => {
+const WelcomeBanner = ({ username, isLoading, error, onLogout }) => {
   return (
-    <div className="mb-8">
-      <h1 className="text-3xl font-bold mb-2">
-        Micro-Investment Education Platform
-      </h1>
-      
-      {isLoading ? (
-        <div className="h-6 w-32 bg-gray-200 animate-pulse rounded"></div>
-      ) : error ? (
-        <p className="text-sm text-red-500">
-          Unable to load user information
-        </p>
-      ) : username ? (
-        <>
-          <p className="text-lg bold-text mb-1">
-            Welcome, {username}!
-          </p>
-          <p className="text-lg bold-text">
-            Current Balance: ${balance.toFixed(2)}
-          </p>
-        </>
-      ) : (
-        <p className="text-sm text-gray-500">
-          Welcome, Guest!
-        </p>
-      )}
+    <div className="welcome-banner">
+      <div className="welcome-top">
+        <div>
+          <h1>Micro-Investment Education Platform</h1>
+          {isLoading ? (
+            <div className="welcome-loading"></div>
+          ) : error ? (
+            <p className="welcome-error">Unable to load user information</p>
+          ) : username ? (
+            <p className="welcome-subtitle">Welcome Back, {username}!</p>
+          ) : (
+            <p className="welcome-subtitle">Welcome, Guest!</p>
+          )}
+        </div>
+        {onLogout && (
+          <button className="logout-btn" onClick={onLogout}>
+            Log Out
+          </button>
+        )}
+      </div>
     </div>
   );
 };
