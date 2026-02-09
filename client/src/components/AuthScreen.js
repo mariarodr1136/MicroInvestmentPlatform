@@ -20,7 +20,7 @@ const AuthScreen = ({ onLogin }) => {
     }
     setIsLoading(true);
     try {
-      const response = await axios.post('`${API_URL}`/api/user/login', { username, password });
+      const response = await axios.post(`${API_URL}/api/user/login`, { username, password });
       onLogin(response.data);
     } catch (err) {
       setError(err.response?.data?.error || 'Login failed. Please try again.');
@@ -48,7 +48,7 @@ const AuthScreen = ({ onLogin }) => {
         }
         payload.balance = parsed;
       }
-      const response = await axios.post('`${API_URL}`/api/user/register', payload);
+      const response = await axios.post(`${API_URL}/api/user/register`, payload);
       onLogin({ _id: response.data._id, username: response.data.username, balance: response.data.balance });
     } catch (err) {
       setError(err.response?.data?.error || 'Sign up failed. Please try again.');

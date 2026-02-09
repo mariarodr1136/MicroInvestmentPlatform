@@ -48,7 +48,7 @@ const App = () => {
       setError('');
 
       try {
-        const balanceResponse = await axios.get(``${API_URL}`/api/user/${user._id}/balance`);
+        const balanceResponse = await axios.get(`${API_URL}/api/user/${user._id}/balance`);
 
         if (balanceResponse.data?.balance !== undefined) {
           setBalance(balanceResponse.data.balance);

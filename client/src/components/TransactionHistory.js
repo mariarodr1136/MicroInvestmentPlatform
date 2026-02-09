@@ -13,7 +13,7 @@ const TransactionHistory = ({ userId }) => {
     setLoading(true);
     setError('');
     try {
-      const response = await axios.get(``${API_URL}`/api/transactions/${userId}/history`, {
+      const response = await axios.get(`${API_URL}/api/transactions/${userId}/history`, {
         params: { limit: 100 },
       });
       setTransactions(response.data);

@@ -12,7 +12,7 @@ const Portfolio = ({ userId, balance }) => {
   useEffect(() => {
     const fetchPortfolio = async () => {
       try {
-        const response = await axios.get(``${API_URL}`/api/user/${userId}/portfolio`);
+        const response = await axios.get(`${API_URL}/api/user/${userId}/portfolio`);
         setPortfolio(response.data);
       } catch (error) {
         console.error("Error fetching portfolio:", error);
