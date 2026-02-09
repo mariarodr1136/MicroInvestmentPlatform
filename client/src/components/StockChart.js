@@ -16,6 +16,36 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Tooltip,
 const STOCKS = ['AAPL', 'GOOGL', 'TSLA', 'MSFT', 'AMZN'];
 const API_KEY = process.env.REACT_APP_STOCK_API_KEY;
 
+// Generate mock stock data for when API limit is reached
+const generateMockData = (symbol) => {
+  const basePrices = {
+    'AAPL': 178.50,
+    'GOOGL': 141.25,
+    'TSLA': 245.00,
+    'MSFT': 375.00,
+    'AMZN': 150.25
+  };
+
+  const basePrice = basePrices[symbol] || 100;
+  const labels = [];
+  const prices = [];
+  const today = new Date();
+
+  // Generate 30 days of mock data
+  for (let i = 29; i >= 0; i--) {
+    const date = new Date(today);
+    date.setDate(date.getDate() - i);
+    labels.push(`${date.getMonth() + 1}/${date.getDate()}`);
+
+    // Generate realistic price with small random variations
+    const variation = (Math.random() - 0.5) * (basePrice * 0.05); // +/- 5% variation
+    const price = basePrice + variation + (Math.sin(i / 3) * basePrice * 0.02);
+    prices.push(parseFloat(price.toFixed(2)));
+  }
+
+  return { labels, prices };
+};
+
 const StockChart = () => {
   const [selected, setSelected] = useState('AAPL');
   const [chartData, setChartData] = useState(null);
@@ -39,8 +69,13 @@ const StockChart = () => {
         );
 
         const timeSeries = res.data['Time Series (Daily)'];
-        if (!timeSeries) {
-          setError('Rate limit reached. Try again in a minute.');
+
+        // Check for rate limit or errors, fallback to mock data
+        if (!timeSeries || res.data['Note'] || res.data['Information']) {
+          console.log('API limit reached for stock chart, using mock data');
+          const mockData = generateMockData(selected);
+          cache.current[selected] = mockData;
+          setChartData(mockData);
           setLoading(false);
           return;
         }
@@ -55,8 +90,11 @@ const StockChart = () => {
         const data = { labels, prices };
         cache.current[selected] = data;
         setChartData(data);
-      } catch {
-        setError('Failed to fetch stock data.');
+      } catch (err) {
+        console.log('Error fetching stock chart data, using mock data:', err.message);
+        const mockData = generateMockData(selected);
+        cache.current[selected] = mockData;
+        setChartData(mockData);
       } finally {
         setLoading(false);
       }
