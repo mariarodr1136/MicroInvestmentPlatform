@@ -129,17 +129,34 @@ router.post('/sell', async (req, res) => {
 // Fetch stock price helper function
 async function fetchStockPrice(symbol) {
   try {
+    const apiKey = process.env.ALPHA_VANTAGE_API_KEY;
+
+    // Log API key status (first 4 chars only for security)
+    console.log('Fetching stock price for:', symbol);
+    console.log('API Key present:', apiKey ? `Yes (${apiKey.substring(0, 4)}...)` : 'No');
+
     const response = await axios.get('https://www.alphavantage.co/query', {
       params: {
         function: 'TIME_SERIES_DAILY',
         symbol: symbol,
-        apikey: process.env.ALPHA_VANTAGE_API_KEY,
+        apikey: apiKey,
       },
     });
 
+    console.log('Alpha Vantage Response:', JSON.stringify(response.data).substring(0, 200));
+
+    // Check for API error messages
+    if (response.data['Error Message']) {
+      throw new Error(`Invalid stock symbol: ${symbol}`);
+    }
+
+    if (response.data['Note']) {
+      throw new Error('API rate limit reached. Please try again in a minute.');
+    }
+
     const timeSeries = response.data['Time Series (Daily)'];
     if (!timeSeries) {
-      throw new Error('Unable to fetch stock price. API rate limit may have been reached.');
+      throw new Error('Unable to fetch stock price. Response: ' + JSON.stringify(response.data));
     }
     const latestTimestamp = Object.keys(timeSeries)[0];
     const latestData = timeSeries[latestTimestamp];
