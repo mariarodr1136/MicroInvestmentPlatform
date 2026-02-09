@@ -21,6 +21,7 @@ app.use((req, res, next) => {
 const userRoutes = require('./routes/userRoutes');
 const transactionRoutes = require('./routes/transactionRoutes');
 const leaderboardRoutes = require('./routes/leaderboardRoutes');
+const newsRoutes = require('./routes/newsRoutes');
 
 // Health check route
 app.get('/', (req, res) => {
@@ -31,7 +32,8 @@ app.get('/', (req, res) => {
     endpoints: {
       users: '/api/user',
       transactions: '/api/transactions',
-      leaderboard: '/api/leaderboard'
+      leaderboard: '/api/leaderboard',
+      news: '/api/news'
     }
   });
 });
@@ -48,6 +50,7 @@ app.get('/health', (req, res) => {
 app.use('/api/user', userRoutes);
 app.use('/api/transactions', transactionRoutes);
 app.use('/api/leaderboard', leaderboardRoutes);
+app.use('/api/news', newsRoutes);
 
 // Start with in-memory MongoDB
 let dbReady = false;

@@ -1,17 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import API_URL from '../config';
 
 const LatestNews = () => {
   const [news, setNews] = useState([]);
   const [error, setError] = useState('');
   const [visibleCount, setVisibleCount] = useState(5);
-  const API_KEY = process.env.REACT_APP_NEWS_API_KEY;
-  const API_URL = `https://newsapi.org/v2/everything?q=stocks&apiKey=${API_KEY}`;
 
   useEffect(() => {
     const fetchNews = async () => {
       try {
-        const response = await axios.get(API_URL);
+        const response = await axios.get(`${API_URL}/api/news`);
         setNews(response.data.articles);
       } catch (err) {
         setError('Failed to fetch news. Please try again later.');
@@ -19,7 +18,7 @@ const LatestNews = () => {
     };
 
     fetchNews();
-  }, [API_URL]); 
+  }, []); 
 
   return (
     <div>
