@@ -51,7 +51,7 @@ const SellStock = ({ userId, onSellComplete }) => {
 
     try {
       // Debug log - API request
-      console.log('Sending request to:', `${API_URL}/api/transactions/sell');
+      console.log('Sending request to:', `${API_URL}/api/transactions/sell`);
       
       const requestData = {
         userId,
@@ -61,7 +61,7 @@ const SellStock = ({ userId, onSellComplete }) => {
       
       console.log('Request data:', requestData);
 
-      const response = await axios.post(`${API_URL}/api/transactions/sell`, requestData);
+      const response = await axios.post(API_URL + '/api/transactions/sell', requestData);
       
       // Debug log - Successful response
       console.log('Successful response:', response.data);
@@ -79,7 +79,7 @@ const SellStock = ({ userId, onSellComplete }) => {
         message: error.message,
         response: error.response?.data,
         status: error.response?.status,
-        endpoint: `${API_URL}/api/transactions/sell',
+        endpoint: `${API_URL}/api/transactions/sell`,
         requestData: {
           userId,
           symbol: symbol.toUpperCase(),

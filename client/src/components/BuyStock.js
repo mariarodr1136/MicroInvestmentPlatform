@@ -41,7 +41,7 @@ const BuyStock = ({ userId, onBuyComplete }) => {
     setError('');
 
     try {
-      console.log('Sending request to:', `${API_URL}/api/transactions/buy');
+      console.log('Sending request to:', `${API_URL}/api/transactions/buy`);
       const requestData = {
         userId,
         symbol: symbol.toUpperCase(),
@@ -49,7 +49,7 @@ const BuyStock = ({ userId, onBuyComplete }) => {
       };
       console.log('Request data:', requestData);
 
-      const response = await axios.post(`${API_URL}/api/transactions/buy`, requestData);
+      const response = await axios.post(API_URL + '/api/transactions/buy', requestData);
       console.log('Successful response:', response.data);
 
       alert("Stock purchased successfully!");
@@ -64,7 +64,7 @@ const BuyStock = ({ userId, onBuyComplete }) => {
         message: error.message,
         response: error.response?.data,
         status: error.response?.status,
-        endpoint: `${API_URL}/api/transactions/buy',
+        endpoint: `${API_URL}/api/transactions/buy`,
         requestData: {
           userId,
           symbol: symbol.toUpperCase(),
