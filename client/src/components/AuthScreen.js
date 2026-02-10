@@ -5,7 +5,7 @@ import API_URL from '../config';
 const AuthScreen = ({ onLogin }) => {
   const [mode, setMode] = useState('login');
   const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
+
   const [password, setPassword] = useState('');
   const [balance, setBalance] = useState('');
   const [error, setError] = useState('');
@@ -32,13 +32,13 @@ const AuthScreen = ({ onLogin }) => {
   const handleSignUp = async (e) => {
     e.preventDefault();
     setError('');
-    if (!username || !email || !password) {
+    if (!username || !password) {
       setError('Please fill in all required fields');
       return;
     }
     setIsLoading(true);
     try {
-      const payload = { username, email, password };
+      const payload = { username, password };
       if (balance) {
         const parsed = parseFloat(balance);
         if (isNaN(parsed) || parsed < 0) {
@@ -61,7 +61,7 @@ const AuthScreen = ({ onLogin }) => {
     setMode(newMode);
     setError('');
     setUsername('');
-    setEmail('');
+
     setPassword('');
     setBalance('');
   };
@@ -118,13 +118,7 @@ const AuthScreen = ({ onLogin }) => {
               onChange={(e) => setUsername(e.target.value)}
               autoComplete="username"
             />
-            <input
-              type="email"
-              placeholder="Email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              autoComplete="email"
-            />
+
             <input
               type="password"
               placeholder="Password"
