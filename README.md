@@ -4,21 +4,29 @@ The **Micro-Investment Education Platform** is a highly scalable and robust **ed
 
 The ultimate goal is to equip users with the **technical knowledge** and **practical skills** required to assess risks, forecast market behavior, and appreciate the complexities of **portfolio management**, all while gaining the confidence to navigate the stock market with informed decision-making capabilities. 🚀📈
 
-**Live Demo:** https://microinvestmentplatform-frontend.onrender.com/
+Live Application: https://microinvestmentplatform-frontend.onrender.com/
 
 ---
 
 
 ![Node.js](https://img.shields.io/badge/Node.js-Node.js-brightgreen) ![Express](https://img.shields.io/badge/Express-Express-blue) ![MongoDB](https://img.shields.io/badge/MongoDB-MongoDB-darkgreen) ![React](https://img.shields.io/badge/React-React-lightblue) ![JavaScript](https://img.shields.io/badge/JavaScript-Programming_Language-yellow) ![API](https://img.shields.io/badge/Alpha%20Vantage-API-orange) ![NewsAPI](https://img.shields.io/badge/NewsAPI-API-red) ![Chart.js](https://img.shields.io/badge/Chart.js-Charts-ff6384) ![Mongoose](https://img.shields.io/badge/Mongoose-ODM-880000)
 
-<img width="1451" alt="Screenshot 2024-10-30 at 4 00 09 PM" src="https://github.com/user-attachments/assets/7aa5e4df-401e-4d7d-a631-ccf29ce1abaa">
+
+---
+
+### Demo Recording
+
+
+https://github.com/user-attachments/assets/ccc7d0ad-ac2f-4155-8588-7f2fe20916ac
+
+---
+
 
 ### Table of Contents
 - [Features](#features)
 - [Code Structure](#code-structure)
 - [Installation](#installation)
 - [Deployment](#deployment)
-- [Demo Recording](#demo-recording)
 - [Future Enhancements](#ideas-for-improvement-and-future-enhancements)
 - [Requirements](#requirements)
 - [API Interaction with Postman](#api-interaction-with-postman)
@@ -120,15 +128,6 @@ Want to deploy your own live demo? The platform is ready for deployment on Rende
 - In-memory database (no external DB setup required)
 
 See the complete [Deployment Guide](./DEPLOYMENT.md) for detailed instructions.
-
----
-### Demo Recording
-
-
-
-https://github.com/user-attachments/assets/47d8ec34-643b-4425-ae3c-0ce502bc33f8
-
-
 
 ---
 
