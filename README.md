@@ -58,6 +58,13 @@ The platform is built using the following technologies:
 
 ---
 
+<img width="1463" height="524" alt="Screenshot 2026-02-13 at 5 53 33 PM" src="https://github.com/user-attachments/assets/8d5c86e3-1c71-447d-a6bf-5a653c50e315" />
+
+<img width="1466" height="570" alt="Screenshot 2026-02-13 at 5 53 51 PM" src="https://github.com/user-attachments/assets/1d0d99b0-2482-4333-bb99-bbe02c7df510" />
+
+
+---
+
 ### Installation
 
 1. **Clone the repository**:
@@ -133,6 +140,10 @@ See the complete [Deployment Guide](./DEPLOYMENT.md) for detailed instructions.
 2. **Interactive Tutorials**: Add gamified tutorials to teach investment basics and advanced strategies in an engaging way.
 3. **Portfolio Growth Tracking**: Extend the existing stock charts to visualize portfolio performance and growth over time.
 4. **Mobile Application**: Develop a mobile app for iOS and Android to make the platform more accessible.
+
+---
+
+<img width="1432" height="691" alt="Screenshot 2026-02-13 at 5 57 50 PM" src="https://github.com/user-attachments/assets/f3adec95-773b-458c-a4a5-f8f865156c1c" />
 
 ---
 
