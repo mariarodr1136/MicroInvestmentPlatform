@@ -2,71 +2,84 @@
 
 ![Node.js](https://img.shields.io/badge/Node.js-Node.js-brightgreen) ![Express](https://img.shields.io/badge/Express-Express-blue) ![MongoDB](https://img.shields.io/badge/MongoDB-MongoDB-darkgreen) ![React](https://img.shields.io/badge/React-React-lightblue) ![JavaScript](https://img.shields.io/badge/JavaScript-Programming_Language-yellow) ![API](https://img.shields.io/badge/Alpha%20Vantage-API-orange) ![NewsAPI](https://img.shields.io/badge/NewsAPI-API-red) ![Chart.js](https://img.shields.io/badge/Chart.js-Charts-ff6384) ![Mongoose](https://img.shields.io/badge/Mongoose-ODM-880000)
 
-The **Micro-Investment Education Platform** is a highly scalable and robust **educational application** designed to empower beginners in the domain of **investment strategies**. By leveraging **virtual currency** to simulate micro-investments in a **risk-free environment**, this platform allows users to **experiment with real-world investment strategies** while avoiding the potential downsides of actual financial exposure. The platform's core functionality includes integration with **real-time stock data** through **Alpha Vantage API**, providing users with actionable insights into **market trends** and **stock performance**. By utilizing **MongoDB** with an **in-memory database** layer for efficient **data storage** and rapid prototyping, alongside **React.js** for a dynamic, responsive user interface, the platform ensures an engaging learning experience.
-
-The ultimate goal is to equip users with the **technical knowledge** and **practical skills** required to assess risks, forecast market behavior, and appreciate the complexities of **portfolio management**, all while gaining the confidence to navigate the stock market with informed decision-making capabilities. 🚀📈
-
----
+The **Micro-Investment Education Platform** helps beginners learn investing with **virtual money** in a safe, hands-on environment. Users can explore **real-time stock data** via **Alpha Vantage**, follow market headlines with **NewsAPI**, and practice decision-making with a clean, responsive **React** interface. The backend uses **Node.js + Express** and supports **MongoDB Memory Server** for instant setup with seeded demo data.
 
 Live Application: https://microinvestmentplatform-frontend.onrender.com/
 
-*Note: The live application is hosted on Render’s free tier, so the backend may take 1–2 minutes to wake up on the first visit after inactivity. If the page loads slowly when creating a new user, please be patient while the server starts.*
-
+*Note: The live app is hosted on Render's free tier, so the backend may take 1-2 minutes to wake up after inactivity.*
 
 ---
 
 ### Demo Recording
 
-
 https://github.com/user-attachments/assets/ccc7d0ad-ac2f-4155-8588-7f2fe20916ac
 
 ---
 
-
 ### Table of Contents
 - [Features](#features)
 - [Code Structure](#code-structure)
+- [Architecture Overview](#architecture-overview)
+- [Environment and Config](#environment-and-config)
 - [Installation](#installation)
-- [Deployment](#deployment)
-- [Future Enhancements](#ideas-for-improvement-and-future-enhancements)
+- [API Reference](#api-reference)
+- [Testing](#testing)
+- [Ideas for Improvement and Future Enhancements](#ideas-for-improvement-and-future-enhancements)
 - [Requirements](#requirements)
 - [API Interaction with Postman](#api-interaction-with-postman)
 - [Contributing](#contributing)
-- [Contact](#contact-)
+- [Contact](#contact)
 
 ---
 
 ### Features
 
-- **User Authentication**: Secure login and registration system allowing users to create personalized accounts with custom starting balances.
-- **Virtual Money Management**: Each user receives a set amount of virtual currency to simulate real-world investing.
-- **Real-Time Market Data**: Users can access up-to-date stock prices and market conditions through integrated stock market APIs.
-- **Interactive Stock Charts**: Visualize 30-day price trends for popular stocks with dynamic, interactive charts powered by Chart.js.
-- **Buy & Sell Stocks**: Execute simulated buy and sell orders at real-time market prices, with automatic portfolio and balance updates.
-- **Latest Stock News**: The platform provides the latest stock news through a news API, keeping users informed about market trends and events.
-- **Transaction History**: Users can view their paginated transaction histories for buying and selling in a detailed table format, including price per share, revenue, date, and time.
-- **Popular Stocks Section**: A dedicated section displays current popular stocks with clickable links to view their live prices.
-- **Leaderboard & Gamification**: Track portfolio performance and foster healthy competition through a leaderboard showcasing top-performing users.
-- **In-Memory Database with Seeded Demo Data**: Uses MongoDB Memory Server for instant setup with pre-loaded demo users and transactions, enabling immediate exploration without external database configuration.
-- **User-Friendly Interface**: A responsive and interactive UI built with React, providing a seamless user experience.
+- **User Authentication**: Secure login and registration with optional custom starting balances.
+- **Guest Mode**: Explore the app instantly with seeded demo data and no account creation.
+- **Virtual Money Management**: Every user starts with a virtual balance to simulate real trading.
+- **Real-Time Market Data**: Pulls current stock data using Alpha Vantage.
+- **Interactive Stock Charts**: 30-day price trends rendered with Chart.js.
+- **Buy & Sell Stocks**: Simulated trades update portfolio and balance in real time.
+- **Latest Stock News**: Market headlines powered by NewsAPI.
+- **Transaction History**: Paginated trade history with prices and timestamps.
+- **Popular Stocks Section**: Quick access to trending tickers and live prices.
+- **Leaderboard & Gamification**: Track performance across top users.
+- **Seeded Demo Data**: MongoDB Memory Server provides instant, zero-config demo data.
+- **Responsive UI**: A clean, modern React interface built for usability.
 
 ---
 
 ### Code Structure
 
-The platform is built using the following technologies:
-
-- **Frontend**: Developed with React 18 and Chart.js for an engaging, data-driven user interface with interactive stock visualizations.
-- **Backend**: Node.js with Express for handling user authentication, data processing, and API integrations.
-- **Database**: MongoDB with Mongoose ODM for data modeling. Supports both **MongoDB Atlas** for persistent cloud storage and **MongoDB Memory Server** for lightweight in-memory operation with pre-seeded demo data — no external database setup required.
-- **API**: Integrated with Alpha Vantage for real-time stock market data and a NEWS API for the latest news.
+- **Frontend**: React 18 + Chart.js for interactive, data-driven visuals.
+- **Backend**: Node.js + Express for authentication, trades, and API integrations.
+- **Database**: MongoDB + Mongoose. Runs in-memory by default, with optional MongoDB Atlas support.
+- **APIs**: Alpha Vantage (stocks) and NewsAPI (news).
 
 ---
 
-<img width="1463" height="524" alt="Screenshot 2026-02-13 at 5 53 33 PM" src="https://github.com/user-attachments/assets/8d5c86e3-1c71-447d-a6bf-5a653c50e315" />
+### Architecture Overview
 
-<img width="1466" height="570" alt="Screenshot 2026-02-13 at 5 53 51 PM" src="https://github.com/user-attachments/assets/1d0d99b0-2482-4333-bb99-bbe02c7df510" />
+Client UI calls the backend API, which orchestrates external data and persistence:
+- **React UI** renders dashboards and sends requests to the backend.
+- **Express API** handles auth, trades, news proxying, and leaderboard logic.
+- **Alpha Vantage** provides stock prices used in buy/sell flows and charts.
+- **NewsAPI** provides market headlines through a backend proxy route.
+- **MongoDB Memory Server** stores users, portfolios, and transactions in-memory by default.
 
+---
+
+### Environment and Config
+
+Environment variables are split by layer:
+- `backend/.env`: `ALPHA_VANTAGE_API_KEY`, `NEWS_API_KEY`, `PORT`, `MONGODB_URI` (optional)
+- `client/.env`: `REACT_APP_STOCK_API_KEY` (optional, only for local stock charts)
+
+---
+
+<img width="1463" height="524" alt="Screenshot 2026-02-13 at 5 53 33 PM" src="https://github.com/user-attachments/assets/8d5c86e3-1c71-447d-a6bf-5a653c50e315" />
+
+<img width="1466" height="570" alt="Screenshot 2026-02-13 at 5 53 51 PM" src="https://github.com/user-attachments/assets/1d0d99b0-2482-4333-bb99-bbe02c7df510" />
 
 ---
 
@@ -75,257 +88,264 @@ The platform is built using the following technologies:
 1. **Clone the repository**:
    ```bash
    gh repo clone mariarodr1136/MicroInvestmentPlatform
-- Alternatively, if you prefer to use HTTPS:
+   ```
+   If you prefer HTTPS:
    ```bash
-   https://github.com/mariarodr1136/MicroInvestmentPlatform.git
+   git clone https://github.com/mariarodr1136/MicroInvestmentPlatform.git
+   ```
 
 2. **Navigate to the backend directory**:
    ```bash
    cd MicroInvestmentPlatform/backend
+   ```
+
 3. **Install backend dependencies**:
    ```bash
    npm install
-4. **Set up environment variables:**
-- Create a `.env` file in the `backend` directory.
-- Add your API keys. Example:
+   ```
+
+4. **Set up environment variables (backend)**:
+   Create a `.env` file in `backend` with the following values:
    ```bash
-   REACT_APP_STOCK_API_KEY= your_react_stock_api
+   ALPHA_VANTAGE_API_KEY=your_alpha_vantage_api_key
+   NEWS_API_KEY=your_newsapi_key
    PORT=5001
-- **Note**: The platform uses **MongoDB Memory Server** by default, so no external database setup is required. The server automatically starts an in-memory MongoDB instance with pre-seeded demo data. To use a persistent **MongoDB Atlas** database instead, add your connection string:
+   ```
+   Optional: Use MongoDB Atlas instead of in-memory storage:
    ```bash
-   MONGODB_URI= your_mongodb_uri
+   MONGODB_URI=your_mongodb_uri
+   ```
 
 5. **Start the backend server**:
    ```bash
    node index.js
+   ```
+
 6. **In a new terminal, navigate to the frontend directory**:
    ```bash
    cd MicroInvestmentPlatform/client
+   ```
+
 7. **Install frontend dependencies**:
    ```bash
    npm install
-8. **Update the API key for news in the LatestNews.js file:**
-- Open client/LatestNews.js and update line 7 as follows:
+   ```
+
+8. **Set up environment variables (frontend)**:
+   Create a `.env` file in `client` only if you want the stock chart locally:
    ```bash
-   const API_KEY = process.env.NEWS_API_KEY;
-   const API_URL = `news_api_url`;
+   REACT_APP_STOCK_API_KEY=your_alpha_vantage_api_key
+   ```
 
 9. **Start the frontend server**:
    ```bash
    npm start
+   ```
 
-**Note**: To get the necessary API keys:
-  - For stock market data, register at [Alpha Vantage](https://www.alphavantage.co).
-  - For news data, register at [NewsAPI](https://newsapi.org).
+API keys can be obtained from:
+- Alpha Vantage: https://www.alphavantage.co
+- NewsAPI: https://newsapi.org
 
 ---
 
-### Deployment
+### API Reference
 
-Want to deploy your own live demo? The platform is ready for deployment on Render.com's free tier!
+Base URL: `http://localhost:5001`
 
-**Quick Deploy:**
-1. Fork this repository to your GitHub account
-2. Sign up at [Render.com](https://render.com)
-3. Follow the step-by-step guide in [DEPLOYMENT.md](./DEPLOYMENT.md)
+Core endpoints:
+- `POST /api/user/register`
+- `POST /api/user/login`
+- `GET /api/user`
+- `GET /api/user/{id}/portfolio`
+- `GET /api/user/{id}/username`
+- `GET /api/user/{id}/balance`
+- `POST /api/transactions/buy`
+- `POST /api/transactions/sell`
+- `GET /api/transactions/{userId}/history`
+- `GET /api/leaderboard`
+- `GET /api/news`
 
-**Features:**
-- Free hosting for both frontend and backend
-- Auto-deploy from GitHub on every push
-- Environment variable support for API keys
-- In-memory database (no external DB setup required)
+See **API Interaction with Postman** below for example requests and responses.
 
-See the complete [Deployment Guide](./DEPLOYMENT.md) for detailed instructions.
+---
+
+### Testing
+
+There are no automated tests yet. For manual verification, use this quick smoke flow:
+1. Start backend and frontend servers.
+2. Click **Continue as Guest** to load seeded demo data.
+3. Buy and sell a stock and confirm balance/portfolio updates.
+4. Open the News section and confirm headlines load.
 
 ---
 
 ### Ideas for Improvement and Future Enhancements
 
-1. **Personalized Recommendations**: Use machine learning to suggest investments based on user preferences and past activities.
-2. **Interactive Tutorials**: Add gamified tutorials to teach investment basics and advanced strategies in an engaging way.
-3. **Portfolio Growth Tracking**: Extend the existing stock charts to visualize portfolio performance and growth over time.
-4. **Mobile Application**: Develop a mobile app for iOS and Android to make the platform more accessible.
+1. **Personalized Recommendations**: Suggest trades based on user behavior and goals.
+2. **Interactive Tutorials**: Guided lessons that teach investing fundamentals.
+3. **Portfolio Growth Tracking**: Visualize portfolio performance over time.
+4. **Mobile Application**: Native iOS and Android apps.
 
 ---
 
-<img width="1432" height="691" alt="Screenshot 2026-02-13 at 5 57 50 PM" src="https://github.com/user-attachments/assets/f3adec95-773b-458c-a4a5-f8f865156c1c" />
+<img width="1432" height="691" alt="Screenshot 2026-02-13 at 5 57 50 PM" src="https://github.com/user-attachments/assets/f3adec95-773b-458c-a4a5-f8f865156c1c" />
 
 ---
 
 ### Requirements
 - Node.js (v14 or later)
-- MongoDB (optional — MongoDB Memory Server is included for zero-config in-memory operation)
+- MongoDB (optional, in-memory mode is built-in)
 - React (v17 or later)
-- Stock market and NEWS API access key (e.g., Alpha Vantage)
-
----
-
-### Fixing the URL in Your Frontend
-Once you have a user ID, update your App.js to view data in frontend:
-
-- const userId = '60d21b4667d0d8992e610c85'
+- Alpha Vantage API key
+- NewsAPI key
 
 ---
 
 ## API Interaction with Postman
 
-You can use Postman to interact with the API and perform various actions. Below are some common operations:
+Common API operations:
 
-1. **Register a User**
-    - **Endpoint**: `/api/user/register`
-    - **HTTP Method**: `POST`
-    - **Description**: Adds a new `User` with username, email, and password.
-    - **Request Body**:
-      ```json
-      {
-        "username": "string",
-        "email": "string",
-        "password": "string"
-      }
-      ```
-    - **Response**: The created `User` object with balance, portfolio, and ID.
+1. **Register a user**
+   - **Endpoint**: `/api/user/register`
+   - **Method**: `POST`
+   - **Body**:
+     ```json
+     {
+       "username": "string",
+       "password": "string",
+       "balance": 10000
+     }
+     ```
+   - **Response**: Created user object
 
-2. **Login a User**
-    - **Endpoint**: `/api/user/login`
-    - **HTTP Method**: `POST`
-    - **Description**: Authenticates a `User` with username and password.
-    - **Request Body**:
-      ```json
-      {
-        "username": "string",
-        "password": "string"
-      }
-      ```
-    - **Response**: The `User` object with `id, username`, and `balance`.
+2. **Login a user**
+   - **Endpoint**: `/api/user/login`
+   - **Method**: `POST`
+   - **Body**:
+     ```json
+     {
+       "username": "string",
+       "password": "string"
+     }
+     ```
+   - **Response**:
+     ```json
+     {
+       "_id": "string",
+       "username": "string",
+       "balance": 10000
+     }
+     ```
 
-3. **Retrieve All Users**
-    - **Endpoint**: `api/user`
-    - **HTTP Method**: `GET`
-    - **Description**: Retrieves all registered `User` objects
+3. **Retrieve all users**
+   - **Endpoint**: `/api/user`
+   - **Method**: `GET`
+   - **Response**: All users with `id`, `username`, `balance`, and `portfolio`
 
-    - **Response**: All `User` objects with `id, username, balance`, and `stock portfolio`.
+4. **Retrieve a user portfolio**
+   - **Endpoint**: `/api/user/{id}/portfolio`
+   - **Method**: `GET`
+   - **Response**:
+     ```json
+     [
+       {
+         "symbol": "AAPL",
+         "shares": 5,
+         "avgPrice": 178.5
+       }
+     ]
+     ```
 
-4. **Retrieve a User Portfolio by ID**
-    - **Endpoint**: `/api/user/{id}/portfolio`
-    - **HTTP Method**: `GET`
-    - **Description**: Fetches `User` portfolio by their ID.
-    - **Response**:
-      ```json
-      {
-        "symbol": "stock string",
-        "shares": "integer",
-        "avgPrice": "integer",
-        "id": "integer"
-      }
-      ```
+5. **Buy a stock**
+   - **Endpoint**: `/api/transactions/buy`
+   - **Method**: `POST`
+   - **Body**:
+     ```json
+     {
+       "userId": "string",
+       "symbol": "AAPL",
+       "shares": 2
+     }
+     ```
+   - **Response**: Confirmation with updated user
 
-5. **Create a Transaction**
-    - **Endpoint**: `/api/transactions/buy`
-    - **HTTP Method**: `POST`
-    - **Description**: Purchase Stock Option
-    - **Request Body**:
-      ```json
-      {
-        "userId": "integer",
-        "symbol": "string - Stock symbol",
-        "shares": "integer - Number of shares to buy",    
-      }
-      ```
-    - **Response**: "Stock purchased successfully"
-  
-    - **Endpoint**: `/api/transactions/sell`
-    - **HTTP Method**: `POST`
-    - **Description**: Sell Stock Option
-    - **Request Body**:
-      ```json
-      {
-        "userId": "integer",
-        "symbol": "string - Stock symbol",
-        "shares": "integer - Number of shares to sell",    
-      }
-      ```
-    - **Response**:
-      ```json
-      {
-          "message": "Stock sold successfully",
-          "balance": "integer",
-          "soldShares": "integer",
-          "revenue": "integer"
-      }
-      ```
-      
-6. **Retrieve Transaction History**
-    - **Endpoint**: `/api/transactions/{userId}/history`
-    - **HTTP Method**: `GET`
-    - **Description**: Retrieves paginated transaction history for a `User`
-    - **Query Parameters**: `page` (default: 1), `limit` (default: 5)
-    - **Response**:
-      ```json
-      {
-        "transactions": [
-          {
-            "type": "buy | sell",
-            "symbol": "string",
-            "shares": "integer",
-            "pricePerShare": "number",
-            "date": "date"
-          }
-        ],
-        "currentPage": "integer",
-        "totalPages": "integer",
-        "totalTransactions": "integer"
-      }
-      ```
+6. **Sell a stock**
+   - **Endpoint**: `/api/transactions/sell`
+   - **Method**: `POST`
+   - **Body**:
+     ```json
+     {
+       "userId": "string",
+       "symbol": "AAPL",
+       "shares": 1
+     }
+     ```
+   - **Response**:
+     ```json
+     {
+       "message": "Stock sold successfully",
+       "balance": 10000,
+       "soldShares": 1,
+       "revenue": 500
+     }
+     ```
 
-7. **Retrieve User Current Balance**
-    - **Endpoint**: `/api/user/{id}/balance`
-    - **HTTP Method**: `GET`
-    - **Description**: Retrieves `User` current balance
-    - **Response**:
-      ```json
-      {
-        "balance": "integer"
-      }
-      ```
+7. **Transaction history**
+   - **Endpoint**: `/api/transactions/{userId}/history?page=1&limit=5`
+   - **Method**: `GET`
+   - **Response**: Array of transactions (most recent first)
 
-8. **Retrieve Leaderboard**
-    - **Endpoint**: `/api/leaderboard`
-    - **HTTP Method**: `GET`
-    - **Description**: Retrieves the top 5 users ranked by balance
-    - **Response**:
-      ```json
-      [
-        {
-          "username": "string",
-          "balance": "number"
-        }
-      ]
-      ```
+8. **Retrieve user balance**
+   - **Endpoint**: `/api/user/{id}/balance`
+   - **Method**: `GET`
+   - **Response**:
+     ```json
+     {
+       "balance": 10000
+     }
+     ```
+
+9. **Retrieve leaderboard**
+   - **Endpoint**: `/api/leaderboard`
+   - **Method**: `GET`
+   - **Response**:
+     ```json
+     [
+       {
+         "username": "string",
+         "balance": 12000
+       }
+     ]
+     ```
 
 ---
 
 ### Contributing
-Feel free to submit issues or pull requests for improvements or bug fixes. You can also open issues to discuss potential changes or enhancements. All contributions are welcome to enhance the app’s features or functionality!
 
-To contribute, please follow these steps:
+Contributions are welcome. To contribute:
 
 1. Fork the repository.
-2. Create a new branch for your feature or bug fix:
+2. Create a new branch:
    ```bash
    git checkout -b feat/your-feature-name
-- Alternatively, for bug fixes:
+   ```
+   For bug fixes:
    ```bash
    git checkout -b fix/your-bug-fix-name
-3. Make your changes and run all tests before committing the changes and make sure all tests are passed.
-4. After all tests are passed, commit your changes with descriptive messages:
+   ```
+3. Make your changes and run tests.
+4. Commit with a clear message:
    ```bash
-   git commit -m 'add your commit message'
-5. Push your changes to your forked repository:
+   git commit -m "your commit message"
+   ```
+5. Push your branch:
    ```bash
-   git push origin feat/your-feature-name.
-6. Submit a pull request to the main repository, explaining your changes and providing any necessary details.
+   git push origin feat/your-feature-name
+   ```
+6. Open a pull request with a clear description of your changes.
 
 ---
 
-### Contact 🌐
-If you have any questions or feedback, feel free to reach out at [mrodr.contact@gmail.com](mailto:mrodr.contact@gmail.com).
+### Contact
+
+For questions or feedback: mrodr.contact@gmail.com

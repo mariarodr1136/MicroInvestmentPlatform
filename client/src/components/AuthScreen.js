@@ -10,6 +10,7 @@ const AuthScreen = ({ onLogin }) => {
   const [balance, setBalance] = useState('');
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const demoCredentials = { username: 'Guest', password: 'demo123' };
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -52,6 +53,19 @@ const AuthScreen = ({ onLogin }) => {
       onLogin({ _id: response.data._id, username: response.data.username, balance: response.data.balance });
     } catch (err) {
       setError(err.response?.data?.error || 'Sign up failed. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleGuestLogin = async () => {
+    setError('');
+    setIsLoading(true);
+    try {
+      const response = await axios.post(`${API_URL}/api/user/login`, demoCredentials);
+      onLogin(response.data);
+    } catch (err) {
+      setError(err.response?.data?.error || 'Guest login failed. Please try again.');
     } finally {
       setIsLoading(false);
     }
@@ -108,6 +122,14 @@ const AuthScreen = ({ onLogin }) => {
             <button type="submit" className="auth-submit" disabled={isLoading}>
               {isLoading ? 'Logging in...' : 'Log In'}
             </button>
+            <button
+              type="button"
+              className="auth-submit auth-guest"
+              onClick={handleGuestLogin}
+              disabled={isLoading}
+            >
+              {isLoading ? 'Entering demo...' : 'Continue as Guest'}
+            </button>
           </form>
         ) : (
           <form className="auth-form" onSubmit={handleSignUp}>
@@ -142,7 +164,13 @@ const AuthScreen = ({ onLogin }) => {
 
         <p className="auth-hint">
           {mode === 'login'
-            ? "Don't have an account? Click Sign Up above."
+            ? (
+              <>
+                Not ready to create an account?
+                <br />
+                Continue as Guest to explore demo data.
+              </>
+            )
             : 'Already have an account? Click Log In above.'}
         </p>
       </div>

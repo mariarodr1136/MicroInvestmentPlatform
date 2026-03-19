@@ -69,14 +69,17 @@ async function startServer() {
     const Transaction = require('./models/Transaction');
 
     const demoUser = await User.create({
-      username: 'maria',
-      email: 'maria@demo.com',
+      username: 'Guest',
+      email: 'guest@demo.com',
       password: 'demo123',
       balance: 8450.75,
       portfolio: [
         { symbol: 'AAPL', shares: 5, avgPrice: 178.50 },
         { symbol: 'GOOGL', shares: 2, avgPrice: 141.25 },
         { symbol: 'TSLA', shares: 3, avgPrice: 245.00 },
+        { symbol: 'MSFT', shares: 4, avgPrice: 375.00 },
+        { symbol: 'AMZN', shares: 2, avgPrice: 165.50 },
+        { symbol: 'NVDA', shares: 1, avgPrice: 680.00 },
       ],
     });
 
@@ -100,6 +103,9 @@ async function startServer() {
       { userId: demoUser._id, symbol: 'AAPL', shares: 5, pricePerShare: 178.50, type: 'buy' },
       { userId: demoUser._id, symbol: 'GOOGL', shares: 2, pricePerShare: 141.25, type: 'buy' },
       { userId: demoUser._id, symbol: 'TSLA', shares: 3, pricePerShare: 245.00, type: 'buy' },
+      { userId: demoUser._id, symbol: 'MSFT', shares: 4, pricePerShare: 375.00, type: 'buy' },
+      { userId: demoUser._id, symbol: 'AMZN', shares: 2, pricePerShare: 165.50, type: 'buy' },
+      { userId: demoUser._id, symbol: 'NVDA', shares: 1, pricePerShare: 680.00, type: 'buy' },
     ]);
 
     console.log(`Demo user ID: ${demoUser._id} (use this to test)`);
