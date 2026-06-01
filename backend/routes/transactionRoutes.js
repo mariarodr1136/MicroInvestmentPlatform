@@ -2,11 +2,8 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/User');
 const Transaction = require('../models/Transaction');
-const axios = require('axios');
 const auth = require('../middleware/auth');
-
-const priceCache = new Map();
-const PRICE_CACHE_TTL = 5 * 60 * 1000;
+const { fetchStockPrice } = require('../utils/stockPrice');
 
 // Get transaction history for a user
 router.get('/:userId/history', auth, async (req, res) => {
@@ -128,52 +125,5 @@ router.post('/sell', auth, async (req, res) => {
     res.status(500).json({ error: 'An error occurred while selling stock: ' + error.message });
   }
 });
-
-async function fetchStockPrice(symbol) {
-  const key = symbol.toUpperCase();
-  const cached = priceCache.get(key);
-  if (cached && Date.now() - cached.timestamp < PRICE_CACHE_TTL) {
-    return cached.price;
-  }
-
-  try {
-    const apiKey = process.env.ALPHA_VANTAGE_API_KEY;
-    const response = await axios.get('https://www.alphavantage.co/query', {
-      params: { function: 'TIME_SERIES_DAILY', symbol, apikey: apiKey },
-    });
-
-    if (response.data['Error Message']) {
-      throw new Error(`Invalid stock symbol: ${symbol}`);
-    }
-    if (response.data['Note'] || response.data['Information']) {
-      return getMockStockPrice(symbol);
-    }
-
-    const timeSeries = response.data['Time Series (Daily)'];
-    if (!timeSeries) return getMockStockPrice(symbol);
-
-    const latestTimestamp = Object.keys(timeSeries)[0];
-    const price = parseFloat(timeSeries[latestTimestamp]['4. close']);
-    priceCache.set(key, { price, timestamp: Date.now() });
-    return price;
-  } catch (error) {
-    return getMockStockPrice(symbol);
-  }
-}
-
-function getMockStockPrice(symbol) {
-  const mockPrices = {
-    'AAPL': 178.50,
-    'GOOGL': 141.25,
-    'TSLA': 245.00,
-    'MSFT': 375.00,
-    'AMZN': 150.25,
-    'META': 485.50,
-    'NFLX': 620.00,
-    'NVDA': 875.50,
-    'BABA': 85.75,
-  };
-  return mockPrices[symbol.toUpperCase()] || parseFloat((Math.random() * 200 + 50).toFixed(2));
-}
 
 module.exports = router;

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { ToastProvider } from './context/ToastContext';
 import Portfolio from './components/Portfolio';
 import Leaderboard from './components/Leaderboard';
 import PopularStocks from './components/PopularStocks';
@@ -9,6 +10,7 @@ import TransactionHistory from './components/TransactionHistory';
 import LatestNews from './components/LatestNews';
 import StockChart from './components/StockChart';
 import AuthScreen from './components/AuthScreen';
+import ScrollNav from './components/ScrollNav';
 import axios from 'axios';
 import API_URL, { getAuthHeader } from './config';
 import './App.css';
@@ -110,36 +112,37 @@ const App = () => {
         <div className="loading">Loading...</div>
       ) : (
         <>
-        <div className="full-width-section">
+        <ScrollNav />
+        <div id="section-portfolio" className="full-width-section">
           <div className="component-container">
             <Portfolio userId={user._id} balance={balance} refreshTrigger={refreshTrigger} />
           </div>
         </div>
-        <div className="full-width-section">
+        <div id="section-chart" className="full-width-section">
           <div className="component-container">
             <StockChart />
           </div>
         </div>
         <div className="main-content two-column">
           <div className="left-section">
-            <div className="component-container">
+            <div id="section-buy" className="component-container">
               <BuyStock userId={user._id} onBuyComplete={handleBuyComplete} />
             </div>
-            <div className="component-container">
+            <div id="section-sell" className="component-container">
               <SellStock userId={user._id} onSellComplete={handleSellComplete} />
             </div>
-            <div className="component-container">
+            <div id="section-news" className="component-container">
               <LatestNews />
             </div>
           </div>
           <div className="right-section">
-            <div className="component-container">
+            <div id="section-popular" className="component-container">
               <PopularStocks />
             </div>
-            <div className="component-container">
+            <div id="section-leaderboard" className="component-container">
               <Leaderboard />
             </div>
-            <div className="component-container transaction-history">
+            <div id="section-history" className="component-container transaction-history">
               <TransactionHistory userId={user._id} />
             </div>
           </div>
@@ -150,4 +153,10 @@ const App = () => {
   );
 };
 
-export default App;
+const AppWithProviders = () => (
+  <ToastProvider>
+    <App />
+  </ToastProvider>
+);
+
+export default AppWithProviders;

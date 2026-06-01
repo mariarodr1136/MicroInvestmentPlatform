@@ -16,6 +16,7 @@ const userRoutes = require('./routes/userRoutes');
 const transactionRoutes = require('./routes/transactionRoutes');
 const leaderboardRoutes = require('./routes/leaderboardRoutes');
 const newsRoutes = require('./routes/newsRoutes');
+const stockRoutes = require('./routes/stockRoutes');
 
 // Health check route
 app.get('/', (req, res) => {
@@ -41,6 +42,7 @@ app.use('/api/user', userRoutes);
 app.use('/api/transactions', transactionRoutes);
 app.use('/api/leaderboard', leaderboardRoutes);
 app.use('/api/news', newsRoutes);
+app.use('/api/stocks', stockRoutes);
 
 let dbReady = false;
 

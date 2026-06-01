@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, useRef } from 'react';
 import axios from 'axios';
 import API_URL, { getAuthHeader } from '../config';
 import '../App.css';
@@ -8,6 +8,7 @@ const TransactionHistory = ({ userId }) => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(true);
   const [visibleCount, setVisibleCount] = useState(5);
+  const topRef = useRef(null);
 
   const fetchTransactions = useCallback(async () => {
     setLoading(true);
@@ -30,7 +31,7 @@ const TransactionHistory = ({ userId }) => {
   }, [fetchTransactions]);
 
   return (
-    <div className="transaction-history-container">
+    <div className="transaction-history-container" ref={topRef}>
       <div className="section-header purple">Recent Transactions</div>
       <div className="section-body">
         {loading && <div className="loading">Loading...</div>}
@@ -90,9 +91,17 @@ const TransactionHistory = ({ userId }) => {
             </button>
           )}
           {visibleCount > 5 && (
-            <button className="news-toggle-btn" onClick={() => setVisibleCount(Math.max(visibleCount - 5, 5))}>
-              Show Less
-            </button>
+            <>
+              <button className="news-toggle-btn" onClick={() => setVisibleCount(Math.max(visibleCount - 5, 5))}>
+                Show Less
+              </button>
+              <button
+                className="news-toggle-btn"
+                onClick={() => topRef.current?.scrollIntoView({ behavior: 'smooth' })}
+              >
+                Back to Top
+              </button>
+            </>
           )}
         </div>
       </div>
