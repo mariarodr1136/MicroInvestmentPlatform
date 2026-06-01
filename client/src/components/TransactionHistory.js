@@ -73,9 +73,9 @@ const TransactionHistory = ({ userId }) => {
                       <span style={{ color: '#888' }}>—</span>
                     )}
                   </td>
-                  <td style={{ color: '#888', fontSize: '0.85rem', whiteSpace: 'nowrap' }}>
+                  <td style={{ color: '#888', fontSize: '0.78rem', whiteSpace: 'nowrap' }}>
                     {new Date(transaction.date).toLocaleString(undefined, {
-                      month: 'short', day: 'numeric', year: 'numeric',
+                      month: 'numeric', day: 'numeric', year: '2-digit',
                       hour: 'numeric', minute: '2-digit',
                     })}
                   </td>
