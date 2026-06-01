@@ -33,7 +33,7 @@ const Leaderboard = () => {
             <li key={user._id} className="leaderboard-item">
               <span className={`leaderboard-rank ${rankClass(index)}`}>{index + 1}</span>
               <span className="leaderboard-name">{user.username}</span>
-              <span className="leaderboard-balance">${user.balance.toFixed(2)}</span>
+              <span className="leaderboard-balance">${user.totalValue.toFixed(2)}</span>
             </li>
           ))}
         </ul>

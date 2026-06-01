@@ -44,6 +44,7 @@ const TransactionHistory = ({ userId }) => {
               <th>Price</th>
               <th>Total</th>
               <th>P&amp;L</th>
+              <th>Date</th>
             </tr>
           </thead>
           <tbody>
@@ -70,6 +71,12 @@ const TransactionHistory = ({ userId }) => {
                     ) : (
                       <span style={{ color: '#888' }}>—</span>
                     )}
+                  </td>
+                  <td style={{ color: '#888', fontSize: '0.85rem', whiteSpace: 'nowrap' }}>
+                    {new Date(transaction.date).toLocaleString(undefined, {
+                      month: 'short', day: 'numeric', year: 'numeric',
+                      hour: 'numeric', minute: '2-digit',
+                    })}
                   </td>
                 </tr>
               );

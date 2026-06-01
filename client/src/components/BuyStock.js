@@ -8,6 +8,7 @@ const BuyStock = ({ userId, onBuyComplete }) => {
   const [shares, setShares] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
 
   const handleBuy = async () => {
     if (!symbol.trim()) {
@@ -29,7 +30,8 @@ const BuyStock = ({ userId, onBuyComplete }) => {
         { userId, symbol: symbol.toUpperCase(), shares: shareCount },
         { headers: getAuthHeader() }
       );
-      alert('Stock purchased successfully!');
+      setSuccess(`Bought ${shareCount} share${shareCount > 1 ? 's' : ''} of ${symbol.toUpperCase()}`);
+      setTimeout(() => setSuccess(''), 3000);
       setSymbol('');
       setShares('');
       if (onBuyComplete) onBuyComplete();
@@ -45,6 +47,7 @@ const BuyStock = ({ userId, onBuyComplete }) => {
       <div className="section-header green">Buy Stock</div>
       <div className="section-body">
         {error && <div className="form-error">{error}</div>}
+        {success && <div className="form-success">{success}</div>}
         <div className="input-group">
           <input
             type="text"

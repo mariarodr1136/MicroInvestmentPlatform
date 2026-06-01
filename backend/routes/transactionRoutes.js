@@ -5,6 +5,9 @@ const Transaction = require('../models/Transaction');
 const axios = require('axios');
 const auth = require('../middleware/auth');
 
+const priceCache = new Map();
+const PRICE_CACHE_TTL = 5 * 60 * 1000;
+
 // Get transaction history for a user
 router.get('/:userId/history', auth, async (req, res) => {
   if (req.userId !== req.params.userId) {
@@ -127,6 +130,12 @@ router.post('/sell', auth, async (req, res) => {
 });
 
 async function fetchStockPrice(symbol) {
+  const key = symbol.toUpperCase();
+  const cached = priceCache.get(key);
+  if (cached && Date.now() - cached.timestamp < PRICE_CACHE_TTL) {
+    return cached.price;
+  }
+
   try {
     const apiKey = process.env.ALPHA_VANTAGE_API_KEY;
     const response = await axios.get('https://www.alphavantage.co/query', {
@@ -144,7 +153,9 @@ async function fetchStockPrice(symbol) {
     if (!timeSeries) return getMockStockPrice(symbol);
 
     const latestTimestamp = Object.keys(timeSeries)[0];
-    return parseFloat(timeSeries[latestTimestamp]['4. close']);
+    const price = parseFloat(timeSeries[latestTimestamp]['4. close']);
+    priceCache.set(key, { price, timestamp: Date.now() });
+    return price;
   } catch (error) {
     return getMockStockPrice(symbol);
   }

@@ -3,7 +3,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import API_URL, { getAuthHeader } from '../config';
 
-const Portfolio = ({ userId, balance }) => {
+const Portfolio = ({ userId, balance, refreshTrigger }) => {
   const [portfolio, setPortfolio] = useState([]);
   const scrollRef = useRef(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
@@ -19,7 +19,7 @@ const Portfolio = ({ userId, balance }) => {
       }
     };
     fetchPortfolio();
-  }, [userId]);
+  }, [userId, refreshTrigger]);
 
   const updateScrollButtons = () => {
     const el = scrollRef.current;

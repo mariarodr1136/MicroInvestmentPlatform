@@ -15,8 +15,14 @@ import './App.css';
 
 const App = () => {
   const [user, setUser] = useState(() => {
-    const saved = localStorage.getItem('user');
-    return saved ? JSON.parse(saved) : null;
+    try {
+      const saved = localStorage.getItem('user');
+      return saved ? JSON.parse(saved) : null;
+    } catch {
+      localStorage.removeItem('user');
+      localStorage.removeItem('token');
+      return null;
+    }
   });
   const [balance, setBalance] = useState(0);
   const [refreshTrigger, setRefreshTrigger] = useState(0);
@@ -106,7 +112,7 @@ const App = () => {
         <>
         <div className="full-width-section">
           <div className="component-container">
-            <Portfolio userId={user._id} balance={balance} key={refreshTrigger} />
+            <Portfolio userId={user._id} balance={balance} refreshTrigger={refreshTrigger} />
           </div>
         </div>
         <div className="full-width-section">

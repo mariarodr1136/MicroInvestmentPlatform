@@ -8,6 +8,7 @@ const SellStock = ({ userId, onSellComplete }) => {
   const [shares, setShares] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
 
   const handleSell = async () => {
     if (!symbol.trim()) {
@@ -29,7 +30,8 @@ const SellStock = ({ userId, onSellComplete }) => {
         { userId, symbol: symbol.toUpperCase(), shares: shareCount },
         { headers: getAuthHeader() }
       );
-      alert('Stock sold successfully!');
+      setSuccess(`Sold ${shareCount} share${shareCount > 1 ? 's' : ''} of ${symbol.toUpperCase()}`);
+      setTimeout(() => setSuccess(''), 3000);
       setSymbol('');
       setShares('');
       if (onSellComplete) onSellComplete();
@@ -45,6 +47,7 @@ const SellStock = ({ userId, onSellComplete }) => {
       <div className="section-header red">Sell Stock</div>
       <div className="section-body">
         {error && <div className="form-error">{error}</div>}
+        {success && <div className="form-success">{success}</div>}
         <div className="input-group">
           <input
             type="text"
