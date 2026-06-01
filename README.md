@@ -2,7 +2,7 @@
 
 ![Node.js](https://img.shields.io/badge/Node.js-Node.js-brightgreen) ![Express](https://img.shields.io/badge/Express-Express-blue) ![MongoDB](https://img.shields.io/badge/MongoDB-MongoDB-darkgreen) ![React](https://img.shields.io/badge/React-React-lightblue) ![JavaScript](https://img.shields.io/badge/JavaScript-Programming_Language-yellow) ![API](https://img.shields.io/badge/Alpha%20Vantage-API-orange) ![NewsAPI](https://img.shields.io/badge/NewsAPI-API-red) ![Chart.js](https://img.shields.io/badge/Chart.js-Charts-ff6384) ![Mongoose](https://img.shields.io/badge/Mongoose-ODM-880000)
 
-The **Micro-Investment Education Platform** is a highly scalable and robust **educational application** designed to empower beginners in the domain of **investment strategies**. By leveraging **virtual currency** to simulate micro-investments in a **risk-free environment**, this platform allows users to **experiment with real-world investment strategies** while avoiding the potential downsides of actual financial exposure. 
+The **Micro-Investment Education Platform** is a highly scalable and robust **educational application** designed to empower beginners in the domain of **investment strategies**. By leveraging **virtual currency** to simulate micro-investments in a **risk-free environment**, this platform allows users to **experiment with real-world investment strategies** while avoiding the potential downsides of actual financial exposure.
 
 The platform's core functionality includes integration with **real-time stock data** through **Alpha Vantage API**, providing users with actionable insights into **market trends** and **stock performance**. By utilizing **MongoDB** with an **in-memory database** layer for efficient **data storage** and rapid prototyping, alongside **React.js** for a dynamic, responsive user interface, the platform ensures an engaging learning experience.
 
@@ -40,16 +40,16 @@ https://github.com/user-attachments/assets/ccc7d0ad-ac2f-4155-8588-7f2fe20916ac
 
 ### Features
 
-- **User Authentication**: Secure login and registration with optional custom starting balances.
+- **Secure Authentication**: Registration and login with bcrypt-hashed passwords and JWT tokens. All user-specific routes are protected and ownership-verified.
 - **Guest Mode**: Explore the app instantly with seeded demo data and no account creation.
 - **Virtual Money Management**: Every user starts with a virtual balance to simulate real trading.
-- **Real-Time Market Data**: Pulls current stock data using Alpha Vantage.
+- **Real-Time Market Data**: Pulls current stock data using Alpha Vantage, with a 5-minute server-side cache to stay within free-tier limits.
 - **Interactive Stock Charts**: 30-day price trends rendered with Chart.js.
-- **Buy & Sell Stocks**: Simulated trades update portfolio and balance in real time.
-- **Latest Stock News**: Market headlines powered by NewsAPI.
-- **Transaction History**: Paginated trade history with prices and timestamps.
+- **Buy & Sell Stocks**: Simulated trades update portfolio and balance in real time with inline success feedback.
+- **Latest Stock News**: Market headlines powered by NewsAPI, cached server-side for 30 minutes.
+- **Transaction History**: Paginated trade history with prices, timestamps, and per-trade P&L on sell rows.
 - **Popular Stocks Section**: Quick access to trending tickers and live prices.
-- **Leaderboard & Gamification**: Track performance across top users.
+- **Leaderboard & Gamification**: Top users ranked by total portfolio value (cash balance + holdings).
 - **Seeded Demo Data**: MongoDB Memory Server provides instant, zero-config demo data.
 - **Responsive UI**: A clean, modern React interface built for usability.
 
@@ -67,10 +67,11 @@ https://github.com/user-attachments/assets/ccc7d0ad-ac2f-4155-8588-7f2fe20916ac
 ### Architecture Overview
 
 Client UI calls the backend API, which orchestrates external data and persistence:
-- **React UI** renders dashboards and sends requests to the backend.
-- **Express API** handles auth, trades, news proxying, and leaderboard logic.
-- **Alpha Vantage** provides stock prices used in buy/sell flows and charts.
-- **NewsAPI** provides market headlines through a backend proxy route.
+- **React UI** renders dashboards and sends authenticated requests to the backend.
+- **Express API** handles auth (bcrypt + JWT), trades, news proxying, and leaderboard logic.
+- **Auth Middleware** verifies JWT tokens and enforces per-user data ownership on all protected routes.
+- **Alpha Vantage** provides stock prices used in buy/sell flows and charts, served via a 5-minute in-memory cache.
+- **NewsAPI** provides market headlines through a backend proxy with a 30-minute cache.
 - **MongoDB Memory Server** stores users, portfolios, and transactions in-memory by default.
 
 ---
@@ -78,7 +79,7 @@ Client UI calls the backend API, which orchestrates external data and persistenc
 ### Environment and Config
 
 Environment variables are split by layer:
-- `backend/.env`: `ALPHA_VANTAGE_API_KEY`, `NEWS_API_KEY`, `PORT`, `MONGODB_URI` (optional)
+- `backend/.env`: `ALPHA_VANTAGE_API_KEY`, `NEWS_API_KEY`, `PORT`, `JWT_SECRET`, `MONGODB_URI` (optional)
 - `client/.env`: `REACT_APP_STOCK_API_KEY` (optional, only for local stock charts)
 
 ---
@@ -116,6 +117,7 @@ Environment variables are split by layer:
    ALPHA_VANTAGE_API_KEY=your_alpha_vantage_api_key
    NEWS_API_KEY=your_newsapi_key
    PORT=5001
+   JWT_SECRET=your-strong-random-secret-here
    ```
    Optional: Use MongoDB Atlas instead of in-memory storage:
    ```bash
@@ -158,18 +160,19 @@ API keys can be obtained from:
 
 Base URL: `http://localhost:5001`
 
-Core endpoints:
+**Public endpoints** (no auth required):
 - `POST /api/user/register`
 - `POST /api/user/login`
-- `GET /api/user`
+- `GET /api/leaderboard`
+- `GET /api/news`
+
+**Protected endpoints** (require `Authorization: Bearer <token>` header):
 - `GET /api/user/{id}/portfolio`
-- `GET /api/user/{id}/username`
 - `GET /api/user/{id}/balance`
+- `GET /api/user/{id}/username`
 - `POST /api/transactions/buy`
 - `POST /api/transactions/sell`
 - `GET /api/transactions/{userId}/history`
-- `GET /api/leaderboard`
-- `GET /api/news`
 
 See **API Interaction with Postman** below for example requests and responses.
 
@@ -180,8 +183,9 @@ See **API Interaction with Postman** below for example requests and responses.
 There are no automated tests yet. For manual verification, use this quick smoke flow:
 1. Start backend and frontend servers.
 2. Click **Continue as Guest** to load seeded demo data.
-3. Buy and sell a stock and confirm balance/portfolio updates.
+3. Buy and sell a stock and confirm the inline success message appears and balance/portfolio updates.
 4. Open the News section and confirm headlines load.
+5. Check the Leaderboard and confirm users are ranked by total portfolio value.
 
 ---
 
@@ -222,7 +226,15 @@ Common API operations:
        "balance": 10000
      }
      ```
-   - **Response**: Created user object
+   - **Response**:
+     ```json
+     {
+       "_id": "string",
+       "username": "string",
+       "balance": 10000,
+       "token": "eyJ..."
+     }
+     ```
 
 2. **Login a user**
    - **Endpoint**: `/api/user/login`
@@ -239,18 +251,15 @@ Common API operations:
      {
        "_id": "string",
        "username": "string",
-       "balance": 10000
+       "balance": 10000,
+       "token": "eyJ..."
      }
      ```
 
-3. **Retrieve all users**
-   - **Endpoint**: `/api/user`
-   - **Method**: `GET`
-   - **Response**: All users with `id`, `username`, `balance`, and `portfolio`
-
-4. **Retrieve a user portfolio**
+3. **Retrieve a user portfolio**
    - **Endpoint**: `/api/user/{id}/portfolio`
    - **Method**: `GET`
+   - **Headers**: `Authorization: Bearer <token>`
    - **Response**:
      ```json
      [
@@ -262,26 +271,32 @@ Common API operations:
      ]
      ```
 
-5. **Buy a stock**
+4. **Buy a stock**
    - **Endpoint**: `/api/transactions/buy`
    - **Method**: `POST`
+   - **Headers**: `Authorization: Bearer <token>`
    - **Body**:
      ```json
      {
-       "userId": "string",
        "symbol": "AAPL",
        "shares": 2
      }
      ```
-   - **Response**: Confirmation with updated user
+   - **Response**:
+     ```json
+     {
+       "message": "Stock purchased successfully",
+       "balance": 9643.0
+     }
+     ```
 
-6. **Sell a stock**
+5. **Sell a stock**
    - **Endpoint**: `/api/transactions/sell`
    - **Method**: `POST`
+   - **Headers**: `Authorization: Bearer <token>`
    - **Body**:
      ```json
      {
-       "userId": "string",
        "symbol": "AAPL",
        "shares": 1
      }
@@ -290,20 +305,22 @@ Common API operations:
      ```json
      {
        "message": "Stock sold successfully",
-       "balance": 10000,
+       "balance": 10178.5,
        "soldShares": 1,
-       "revenue": 500
+       "revenue": 178.5
      }
      ```
 
-7. **Transaction history**
+6. **Transaction history**
    - **Endpoint**: `/api/transactions/{userId}/history?page=1&limit=5`
    - **Method**: `GET`
-   - **Response**: Array of transactions (most recent first)
+   - **Headers**: `Authorization: Bearer <token>`
+   - **Response**: Array of transactions (most recent first), each including `symbol`, `shares`, `pricePerShare`, `type`, `date`, and `buyPricePerShare`/`revenue` on sell rows.
 
-8. **Retrieve user balance**
+7. **Retrieve user balance**
    - **Endpoint**: `/api/user/{id}/balance`
    - **Method**: `GET`
+   - **Headers**: `Authorization: Bearer <token>`
    - **Response**:
      ```json
      {
@@ -311,7 +328,7 @@ Common API operations:
      }
      ```
 
-9. **Retrieve leaderboard**
+8. **Retrieve leaderboard**
    - **Endpoint**: `/api/leaderboard`
    - **Method**: `GET`
    - **Response**:
@@ -319,7 +336,7 @@ Common API operations:
      [
        {
          "username": "string",
-         "balance": 12000
+         "totalValue": 12450.75
        }
      ]
      ```
