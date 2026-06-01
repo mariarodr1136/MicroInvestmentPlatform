@@ -1,17 +1,33 @@
 const express = require('express');
 const router = express.Router();
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 const User = require('../models/User');
+const auth = require('../middleware/auth');
+
+const JWT_SECRET = process.env.JWT_SECRET || 'dev-secret-change-in-production';
+const SALT_ROUNDS = 10;
+
+function signToken(userId) {
+  return jwt.sign({ id: String(userId) }, JWT_SECRET, { expiresIn: '7d' });
+}
 
 // Register new user
 router.post('/register', async (req, res) => {
   try {
-    const newUser = new User({
-      ...req.body,
-      balance: req.body.balance ?? 10000, // Default balance if not provided
-    });
+    const { username, password, balance } = req.body;
+    if (!username || !password) {
+      return res.status(400).json({ error: 'Username and password are required' });
+    }
+    const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
+    const newUser = new User({ username, password: hashedPassword, balance: balance ?? 10000 });
     await newUser.save();
-    res.status(201).json(newUser);
+    const token = signToken(newUser._id);
+    res.status(201).json({ _id: newUser._id, username: newUser.username, balance: newUser.balance, token });
   } catch (error) {
+    if (error.code === 11000) {
+      return res.status(400).json({ error: 'Username already taken' });
+    }
     res.status(400).json({ error: error.message });
   }
 });
@@ -27,66 +43,57 @@ router.post('/login', async (req, res) => {
     if (!user) {
       return res.status(401).json({ error: 'Invalid username or password' });
     }
-    if (user.password !== password) {
+    const valid = await bcrypt.compare(password, user.password);
+    if (!valid) {
       return res.status(401).json({ error: 'Invalid username or password' });
     }
-    res.status(200).json({ _id: user._id, username: user.username, balance: user.balance });
+    const token = signToken(user._id);
+    res.status(200).json({ _id: user._id, username: user.username, balance: user.balance, token });
   } catch (error) {
     res.status(500).json({ error: 'Login failed' });
   }
 });
 
 // Get user portfolio
-router.get('/:userId/portfolio', async (req, res) => {
+router.get('/:userId/portfolio', auth, async (req, res) => {
+  if (req.userId !== req.params.userId) {
+    return res.status(403).json({ error: 'Access denied' });
+  }
   try {
     const user = await User.findById(req.params.userId);
-    if (!user) {
-      return res.status(404).json({ error: 'User not found' });
-    }
+    if (!user) return res.status(404).json({ error: 'User not found' });
     res.status(200).json(user.portfolio);
   } catch (error) {
     res.status(404).json({ error: 'User not found' });
   }
 });
 
-// Get user username
-router.get('/:userId/username', async (req, res) => {
+// Get user balance
+router.get('/:userId/balance', auth, async (req, res) => {
+  if (req.userId !== req.params.userId) {
+    return res.status(403).json({ error: 'Access denied' });
+  }
   try {
     const user = await User.findById(req.params.userId);
-    if (!user) {
-      return res.status(404).json({ error: 'User not found' });
-    }
+    if (!user) return res.status(404).json({ error: 'User not found' });
+    res.status(200).json({ balance: user.balance });
+  } catch (error) {
+    res.status(500).json({ error: 'Unable to fetch balance' });
+  }
+});
+
+// Get user username
+router.get('/:userId/username', auth, async (req, res) => {
+  if (req.userId !== req.params.userId) {
+    return res.status(403).json({ error: 'Access denied' });
+  }
+  try {
+    const user = await User.findById(req.params.userId);
+    if (!user) return res.status(404).json({ error: 'User not found' });
     res.status(200).json({ username: user.username });
   } catch (error) {
     res.status(500).json({ error: 'Unable to fetch username' });
   }
 });
-
-
-// Get all users
-router.get('/', async (req, res) => {
-  try {
-    const users = await User.find();
-    res.status(200).json(users);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
-
-// Get user balance
-router.get('/:userId/balance', async (req, res) => {
-  console.log("Fetching balance for user ID:", req.params.userId); // Log user ID
-  try {
-    const user = await User.findById(req.params.userId);
-    if (!user) {
-      return res.status(404).json({ error: 'User not found' });
-    }
-    res.status(200).json({ balance: user.balance }); // Correctly send back the balance
-  } catch (error) {
-    console.error("Error fetching balance:", error); 
-    res.status(500).json({ error: 'Unable to fetch balance' });
-  }
-});
-
 
 module.exports = router;

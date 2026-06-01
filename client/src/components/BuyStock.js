@@ -1,7 +1,7 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
-import API_URL from '../config';
-import '../App.css'; 
+import API_URL, { getAuthHeader } from '../config';
+import '../App.css';
 
 const BuyStock = ({ userId, onBuyComplete }) => {
   const [symbol, setSymbol] = useState('');
@@ -9,31 +9,14 @@ const BuyStock = ({ userId, onBuyComplete }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
 
-  const verifyConnection = useCallback(async () => {
-    try {
-      const userResponse = await axios.get(`${API_URL}/api/user/${userId}`);
-      console.log('User verification:', userResponse.data);
-      
-      const balanceResponse = await axios.get(`${API_URL}/api/user/${userId}/balance`);
-      console.log('Balance verification:', balanceResponse.data);
-    } catch (error) {
-      console.error('Connection verification failed:', error);
-    }
-  }, [userId]);
-
-  React.useEffect(() => {
-    verifyConnection();
-  }, [verifyConnection]);
-
   const handleBuy = async () => {
-    console.log('Attempting to buy with values:', { userId, symbol, shares });
-
     if (!symbol.trim()) {
-      setError("Please enter a stock symbol");
+      setError('Please enter a stock symbol');
       return;
     }
-    if (!shares || shares <= 0) {
-      setError("Please enter a valid number of shares");
+    const shareCount = Number(shares);
+    if (!shares || !Number.isInteger(shareCount) || shareCount <= 0) {
+      setError('Please enter a valid whole number of shares');
       return;
     }
 
@@ -41,39 +24,17 @@ const BuyStock = ({ userId, onBuyComplete }) => {
     setError('');
 
     try {
-      console.log('Sending request to:', `${API_URL}/api/transactions/buy`);
-      const requestData = {
-        userId,
-        symbol: symbol.toUpperCase(),
-        shares: Number(shares)
-      };
-      console.log('Request data:', requestData);
-
-      const response = await axios.post(API_URL + '/api/transactions/buy', requestData);
-      console.log('Successful response:', response.data);
-
-      alert("Stock purchased successfully!");
+      await axios.post(
+        `${API_URL}/api/transactions/buy`,
+        { userId, symbol: symbol.toUpperCase(), shares: shareCount },
+        { headers: getAuthHeader() }
+      );
+      alert('Stock purchased successfully!');
       setSymbol('');
       setShares('');
-      
-      if (onBuyComplete) {
-        onBuyComplete();
-      }
+      if (onBuyComplete) onBuyComplete();
     } catch (error) {
-      console.error('Detailed error information:', {
-        message: error.message,
-        response: error.response?.data,
-        status: error.response?.status,
-        endpoint: `${API_URL}/api/transactions/buy`,
-        requestData: {
-          userId,
-          symbol: symbol.toUpperCase(),
-          shares: Number(shares)
-        }
-      });
-
-      const errorMessage = error.response?.data?.error || "Failed to buy stock. Please try again.";
-      setError(errorMessage);
+      setError(error.response?.data?.error || 'Failed to buy stock. Please try again.');
     } finally {
       setIsLoading(false);
     }
@@ -98,13 +59,10 @@ const BuyStock = ({ userId, onBuyComplete }) => {
             value={shares}
             onChange={(e) => setShares(e.target.value)}
             min="1"
+            step="1"
             disabled={isLoading}
           />
-          <button
-            onClick={handleBuy}
-            disabled={isLoading}
-            className="buy-btn"
-          >
+          <button onClick={handleBuy} disabled={isLoading} className="buy-btn">
             {isLoading ? 'Processing...' : 'Buy Stock'}
           </button>
         </div>

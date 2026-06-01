@@ -10,7 +10,7 @@ import LatestNews from './components/LatestNews';
 import StockChart from './components/StockChart';
 import AuthScreen from './components/AuthScreen';
 import axios from 'axios';
-import API_URL from './config';
+import API_URL, { getAuthHeader } from './config';
 import './App.css';
 
 const App = () => {
@@ -27,8 +27,10 @@ const App = () => {
   const handleBuyComplete = () => setRefreshTrigger(prev => prev + 1);
 
   const handleLogin = (userData) => {
-    setUser(userData);
-    localStorage.setItem('user', JSON.stringify(userData));
+    const { token, ...userWithoutToken } = userData;
+    setUser(userWithoutToken);
+    localStorage.setItem('user', JSON.stringify(userWithoutToken));
+    if (token) localStorage.setItem('token', token);
     setBalance(userData.balance);
     setRefreshTrigger(0);
   };
@@ -36,6 +38,7 @@ const App = () => {
   const handleLogout = () => {
     setUser(null);
     localStorage.removeItem('user');
+    localStorage.removeItem('token');
     setBalance(0);
     setError('');
   };
@@ -48,7 +51,7 @@ const App = () => {
       setError('');
 
       try {
-        const balanceResponse = await axios.get(`${API_URL}/api/user/${user._id}/balance`);
+        const balanceResponse = await axios.get(`${API_URL}/api/user/${user._id}/balance`, { headers: getAuthHeader() });
 
         if (balanceResponse.data?.balance !== undefined) {
           setBalance(balanceResponse.data.balance);

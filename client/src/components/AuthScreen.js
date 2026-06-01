@@ -50,7 +50,7 @@ const AuthScreen = ({ onLogin }) => {
         payload.balance = parsed;
       }
       const response = await axios.post(`${API_URL}/api/user/register`, payload);
-      onLogin({ _id: response.data._id, username: response.data.username, balance: response.data.balance });
+      onLogin(response.data);
     } catch (err) {
       setError(err.response?.data?.error || 'Sign up failed. Please try again.');
     } finally {

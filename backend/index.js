@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const dotenv = require('dotenv');
+const bcrypt = require('bcrypt');
 const { MongoMemoryServer } = require('mongodb-memory-server');
 
 dotenv.config();
@@ -9,13 +10,6 @@ dotenv.config();
 const app = express();
 app.use(express.json());
 app.use(cors());
-
-// Middleware to log header size
-app.use((req, res, next) => {
-  const headerSize = JSON.stringify(req.headers).length;
-  console.log('Header Size:', headerSize);
-  next();
-});
 
 // Import Routes
 const userRoutes = require('./routes/userRoutes');
@@ -39,11 +33,7 @@ app.get('/', (req, res) => {
 });
 
 app.get('/health', (req, res) => {
-  res.json({
-    status: 'ok',
-    database: dbReady ? 'ready' : 'initializing',
-    timestamp: new Date().toISOString()
-  });
+  res.json({ status: 'ok', database: dbReady ? 'ready' : 'initializing', timestamp: new Date().toISOString() });
 });
 
 // Use Routes
@@ -52,7 +42,6 @@ app.use('/api/transactions', transactionRoutes);
 app.use('/api/leaderboard', leaderboardRoutes);
 app.use('/api/news', newsRoutes);
 
-// Start with in-memory MongoDB
 let dbReady = false;
 
 async function startServer() {
@@ -64,14 +53,14 @@ async function startServer() {
     await mongoose.connect(uri);
     console.log('In-memory MongoDB connected');
 
-    // Seed demo data
     const User = require('./models/User');
     const Transaction = require('./models/Transaction');
 
+    const demoPassword = await bcrypt.hash('demo123', 10);
+
     const demoUser = await User.create({
       username: 'Guest',
-      email: 'guest@demo.com',
-      password: 'demo123',
+      password: demoPassword,
       balance: 8450.75,
       portfolio: [
         { symbol: 'AAPL', shares: 5, avgPrice: 178.50 },
@@ -85,16 +74,14 @@ async function startServer() {
 
     await User.create({
       username: 'alex_trader',
-      email: 'alex@demo.com',
-      password: 'demo123',
+      password: demoPassword,
       balance: 12300.00,
       portfolio: [{ symbol: 'MSFT', shares: 10, avgPrice: 375.00 }],
     });
 
     await User.create({
       username: 'investPro',
-      email: 'pro@demo.com',
-      password: 'demo123',
+      password: demoPassword,
       balance: 15000.00,
       portfolio: [],
     });
@@ -108,7 +95,6 @@ async function startServer() {
       { userId: demoUser._id, symbol: 'NVDA', shares: 1, pricePerShare: 680.00, type: 'buy' },
     ]);
 
-    console.log(`Demo user ID: ${demoUser._id} (use this to test)`);
     dbReady = true;
     console.log('Database seeding complete. API is ready!');
   } catch (err) {
@@ -116,7 +102,6 @@ async function startServer() {
   }
 }
 
-// Start HTTP server immediately
 const PORT = process.env.PORT || 5001;
 app.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}`);
