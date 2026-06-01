@@ -44,14 +44,17 @@ https://github.com/user-attachments/assets/ccc7d0ad-ac2f-4155-8588-7f2fe20916ac
 - **Guest Mode**: Explore the app instantly with seeded demo data and no account creation.
 - **Virtual Money Management**: Every user starts with a virtual balance to simulate real trading.
 - **Real-Time Market Data**: Pulls current stock data using Alpha Vantage, with a 5-minute server-side cache to stay within free-tier limits.
+- **Live Price Preview**: Typing a stock symbol in the buy/sell form fetches the current price after a short pause and shows the estimated cost or revenue before you trade.
+- **Trade Confirmation Modal**: Every buy and sell shows a confirmation dialog with symbol, share count, current price, and estimated total — preventing accidental trades.
 - **Interactive Stock Charts**: 30-day price trends rendered with Chart.js.
-- **Buy & Sell Stocks**: Simulated trades update portfolio and balance in real time with inline success feedback.
+- **Buy & Sell Stocks**: Simulated trades update portfolio and balance in real time with toast notifications.
 - **Latest Stock News**: Market headlines powered by NewsAPI, cached server-side for 30 minutes.
-- **Transaction History**: Paginated trade history with prices, timestamps, and per-trade P&L on sell rows.
+- **Transaction History**: Paginated trade history with prices, compact timestamps, per-trade P&L on sell rows, and a back-to-top button when expanded.
 - **Popular Stocks Section**: Quick access to trending tickers and live prices.
 - **Leaderboard & Gamification**: Top users ranked by total portfolio value (cash balance + holdings).
+- **Colour-Coded Portfolio Cards**: Each held stock shows a live gain/loss badge (▲/▼ % and $) comparing the current price to your average cost.
 - **Seeded Demo Data**: MongoDB Memory Server provides instant, zero-config demo data.
-- **Responsive UI**: A clean, modern React interface built for usability.
+- **Polished UI**: Shimmer skeleton loaders, slide-in toast notifications, empty-state illustrations, and a floating scroll-spy dot nav to jump between sections.
 
 ---
 
@@ -173,6 +176,7 @@ Base URL: `http://localhost:5001`
 - `POST /api/transactions/buy`
 - `POST /api/transactions/sell`
 - `GET /api/transactions/{userId}/history`
+- `GET /api/stocks/price/{symbol}`
 
 See **API Interaction with Postman** below for example requests and responses.
 
@@ -183,9 +187,12 @@ See **API Interaction with Postman** below for example requests and responses.
 There are no automated tests yet. For manual verification, use this quick smoke flow:
 1. Start backend and frontend servers.
 2. Click **Continue as Guest** to load seeded demo data.
-3. Buy and sell a stock and confirm the inline success message appears and balance/portfolio updates.
-4. Open the News section and confirm headlines load.
-5. Check the Leaderboard and confirm users are ranked by total portfolio value.
+3. Type a symbol in the Buy form and confirm the live price preview appears after a short pause.
+4. Buy a stock and confirm the trade confirmation modal appears, then approve — a toast notification should slide in and the portfolio card should update with a gain/loss badge.
+5. Open the News section and confirm headlines load.
+6. Check the Leaderboard and confirm users are ranked by total portfolio value.
+7. Expand transaction history past 5 rows and confirm the Back to Top button appears.
+8. Scroll the page and confirm the floating dot nav on the right highlights the active section.
 
 ---
 
@@ -328,7 +335,19 @@ Common API operations:
      }
      ```
 
-8. **Retrieve leaderboard**
+8. **Get current stock price**
+   - **Endpoint**: `/api/stocks/price/{symbol}`
+   - **Method**: `GET`
+   - **Headers**: `Authorization: Bearer <token>`
+   - **Response**:
+     ```json
+     {
+       "symbol": "AAPL",
+       "price": 178.50
+     }
+     ```
+
+9. **Retrieve leaderboard**
    - **Endpoint**: `/api/leaderboard`
    - **Method**: `GET`
    - **Response**:
