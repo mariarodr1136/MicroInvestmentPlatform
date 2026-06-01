@@ -158,6 +158,17 @@ body {
   margin-top: 16px;
 }
 
+.auth-cold-start-note {
+  text-align: center;
+  color: #aaa;
+  font-size: 0.78rem;
+  margin-top: 12px;
+  padding: 8px 12px;
+  background: #1e1e1e;
+  border-radius: 6px;
+  border: 1px solid #333;
+}
+
 /* ===== Welcome Banner ===== */
 .welcome-banner {
   width: 100%;

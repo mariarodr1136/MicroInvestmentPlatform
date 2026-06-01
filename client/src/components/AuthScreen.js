@@ -173,6 +173,10 @@ const AuthScreen = ({ onLogin }) => {
             )
             : 'Already have an account? Click Log In above.'}
         </p>
+
+        <p className="auth-cold-start-note">
+          First login may take 1–2 minutes while the server wakes up on Render's free tier.
+        </p>
       </div>
     </div>
   );
