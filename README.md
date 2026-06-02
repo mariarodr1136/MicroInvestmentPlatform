@@ -18,7 +18,10 @@ Live Application: https://microinvestmentplatform-frontend.onrender.com/
 
 ### Demo Recording
 
-https://github.com/user-attachments/assets/ccc7d0ad-ac2f-4155-8588-7f2fe20916ac
+
+
+https://github.com/user-attachments/assets/a87966bc-f297-478a-b2a5-e1176582867a
+
 
 ---
 
@@ -87,9 +90,10 @@ Environment variables are split by layer:
 
 ---
 
-<img width="1463" height="524" alt="Screenshot 2026-02-13 at 5 53 33 PM" src="https://github.com/user-attachments/assets/8d5c86e3-1c71-447d-a6bf-5a653c50e315" />
+<img width="1462" height="595" alt="Screenshot 2026-06-02 at 4 03 52 PM" src="https://github.com/user-attachments/assets/4c11c2d9-99d9-4a10-950e-8107e049db80" />
 
-<img width="1466" height="570" alt="Screenshot 2026-02-13 at 5 53 51 PM" src="https://github.com/user-attachments/assets/1d0d99b0-2482-4333-bb99-bbe02c7df510" />
+<img width="1462" height="763" alt="Screenshot 2026-06-02 at 4 04 15 PM" src="https://github.com/user-attachments/assets/3765fc4e-429f-4390-b07e-9733ae5f93f1" />
+
 
 ---
 
@@ -205,7 +209,7 @@ There are no automated tests yet. For manual verification, use this quick smoke 
 
 ---
 
-<img width="1432" height="691" alt="Screenshot 2026-02-13 at 5 57 50 PM" src="https://github.com/user-attachments/assets/f3adec95-773b-458c-a4a5-f8f865156c1c" />
+<img width="1463" height="790" alt="Screenshot 2026-06-02 at 4 04 05 PM" src="https://github.com/user-attachments/assets/211c5c69-6085-4ef0-b63c-cf3979b7a7ad" />
 
 ---
 
