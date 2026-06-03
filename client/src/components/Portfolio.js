@@ -3,6 +3,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import API_URL, { getAuthHeader } from '../config';
 import { useToast } from '../context/ToastContext';
+import PortfolioAllocation from './PortfolioAllocation';
 
 const Portfolio = ({ userId, balance, refreshTrigger }) => {
   const [portfolio, setPortfolio] = useState([]);
@@ -150,6 +151,12 @@ const Portfolio = ({ userId, balance, refreshTrigger }) => {
               &#8250;
             </button>
           )}
+        </div>
+      )}
+      {portfolio.length > 0 && !loading && (
+        <div className="portfolio-allocation-section">
+          <h4 className="allocation-heading">Allocation</h4>
+          <PortfolioAllocation portfolio={portfolio} currentPrices={currentPrices} />
         </div>
       )}
     </div>

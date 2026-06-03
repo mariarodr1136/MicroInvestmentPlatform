@@ -9,6 +9,7 @@ const userSchema = new mongoose.Schema({
     shares: Number,
     avgPrice: Number,
   }],
+  watchlist: [{ type: String }],
   createdAt: { type: Date, default: Date.now }
 });
 

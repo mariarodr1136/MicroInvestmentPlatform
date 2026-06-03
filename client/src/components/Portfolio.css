@@ -202,6 +202,22 @@
   color: var(--text-muted);
 }
 
+/* Portfolio allocation section */
+.portfolio-allocation-section {
+  border-top: 1px solid var(--border-light);
+  padding: 20px 0 6px;
+  margin-top: 8px;
+}
+
+.allocation-heading {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+  margin-bottom: 14px;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
   .portfolio-header {

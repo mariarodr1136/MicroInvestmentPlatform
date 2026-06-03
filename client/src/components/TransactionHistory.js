@@ -30,9 +30,33 @@ const TransactionHistory = ({ userId }) => {
     fetchTransactions();
   }, [fetchTransactions]);
 
+  const exportCSV = () => {
+    const header = 'Type,Symbol,Shares,Price,Total,P&L,Date';
+    const rows = transactions.map(t => {
+      const total = t.shares * t.pricePerShare;
+      const pnl = t.type === 'sell' && t.buyPricePerShare != null
+        ? ((t.pricePerShare - t.buyPricePerShare) * t.shares).toFixed(2)
+        : '';
+      return `${t.type.toUpperCase()},${t.symbol},${t.shares},${t.pricePerShare.toFixed(2)},${total.toFixed(2)},${pnl},${new Date(t.date).toLocaleString()}`;
+    });
+    const csv = [header, ...rows].join('\n');
+    const blob = new Blob([csv], { type: 'text/csv' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'transactions.csv';
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
   return (
     <div className="transaction-history-container" ref={topRef}>
-      <div className="section-header purple">Recent Transactions</div>
+      <div className="section-header purple" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <span>Recent Transactions</span>
+        {transactions.length > 0 && (
+          <button className="csv-export-btn" onClick={exportCSV}>↓ Export CSV</button>
+        )}
+      </div>
       <div className="section-body">
         {loading && <div className="loading">Loading...</div>}
         {error && <div className="form-error">{error}</div>}

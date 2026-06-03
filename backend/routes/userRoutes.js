@@ -96,4 +96,39 @@ router.get('/:userId/username', auth, async (req, res) => {
   }
 });
 
+// Get watchlist
+router.get('/:userId/watchlist', auth, async (req, res) => {
+  if (req.userId !== req.params.userId) return res.status(403).json({ error: 'Access denied' });
+  try {
+    const user = await User.findById(req.params.userId);
+    if (!user) return res.status(404).json({ error: 'User not found' });
+    res.json({ watchlist: user.watchlist || [] });
+  } catch { res.status(500).json({ error: 'Server error' }); }
+});
+
+// Add to watchlist
+router.post('/:userId/watchlist', auth, async (req, res) => {
+  if (req.userId !== req.params.userId) return res.status(403).json({ error: 'Access denied' });
+  try {
+    const symbol = req.body.symbol?.toUpperCase();
+    if (!symbol) return res.status(400).json({ error: 'Symbol required' });
+    const user = await User.findById(req.params.userId);
+    if (!user) return res.status(404).json({ error: 'User not found' });
+    if (!user.watchlist.includes(symbol)) { user.watchlist.push(symbol); await user.save(); }
+    res.json({ watchlist: user.watchlist });
+  } catch { res.status(500).json({ error: 'Server error' }); }
+});
+
+// Remove from watchlist
+router.delete('/:userId/watchlist/:symbol', auth, async (req, res) => {
+  if (req.userId !== req.params.userId) return res.status(403).json({ error: 'Access denied' });
+  try {
+    const user = await User.findById(req.params.userId);
+    if (!user) return res.status(404).json({ error: 'User not found' });
+    user.watchlist = user.watchlist.filter(s => s !== req.params.symbol.toUpperCase());
+    await user.save();
+    res.json({ watchlist: user.watchlist });
+  } catch { res.status(500).json({ error: 'Server error' }); }
+});
+
 module.exports = router;
