@@ -120,7 +120,6 @@
 }
 
 .stock-card:hover {
-  transform: translateY(-4px);
   box-shadow: var(--shadow-lg);
   border-top-color: var(--primary-dark);
 }

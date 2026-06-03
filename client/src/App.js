@@ -36,6 +36,7 @@ const App = () => {
   const [refreshTrigger, setRefreshTrigger] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
+  const hasLoadedOnce = React.useRef(false);
   const [watchlist, setWatchlist] = useState([]);
   const [watchlistAdd, setWatchlistAdd] = useState(null);
 
@@ -59,10 +60,16 @@ const App = () => {
     setError('');
   };
 
+  // Reset the "has loaded" flag whenever the user changes (login/logout)
+  useEffect(() => {
+    hasLoadedOnce.current = false;
+  }, [user?._id]);
+
   useEffect(() => {
     if (!user) return;
+    const isRefresh = hasLoadedOnce.current;
     const fetchUserData = async () => {
-      setIsLoading(true);
+      if (!isRefresh) setIsLoading(true);
       setError('');
       try {
         const res = await axios.get(`${API_URL}/api/user/${user._id}/balance`, { headers: getAuthHeader() });
@@ -74,7 +81,8 @@ const App = () => {
         else if (err.response?.status === 500) setError('Server error. Please try again later.');
         else setError(`Failed to fetch user data: ${err.message}`);
       } finally {
-        setIsLoading(false);
+        hasLoadedOnce.current = true;
+        if (!isRefresh) setIsLoading(false);
       }
     };
     fetchUserData();
