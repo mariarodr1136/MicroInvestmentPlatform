@@ -1,50 +1,56 @@
-/* Portfolio.css - Full-width carousel layout */
+/* Portfolio - full-width carousel layout */
 .portfolio-container {
   width: 100%;
   margin: 0 auto;
-  padding: 20px;
+  padding: 22px 22px 22px;
 }
 
 .portfolio-header {
-  background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
-  color: white;
-  padding: 25px;
+  background: rgba(0, 0, 0, 0.06);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  padding: 22px 26px;
   border-radius: 12px;
   margin-bottom: 20px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
-  gap: 15px;
+  gap: 14px;
 }
 
 .portfolio-title {
-  font-size: 1.8rem;
-  font-weight: 700;
-  color: white;
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: var(--text-primary);
   margin: 0;
+  letter-spacing: -0.2px;
 }
 
 .portfolio-summary {
   display: flex;
-  gap: 40px;
+  gap: 32px;
   text-align: center;
 }
 
 .summary-item {
   display: flex;
   flex-direction: column;
+  gap: 2px;
 }
 
 .summary-label {
-  font-size: 0.9rem;
-  opacity: 0.9;
-  margin-bottom: 5px;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 .summary-value {
-  font-size: 1.5rem;
-  font-weight: 700;
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  letter-spacing: -0.3px;
 }
 
 /* Carousel */
@@ -56,10 +62,10 @@
 
 .portfolio-scroll {
   display: flex;
-  gap: 20px;
+  gap: 14px;
   overflow-x: auto;
   scroll-behavior: smooth;
-  padding: 10px 5px;
+  padding: 6px 4px 10px;
   scrollbar-width: none;
   -ms-overflow-style: none;
 }
@@ -73,72 +79,74 @@
   top: 50%;
   transform: translateY(-50%);
   z-index: 2;
-  width: 40px;
-  height: 40px;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
-  border: none;
-  background: #1a1a1a;
-  color: white;
-  font-size: 1.5rem;
+  border: 1.5px solid var(--border);
+  background: var(--card);
+  color: var(--text-secondary);
+  font-size: 1.3rem;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  box-shadow: var(--shadow-md);
   transition: all 0.2s ease;
   line-height: 1;
 }
 
 .carousel-arrow:hover {
-  background: #333;
+  background: var(--primary);
+  color: white;
+  border-color: var(--primary);
   transform: translateY(-50%) scale(1.1);
+  box-shadow: 0 4px 14px rgba(99,102,241,0.35);
 }
 
-.carousel-arrow-left {
-  left: -10px;
-}
-
-.carousel-arrow-right {
-  right: -10px;
-}
+.carousel-arrow-left  { left: -10px; }
+.carousel-arrow-right { right: -10px; }
 
 /* Stock Card */
 .stock-card {
-  background: white;
+  background: var(--card);
   border-radius: 12px;
-  padding: 20px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-  transition: all 0.3s ease;
-  border-top: 4px solid #1b5e20;
-  min-width: 240px;
+  padding: 18px;
+  box-shadow: var(--shadow-sm);
+  transition: all 0.25s ease;
+  border: 1px solid var(--border);
+  border-top: 3px solid var(--primary);
+  min-width: 230px;
   flex-shrink: 0;
 }
 
 .stock-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+  border-top-color: var(--primary-dark);
 }
 
 .stock-header {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  margin-bottom: 15px;
+  margin-bottom: 12px;
 }
 
 .stock-symbol {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: #333;
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  letter-spacing: -0.2px;
 }
 
 .stock-shares {
-  font-size: 1rem;
-  color: #666;
-  background: #f8f9fa;
-  padding: 4px 10px;
-  border-radius: 15px;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  background: var(--bg);
+  padding: 3px 10px;
+  border-radius: 12px;
   font-weight: 600;
+  border: 1px solid var(--border);
 }
 
 .stock-details {
@@ -149,9 +157,9 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 10px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid #eee;
+  margin-bottom: 8px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border-light);
 }
 
 .detail-row:last-child {
@@ -161,33 +169,37 @@
 }
 
 .detail-label {
-  font-size: 0.9rem;
-  color: #666;
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  font-weight: 500;
 }
 
 .detail-value {
-  font-size: 1rem;
-  font-weight: 600;
-  color: #333;
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: var(--text-primary);
 }
 
 /* Empty & Error States */
 .empty-portfolio {
   text-align: center;
-  padding: 40px 20px;
-  background: #f8f9fa;
-  border-radius: 12px;
-  color: #666;
+  padding: 36px 20px;
+  background: var(--bg);
+  border-radius: 10px;
+  color: var(--text-muted);
+  border: 1.5px dashed var(--border);
 }
 
 .empty-portfolio p {
-  font-size: 1.1rem;
-  margin-bottom: 10px;
+  font-size: 1rem;
+  margin-bottom: 6px;
+  font-weight: 500;
+  color: var(--text-secondary);
 }
 
 .empty-portfolio .hint {
-  font-size: 0.9rem;
-  opacity: 0.7;
+  font-size: 0.85rem;
+  color: var(--text-muted);
 }
 
 /* Responsive */
@@ -199,7 +211,7 @@
 
   .portfolio-summary {
     flex-direction: column;
-    gap: 20px;
+    gap: 14px;
   }
 
   .stock-card {

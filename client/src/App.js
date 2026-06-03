@@ -113,38 +113,46 @@ const App = () => {
       ) : (
         <>
         <ScrollNav />
+
+        {/* Portfolio — full width */}
         <div id="section-portfolio" className="full-width-section">
           <div className="component-container">
             <Portfolio userId={user._id} balance={balance} refreshTrigger={refreshTrigger} />
           </div>
         </div>
-        <div id="section-chart" className="full-width-section">
-          <div className="component-container">
+
+        {/* Chart + Trade forms side by side */}
+        <div className="layout-chart-trade">
+          <div id="section-chart" className="component-container layout-chart-main">
             <StockChart />
           </div>
-        </div>
-        <div className="main-content two-column">
-          <div className="left-section">
+          <div className="layout-trade-side">
             <div id="section-buy" className="component-container">
               <BuyStock userId={user._id} onBuyComplete={handleBuyComplete} />
             </div>
             <div id="section-sell" className="component-container">
               <SellStock userId={user._id} onSellComplete={handleSellComplete} />
             </div>
-            <div id="section-news" className="component-container">
-              <LatestNews />
-            </div>
           </div>
-          <div className="right-section">
-            <div id="section-popular" className="component-container">
-              <PopularStocks />
-            </div>
-            <div id="section-leaderboard" className="component-container">
-              <Leaderboard />
-            </div>
-            <div id="section-history" className="component-container transaction-history">
-              <TransactionHistory userId={user._id} />
-            </div>
+        </div>
+
+        {/* Popular Stocks | Leaderboard | News — three equal columns */}
+        <div className="layout-three-col">
+          <div id="section-popular" className="component-container">
+            <PopularStocks />
+          </div>
+          <div id="section-leaderboard" className="component-container">
+            <Leaderboard />
+          </div>
+          <div id="section-news" className="component-container">
+            <LatestNews />
+          </div>
+        </div>
+
+        {/* Transactions — full width */}
+        <div className="full-width-section">
+          <div id="section-history" className="component-container">
+            <TransactionHistory userId={user._id} />
           </div>
         </div>
         </>

@@ -13,17 +13,27 @@ import axios from 'axios';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Tooltip, Filler);
 
-const STOCKS = ['AAPL', 'GOOGL', 'TSLA', 'MSFT', 'AMZN'];
+const STOCKS = ['AAPL', 'GOOGL', 'TSLA', 'MSFT', 'AMZN', 'NVDA', 'META', 'NFLX', 'AMD', 'JPM', 'V', 'UBER', 'DIS', 'PLTR', 'COIN'];
 const API_KEY = process.env.REACT_APP_STOCK_API_KEY;
 
 // Generate mock stock data for when API limit is reached
 const generateMockData = (symbol) => {
   const basePrices = {
-    'AAPL': 178.50,
+    'AAPL':  178.50,
     'GOOGL': 141.25,
-    'TSLA': 245.00,
-    'MSFT': 375.00,
-    'AMZN': 150.25
+    'TSLA':  245.00,
+    'MSFT':  375.00,
+    'AMZN':  150.25,
+    'NVDA':  875.00,
+    'META':  520.00,
+    'NFLX':  650.00,
+    'AMD':   155.00,
+    'JPM':   205.00,
+    'V':     275.00,
+    'UBER':   80.00,
+    'DIS':   110.00,
+    'PLTR':   25.00,
+    'COIN':  220.00,
   };
 
   const basePrice = basePrices[symbol] || 100;
