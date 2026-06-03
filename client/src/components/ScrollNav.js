@@ -1,20 +1,19 @@
 import React, { useEffect, useState } from 'react';
 
 const SECTIONS = [
-  { id: 'section-portfolio',    label: 'Portfolio' },
-  { id: 'section-performance',  label: 'Performance' },
-  { id: 'section-chart',        label: 'Chart' },
-  { id: 'section-buy',          label: 'Buy' },
-  { id: 'section-sell',         label: 'Sell' },
-  { id: 'section-search',       label: 'Search' },
-  { id: 'section-simulator',    label: 'Simulator' },
-  { id: 'section-watchlist',    label: 'Watchlist' },
-  { id: 'section-popular',      label: 'Popular' },
-  { id: 'section-leaderboard',  label: 'Leaderboard' },
-  { id: 'section-news',         label: 'News' },
-  { id: 'section-stats',        label: 'Stats' },
-  { id: 'section-achievements', label: 'Achievements' },
-  { id: 'section-history',      label: 'History' },
+  { id: 'section-portfolio',   label: 'Portfolio' },
+  { id: 'section-performance', label: 'Performance' },
+  { id: 'section-chart',       label: 'Chart' },
+  { id: 'section-buy',         label: 'Buy' },
+  { id: 'section-sell',        label: 'Sell' },
+  { id: 'section-simulator',   label: 'Simulator' },
+  { id: 'section-search',      label: 'Search' },
+  { id: 'section-watchlist',   label: 'Watchlist' },
+  { id: 'section-popular',     label: 'Popular' },
+  { id: 'section-leaderboard', label: 'Leaderboard' },
+  { id: 'section-news',        label: 'News' },
+  { id: 'section-stats',       label: 'Stats' },
+  { id: 'section-history',     label: 'History' },
 ];
 
 const ScrollNav = () => {

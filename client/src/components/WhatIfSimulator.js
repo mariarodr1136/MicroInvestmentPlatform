@@ -65,18 +65,15 @@ const WhatIfSimulator = () => {
               step="any"
               onChange={e => setShares(e.target.value)}
             />
-            <div className="horizon-tabs">
+            <select
+              className="horizon-select"
+              value={horizon}
+              onChange={e => setHorizon(e.target.value)}
+            >
               {HORIZONS.map(h => (
-                <button
-                  key={h.key}
-                  type="button"
-                  className={`horizon-tab ${horizon === h.key ? 'active' : ''}`}
-                  onClick={() => setHorizon(h.key)}
-                >
-                  {h.label}
-                </button>
+                <option key={h.key} value={h.key}>{HORIZON_LABELS[h.key]}</option>
               ))}
-            </div>
+            </select>
             <button type="submit" className="simulate-btn" disabled={loading}>
               {loading ? 'Calculating…' : 'Simulate'}
             </button>

@@ -88,6 +88,56 @@ async function startServer() {
       portfolio: [],
     });
 
+    await User.create({
+      username: 'bull_run99',
+      password: demoPassword,
+      balance: 6800.00,
+      portfolio: [
+        { symbol: 'NVDA', shares: 5, avgPrice: 680.00 },
+        { symbol: 'AMD',  shares: 8, avgPrice: 155.00 },
+      ],
+    });
+
+    await User.create({
+      username: 'MarketWizard',
+      password: demoPassword,
+      balance: 9500.00,
+      portfolio: [
+        { symbol: 'AAPL', shares: 12, avgPrice: 178.50 },
+        { symbol: 'AMZN', shares: 3,  avgPrice: 165.50 },
+      ],
+    });
+
+    await User.create({
+      username: 'divvy_queen',
+      password: demoPassword,
+      balance: 11200.00,
+      portfolio: [
+        { symbol: 'JPM', shares: 20, avgPrice: 205.00 },
+        { symbol: 'V',   shares: 10, avgPrice: 275.00 },
+      ],
+    });
+
+    await User.create({
+      username: 'crypto_convert',
+      password: demoPassword,
+      balance: 4200.00,
+      portfolio: [
+        { symbol: 'COIN', shares: 6, avgPrice: 220.00 },
+        { symbol: 'PLTR', shares: 50, avgPrice: 25.00 },
+      ],
+    });
+
+    await User.create({
+      username: 'steady_eddie',
+      password: demoPassword,
+      balance: 7750.00,
+      portfolio: [
+        { symbol: 'WMT', shares: 15, avgPrice: 70.00 },
+        { symbol: 'DIS', shares: 10, avgPrice: 110.00 },
+      ],
+    });
+
     await Transaction.create([
       { userId: demoUser._id, symbol: 'AAPL', shares: 5, pricePerShare: 178.50, type: 'buy' },
       { userId: demoUser._id, symbol: 'GOOGL', shares: 2, pricePerShare: 141.25, type: 'buy' },

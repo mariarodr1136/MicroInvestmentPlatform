@@ -4,9 +4,7 @@
 
 The **Micro-Investment Education Platform** is a highly scalable and robust **educational application** designed to empower beginners in the domain of **investment strategies**. By leveraging **virtual currency** to simulate micro-investments in a **risk-free environment**, this platform allows users to **experiment with real-world investment strategies** while avoiding the potential downsides of actual financial exposure.
 
-The platform's core functionality includes integration with **real-time stock data** through **Alpha Vantage API**, providing users with actionable insights into **market trends** and **stock performance**. By utilizing **MongoDB** with an **in-memory database** layer for efficient **data storage** and rapid prototyping, alongside **React.js** for a dynamic, responsive user interface, the platform ensures an engaging learning experience.
-
-The ultimate goal is to equip users with the **technical knowledge** and **practical skills** required to assess risks, forecast market behavior, and appreciate the complexities of **portfolio management**, all while gaining the confidence to navigate the stock market with informed decision-making capabilities. 🚀📈
+The platform integrates with **real-time stock data** through the **Alpha Vantage API**, providing users with actionable insights into **market trends** and **stock performance**. It uses **MongoDB** with an **in-memory database** layer for rapid prototyping, and **React.js** for a dynamic, responsive user interface.
 
 ---
 
@@ -18,10 +16,7 @@ Live Application: https://microinvestmentplatform-frontend.onrender.com/
 
 ### Demo Recording
 
-
-
 https://github.com/user-attachments/assets/a87966bc-f297-478a-b2a5-e1176582867a
-
 
 ---
 
@@ -33,7 +28,6 @@ https://github.com/user-attachments/assets/a87966bc-f297-478a-b2a5-e1176582867a
 - [Installation](#installation)
 - [API Reference](#api-reference)
 - [Testing](#testing)
-- [Ideas for Improvement and Future Enhancements](#ideas-for-improvement-and-future-enhancements)
 - [Requirements](#requirements)
 - [API Interaction with Postman](#api-interaction-with-postman)
 - [Contributing](#contributing)
@@ -43,42 +37,104 @@ https://github.com/user-attachments/assets/a87966bc-f297-478a-b2a5-e1176582867a
 
 ### Features
 
+**Trading & Portfolio**
 - **Secure Authentication**: Registration and login with bcrypt-hashed passwords and JWT tokens. All user-specific routes are protected and ownership-verified.
-- **Guest Mode**: Explore the app instantly with seeded demo data and no account creation.
-- **Virtual Money Management**: Every user starts with a virtual balance to simulate real trading.
-- **Real-Time Market Data**: Pulls current stock data using Alpha Vantage, with a 5-minute server-side cache to stay within free-tier limits.
-- **Live Price Preview**: Typing a stock symbol in the buy/sell form fetches the current price after a short pause and shows the estimated cost or revenue before you trade.
-- **Trade Confirmation Modal**: Every buy and sell shows a confirmation dialog with symbol, share count, current price, and estimated total — preventing accidental trades.
-- **Interactive Stock Charts**: 30-day price trends rendered with Chart.js.
+- **Guest Mode**: Explore the app instantly with seeded demo data — no account required.
+- **Virtual Money Management**: Every user starts with a $10,000 virtual balance to simulate real trading.
 - **Buy & Sell Stocks**: Simulated trades update portfolio and balance in real time with toast notifications.
-- **Latest Stock News**: Market headlines powered by NewsAPI, cached server-side for 30 minutes.
-- **Transaction History**: Paginated trade history with prices, compact timestamps, per-trade P&L on sell rows, and a back-to-top button when expanded.
-- **Popular Stocks Section**: Quick access to trending tickers and live prices.
-- **Leaderboard & Gamification**: Top users ranked by total portfolio value (cash balance + holdings).
+- **Live Price Preview**: Typing a stock symbol in the buy/sell form fetches the current price and shows the estimated cost or revenue before you trade.
+- **Trade Confirmation Modal**: Every buy and sell shows a confirmation dialog with symbol, share count, current price, and estimated total — preventing accidental trades.
 - **Colour-Coded Portfolio Cards**: Each held stock shows a live gain/loss badge (▲/▼ % and $) comparing the current price to your average cost.
-- **Seeded Demo Data**: MongoDB Memory Server provides instant, zero-config demo data.
-- **Polished UI**: Shimmer skeleton loaders, slide-in toast notifications, empty-state illustrations, and a floating scroll-spy dot nav to jump between sections.
+- **Portfolio Allocation Chart**: Donut chart showing the percentage breakdown of your holdings by market value.
+- **Portfolio Performance Chart**: Line chart tracking your total portfolio value over time, computed from your full transaction history.
+- **Watchlist**: Persist a list of stocks to monitor — prices refresh every 30 seconds. Add from the Stock Lookup or type directly.
+- **Stock Lookup**: Search any ticker symbol to see its current price before committing to a trade, with a one-click add to your watchlist.
+- **CSV Export**: Download your full transaction history as a CSV file.
+
+**Market Data & Insights**
+- **Market Indices Bar**: Live-ticking strip showing S&P 500, NASDAQ, DOW Jones, Russell 2000, and VIX at the top of the dashboard.
+- **Interactive Stock Charts**: 30-day price trends for 15 tickers rendered with Chart.js. Buttons scroll horizontally — no wrapping.
+- **Latest Stock News**: Market headlines powered by NewsAPI, cached server-side and scrollable without pagination buttons.
+- **Popular Stocks**: 39 tickers as pill buttons linking to Yahoo Finance for quick research.
+
+**Stats & Gamification**
+- **Leaderboard**: Top 8 users ranked by total portfolio value (cash balance + holdings at avg cost).
+- **User Stats Card**: Total trades, buy/sell count, win rate, unique stocks traded, total invested, and realized P&L — all with hover tooltips explaining each metric.
+- **What-If Simulator**: Enter any ticker, share count, and time horizon (1W–1Y) to see a simulated projected return without placing a real trade.
+
+**UI & Experience**
+- **Redesigned Dashboard Layout**: Chart and trade forms side by side, three-column row for Popular Stocks / Leaderboard / News, full-width sections for Portfolio and Transactions.
+- **Semantic Color System**: Each section has its own color — green for Buy, red for Sell, blue for Chart/News, amber for Leaderboard/Simulator, teal for Popular/Watchlist, purple for Transactions.
+- **Glossary Tooltips**: Hover the `?` icon on any stat label for a plain-English explanation.
+- **Shimmer Skeleton Loaders**: Shown while portfolio data is loading.
+- **Slide-in Toast Notifications**: Success and error feedback on every trade.
+- **Floating Scroll-Spy Nav**: Dot navigation on the right side highlights the active section and jumps to any section on click.
+- **Scrollable Sections**: Transaction history and news both scroll within a fixed-height container — no show-more buttons.
+- **Seeded Demo Data**: Eight pre-built users with portfolios and transactions for instant demo use.
 
 ---
 
 ### Code Structure
 
-- **Frontend**: React 18 + Chart.js for interactive, data-driven visuals.
-- **Backend**: Node.js + Express for authentication, trades, and API integrations.
-- **Database**: MongoDB + Mongoose. Runs in-memory by default, with optional MongoDB Atlas support.
-- **APIs**: Alpha Vantage (stocks) and NewsAPI (news).
+```
+MicroInvestmentPlatform/
+├── backend/
+│   ├── index.js                  # Server entry, DB seed, route mounting
+│   ├── middleware/
+│   │   └── auth.js               # JWT verification middleware
+│   ├── models/
+│   │   ├── User.js               # User schema (portfolio, watchlist)
+│   │   ├── Transaction.js        # Trade record schema
+│   │   └── Leaderboard.js
+│   ├── routes/
+│   │   ├── userRoutes.js         # Auth, portfolio, balance, watchlist CRUD
+│   │   ├── transactionRoutes.js  # Buy, sell, history
+│   │   ├── stockRoutes.js        # Price lookup (Alpha Vantage + cache)
+│   │   ├── leaderboardRoutes.js  # Top 8 users by total value
+│   │   └── newsRoutes.js         # Headlines (NewsAPI + cache)
+│   └── utils/
+│       └── stockPrice.js
+└── client/
+    └── src/
+        ├── App.js                # Root layout and state
+        ├── index.css             # Global design system (CSS variables, all component styles)
+        ├── components/
+        │   ├── AuthScreen.js
+        │   ├── WelcomeBanner.js
+        │   ├── MarketIndices.js          # Live indices strip
+        │   ├── Portfolio.js              # Carousel + allocation donut
+        │   ├── Portfolio.css
+        │   ├── PortfolioAllocation.js    # Donut chart (Chart.js)
+        │   ├── PortfolioPerformance.js   # Value-over-time line chart
+        │   ├── StockChart.js             # 30-day price trends
+        │   ├── BuyStock.js
+        │   ├── SellStock.js
+        │   ├── StockSearch.js            # Ticker lookup + watchlist add
+        │   ├── Watchlist.js              # Persistent watchlist with live prices
+        │   ├── WhatIfSimulator.js        # Hypothetical return calculator
+        │   ├── PopularStocks.js          # 39 ticker chips
+        │   ├── Leaderboard.js            # Top 8 users
+        │   ├── LatestNews.js             # Scrollable news feed
+        │   ├── TransactionHistory.js     # Scrollable table + CSV export
+        │   ├── UserStats.js              # Trade stats with tooltips
+        │   ├── Tooltip.js                # Reusable hover tooltip
+        │   ├── ConfirmModal.js           # Trade confirmation dialog
+        │   ├── ScrollNav.js              # Floating dot navigation
+        │   └── WelcomeBanner.js
+        └── context/
+            └── ToastContext.js
+```
 
 ---
 
 ### Architecture Overview
 
-Client UI calls the backend API, which orchestrates external data and persistence:
 - **React UI** renders dashboards and sends authenticated requests to the backend.
 - **Express API** handles auth (bcrypt + JWT), trades, news proxying, and leaderboard logic.
 - **Auth Middleware** verifies JWT tokens and enforces per-user data ownership on all protected routes.
 - **Alpha Vantage** provides stock prices used in buy/sell flows and charts, served via a 5-minute in-memory cache.
 - **NewsAPI** provides market headlines through a backend proxy with a 30-minute cache.
-- **MongoDB Memory Server** stores users, portfolios, and transactions in-memory by default.
+- **MongoDB Memory Server** stores users, portfolios, watchlists, and transactions in-memory by default.
 
 ---
 
@@ -87,13 +143,6 @@ Client UI calls the backend API, which orchestrates external data and persistenc
 Environment variables are split by layer:
 - `backend/.env`: `ALPHA_VANTAGE_API_KEY`, `NEWS_API_KEY`, `PORT`, `JWT_SECRET`, `MONGODB_URI` (optional)
 - `client/.env`: `REACT_APP_STOCK_API_KEY` (optional, only for local stock charts)
-
----
-
-<img width="1462" height="595" alt="Screenshot 2026-06-02 at 4 03 52 PM" src="https://github.com/user-attachments/assets/4c11c2d9-99d9-4a10-950e-8107e049db80" />
-
-<img width="1462" height="763" alt="Screenshot 2026-06-02 at 4 04 15 PM" src="https://github.com/user-attachments/assets/3765fc4e-429f-4390-b07e-9733ae5f93f1" />
-
 
 ---
 
@@ -119,14 +168,14 @@ Environment variables are split by layer:
    ```
 
 4. **Set up environment variables (backend)**:
-   Create a `.env` file in `backend` with the following values:
+   Create a `.env` file in `backend/` with:
    ```bash
    ALPHA_VANTAGE_API_KEY=your_alpha_vantage_api_key
    NEWS_API_KEY=your_newsapi_key
    PORT=5001
    JWT_SECRET=your-strong-random-secret-here
    ```
-   Optional: Use MongoDB Atlas instead of in-memory storage:
+   Optional — use MongoDB Atlas instead of in-memory storage:
    ```bash
    MONGODB_URI=your_mongodb_uri
    ```
@@ -147,17 +196,18 @@ Environment variables are split by layer:
    ```
 
 8. **Set up environment variables (frontend)**:
-   Create a `.env` file in `client` only if you want the stock chart locally:
+   Create a `.env` file in `client/` only if you want live stock charts locally:
    ```bash
    REACT_APP_STOCK_API_KEY=your_alpha_vantage_api_key
    ```
 
-9. **Start the frontend server**:
+9. **Start the frontend**:
    ```bash
    npm start
    ```
+   The app runs on `http://localhost:5002` by default.
 
-API keys can be obtained from:
+API keys:
 - Alpha Vantage: https://www.alphavantage.co
 - NewsAPI: https://newsapi.org
 
@@ -177,46 +227,39 @@ Base URL: `http://localhost:5001`
 - `GET /api/user/{id}/portfolio`
 - `GET /api/user/{id}/balance`
 - `GET /api/user/{id}/username`
+- `GET /api/user/{id}/watchlist`
+- `POST /api/user/{id}/watchlist`
+- `DELETE /api/user/{id}/watchlist/{symbol}`
 - `POST /api/transactions/buy`
 - `POST /api/transactions/sell`
 - `GET /api/transactions/{userId}/history`
 - `GET /api/stocks/price/{symbol}`
 
-See **API Interaction with Postman** below for example requests and responses.
-
 ---
 
 ### Testing
 
-There are no automated tests yet. For manual verification, use this quick smoke flow:
+No automated tests yet. Manual smoke flow:
+
 1. Start backend and frontend servers.
 2. Click **Continue as Guest** to load seeded demo data.
-3. Type a symbol in the Buy form and confirm the live price preview appears after a short pause.
-4. Buy a stock and confirm the trade confirmation modal appears, then approve — a toast notification should slide in and the portfolio card should update with a gain/loss badge.
-5. Open the News section and confirm headlines load.
-6. Check the Leaderboard and confirm users are ranked by total portfolio value.
-7. Expand transaction history past 5 rows and confirm the Back to Top button appears.
-8. Scroll the page and confirm the floating dot nav on the right highlights the active section.
-
----
-
-### Ideas for Improvement and Future Enhancements
-
-1. **Personalized Recommendations**: Suggest trades based on user behavior and goals.
-2. **Interactive Tutorials**: Guided lessons that teach investing fundamentals.
-3. **Portfolio Growth Tracking**: Visualize portfolio performance over time.
-4. **Mobile Application**: Native iOS and Android apps.
-
----
-
-<img width="1463" height="790" alt="Screenshot 2026-06-02 at 4 04 05 PM" src="https://github.com/user-attachments/assets/211c5c69-6085-4ef0-b63c-cf3979b7a7ad" />
+3. Verify the Market Indices bar shows live-ticking values.
+4. Check the Portfolio carousel, Allocation donut, and Performance chart all render.
+5. Look up a ticker in **Stock Lookup** and confirm the price appears with an "Add to Watchlist" button.
+6. Add the stock to the Watchlist and confirm it appears with a live price.
+7. Type a symbol in the Buy form — confirm the live price preview appears, then submit and approve the confirmation modal. A toast should slide in and the portfolio should update.
+8. Run the **What-If Simulator** with a ticker and share count — confirm a projected return appears.
+9. Check the **Leaderboard** shows 8 users ranked by total value.
+10. Scroll through **Recent Transactions** and confirm the table scrolls within its container. Click **↓ Export CSV** and verify the file downloads.
+11. Hover the `?` icons in **Your Stats** and confirm tooltips appear.
+12. Scroll the page and verify the floating dot nav highlights the active section.
 
 ---
 
 ### Requirements
-- Node.js (v14 or later)
-- MongoDB (optional, in-memory mode is built-in)
-- React (v17 or later)
+- Node.js v18 or later
+- MongoDB (optional — in-memory mode is built-in)
+- React v18
 - Alpha Vantage API key
 - NewsAPI key
 
@@ -224,145 +267,66 @@ There are no automated tests yet. For manual verification, use this quick smoke 
 
 ## API Interaction with Postman
 
-Common API operations:
-
 1. **Register a user**
-   - **Endpoint**: `/api/user/register`
-   - **Method**: `POST`
+   - **Endpoint**: `POST /api/user/register`
    - **Body**:
      ```json
-     {
-       "username": "string",
-       "password": "string",
-       "balance": 10000
-     }
+     { "username": "string", "password": "string", "balance": 10000 }
      ```
    - **Response**:
      ```json
-     {
-       "_id": "string",
-       "username": "string",
-       "balance": 10000,
-       "token": "eyJ..."
-     }
+     { "_id": "string", "username": "string", "balance": 10000, "token": "eyJ..." }
      ```
 
-2. **Login a user**
-   - **Endpoint**: `/api/user/login`
-   - **Method**: `POST`
+2. **Login**
+   - **Endpoint**: `POST /api/user/login`
    - **Body**:
      ```json
-     {
-       "username": "string",
-       "password": "string"
-     }
+     { "username": "string", "password": "string" }
      ```
    - **Response**:
      ```json
-     {
-       "_id": "string",
-       "username": "string",
-       "balance": 10000,
-       "token": "eyJ..."
-     }
+     { "_id": "string", "username": "string", "balance": 10000, "token": "eyJ..." }
      ```
 
-3. **Retrieve a user portfolio**
-   - **Endpoint**: `/api/user/{id}/portfolio`
-   - **Method**: `GET`
+3. **Get portfolio**
+   - **Endpoint**: `GET /api/user/{id}/portfolio`
    - **Headers**: `Authorization: Bearer <token>`
    - **Response**:
      ```json
-     [
-       {
-         "symbol": "AAPL",
-         "shares": 5,
-         "avgPrice": 178.5
-       }
-     ]
+     [{ "symbol": "AAPL", "shares": 5, "avgPrice": 178.5 }]
      ```
 
-4. **Buy a stock**
-   - **Endpoint**: `/api/transactions/buy`
-   - **Method**: `POST`
+4. **Get / manage watchlist**
+   - `GET /api/user/{id}/watchlist` → `{ "watchlist": ["AAPL", "NVDA"] }`
+   - `POST /api/user/{id}/watchlist` body `{ "symbol": "TSLA" }` → updated watchlist
+   - `DELETE /api/user/{id}/watchlist/TSLA` → updated watchlist
+
+5. **Buy a stock**
+   - **Endpoint**: `POST /api/transactions/buy`
    - **Headers**: `Authorization: Bearer <token>`
-   - **Body**:
-     ```json
-     {
-       "symbol": "AAPL",
-       "shares": 2
-     }
-     ```
-   - **Response**:
-     ```json
-     {
-       "message": "Stock purchased successfully",
-       "balance": 9643.0
-     }
-     ```
+   - **Body**: `{ "symbol": "AAPL", "shares": 2 }`
+   - **Response**: `{ "message": "Stock purchased successfully", "balance": 9643.0 }`
 
-5. **Sell a stock**
-   - **Endpoint**: `/api/transactions/sell`
-   - **Method**: `POST`
+6. **Sell a stock**
+   - **Endpoint**: `POST /api/transactions/sell`
    - **Headers**: `Authorization: Bearer <token>`
-   - **Body**:
-     ```json
-     {
-       "symbol": "AAPL",
-       "shares": 1
-     }
-     ```
-   - **Response**:
-     ```json
-     {
-       "message": "Stock sold successfully",
-       "balance": 10178.5,
-       "soldShares": 1,
-       "revenue": 178.5
-     }
-     ```
+   - **Body**: `{ "symbol": "AAPL", "shares": 1 }`
+   - **Response**: `{ "message": "Stock sold successfully", "balance": 10178.5, "soldShares": 1, "revenue": 178.5 }`
 
-6. **Transaction history**
-   - **Endpoint**: `/api/transactions/{userId}/history?page=1&limit=5`
-   - **Method**: `GET`
+7. **Transaction history**
+   - **Endpoint**: `GET /api/transactions/{userId}/history?limit=100`
    - **Headers**: `Authorization: Bearer <token>`
-   - **Response**: Array of transactions (most recent first), each including `symbol`, `shares`, `pricePerShare`, `type`, `date`, and `buyPricePerShare`/`revenue` on sell rows.
+   - **Response**: Array of transactions (most recent first), each with `symbol`, `shares`, `pricePerShare`, `type`, `date`, and `buyPricePerShare` on sell rows.
 
-7. **Retrieve user balance**
-   - **Endpoint**: `/api/user/{id}/balance`
-   - **Method**: `GET`
+8. **Stock price**
+   - **Endpoint**: `GET /api/stocks/price/{symbol}`
    - **Headers**: `Authorization: Bearer <token>`
-   - **Response**:
-     ```json
-     {
-       "balance": 10000
-     }
-     ```
+   - **Response**: `{ "symbol": "AAPL", "price": 178.50 }`
 
-8. **Get current stock price**
-   - **Endpoint**: `/api/stocks/price/{symbol}`
-   - **Method**: `GET`
-   - **Headers**: `Authorization: Bearer <token>`
-   - **Response**:
-     ```json
-     {
-       "symbol": "AAPL",
-       "price": 178.50
-     }
-     ```
-
-9. **Retrieve leaderboard**
-   - **Endpoint**: `/api/leaderboard`
-   - **Method**: `GET`
-   - **Response**:
-     ```json
-     [
-       {
-         "username": "string",
-         "totalValue": 12450.75
-       }
-     ]
-     ```
+9. **Leaderboard**
+   - **Endpoint**: `GET /api/leaderboard`
+   - **Response**: Array of top 8 users with `username` and `totalValue`.
 
 ---
 
@@ -375,20 +339,11 @@ Contributions are welcome. To contribute:
    ```bash
    git checkout -b feat/your-feature-name
    ```
-   For bug fixes:
-   ```bash
-   git checkout -b fix/your-bug-fix-name
-   ```
-3. Make your changes and run tests.
-4. Commit with a clear message:
+3. Make your changes and commit with a clear message:
    ```bash
    git commit -m "your commit message"
    ```
-5. Push your branch:
-   ```bash
-   git push origin feat/your-feature-name
-   ```
-6. Open a pull request with a clear description of your changes.
+4. Push your branch and open a pull request with a clear description of your changes.
 
 ---
 

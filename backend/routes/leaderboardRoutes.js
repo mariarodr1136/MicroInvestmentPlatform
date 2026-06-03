@@ -12,7 +12,7 @@ router.get('/', async (req, res) => {
         totalValue: u.balance + u.portfolio.reduce((sum, s) => sum + s.shares * s.avgPrice, 0),
       }))
       .sort((a, b) => b.totalValue - a.totalValue)
-      .slice(0, 5);
+      .slice(0, 8);
     res.json(ranked);
   } catch (error) {
     console.error('Error fetching leaderboard:', error);

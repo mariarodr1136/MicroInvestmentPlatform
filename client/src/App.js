@@ -17,7 +17,6 @@ import WhatIfSimulator from './components/WhatIfSimulator';
 import Watchlist from './components/Watchlist';
 import PortfolioPerformance from './components/PortfolioPerformance';
 import UserStats from './components/UserStats';
-import Achievements from './components/Achievements';
 import axios from 'axios';
 import API_URL, { getAuthHeader } from './config';
 import './App.css';
@@ -144,19 +143,21 @@ const App = () => {
             <div id="section-sell" className="component-container">
               <SellStock userId={user._id} onSellComplete={handleSellComplete} />
             </div>
-            <div id="section-search" className="component-container">
-              <StockSearch userId={user._id} onAddToWatchlist={handleAddToWatchlist} watchlist={watchlist} />
-            </div>
           </div>
         </div>
 
-        {/* What-if Simulator + Watchlist */}
+        {/* What-if Simulator | Stock Search + Watchlist stacked */}
         <div className="layout-two-col">
           <div id="section-simulator" className="component-container">
             <WhatIfSimulator />
           </div>
-          <div id="section-watchlist" className="component-container">
-            <Watchlist userId={user._id} externalAdd={watchlistAdd} />
+          <div className="layout-trade-side">
+            <div id="section-search" className="component-container">
+              <StockSearch userId={user._id} onAddToWatchlist={handleAddToWatchlist} watchlist={watchlist} />
+            </div>
+            <div id="section-watchlist" className="component-container">
+              <Watchlist userId={user._id} externalAdd={watchlistAdd} />
+            </div>
           </div>
         </div>
 
@@ -173,13 +174,10 @@ const App = () => {
           </div>
         </div>
 
-        {/* Stats + Achievements */}
-        <div className="layout-two-col">
+        {/* Stats — full width */}
+        <div className="full-width-section">
           <div id="section-stats" className="component-container">
             <UserStats userId={user._id} />
-          </div>
-          <div id="section-achievements" className="component-container">
-            <Achievements userId={user._id} />
           </div>
         </div>
 
