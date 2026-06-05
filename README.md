@@ -84,6 +84,7 @@ https://github.com/user-attachments/assets/4201495f-070f-4799-9285-4109e8f11d7a
 MicroInvestmentPlatform/
 ├── backend/
 │   ├── index.js                  # Server entry, DB seed, route mounting
+│   ├── app.js                    # Express app factory (imported by index.js and tests)
 │   ├── middleware/
 │   │   └── auth.js               # JWT verification middleware
 │   ├── models/
@@ -96,8 +97,13 @@ MicroInvestmentPlatform/
 │   │   ├── stockRoutes.js        # Price lookup (Alpha Vantage + cache)
 │   │   ├── leaderboardRoutes.js  # Top 8 users by total value
 │   │   └── newsRoutes.js         # Headlines (NewsAPI + cache)
-│   └── utils/
-│       └── stockPrice.js
+│   ├── utils/
+│   │   └── stockPrice.js
+│   └── __tests__/
+│       ├── setup.js              # Shared MongoDB Memory Server lifecycle helpers
+│       ├── userRoutes.test.js    # Auth, portfolio, balance, watchlist tests
+│       ├── transactionRoutes.test.js  # Buy, sell, history tests
+│       └── stockPrice.test.js    # Price fetching, caching, and fallback tests
 └── client/
     └── src/
         ├── App.js                # Root layout and state
@@ -243,20 +249,32 @@ Base URL: `http://localhost:5001`
 
 ### Testing
 
-No automated tests yet. Manual smoke flow:
+The backend has an automated test suite built with **Jest** and **Supertest**, using **mongodb-memory-server** to spin up a real isolated MongoDB instance per test run — no mocks for the database layer.
 
-1. Start backend and frontend servers.
-2. Click **Continue as Guest** to load seeded demo data.
-3. Verify the Market Indices bar shows live-ticking values.
-4. Check the Portfolio carousel, Allocation donut, and Performance chart all render.
-5. Look up a ticker in **Stock Lookup** and confirm the price appears with an "Add to Watchlist" button.
-6. Add the stock to the Watchlist and confirm it appears with a live price.
-7. Type a symbol in the Buy form — confirm the live price preview appears, then submit and approve the confirmation modal. A toast should slide in and the portfolio should update.
-8. Run the **What-If Simulator** with a ticker and share count — confirm a projected return appears.
-9. Check the **Leaderboard** shows 8 users ranked by total value.
-10. Scroll through **Recent Transactions** and confirm the table scrolls within its container. Click **↓ Export CSV** and verify the file downloads.
-11. Hover the `?` icons in **Your Stats** and confirm tooltips appear.
-12. Scroll the page and verify the floating dot nav highlights the active section.
+**Run the tests**
+```bash
+cd backend
+npm test
+```
+
+**Test suite overview — 41 tests across 3 files**
+
+| File | Tests | What's covered |
+|---|---|---|
+| `userRoutes.test.js` | 16 | Auth (register/login), portfolio, balance, and full watchlist CRUD |
+| `transactionRoutes.test.js` | 20 | Buy/sell trade flows, input validation, and transaction history |
+| `stockPrice.test.js` | 5 | Alpha Vantage price parsing, rate-limit fallback, error fallback, and 5-min cache |
+
+**Key scenarios tested**
+
+- **Registration**: creates user with $10,000 default balance and returns a signed JWT; rejects missing fields; rejects duplicate usernames.
+- **Login**: returns token for valid credentials; returns 401 for wrong password or unknown user.
+- **Auth middleware**: all protected routes return 401 with no token and 403 when a user requests another user's data.
+- **Buy flow**: deducts balance, adds position to portfolio, and recalculates weighted-average cost basis when adding to an existing position. Rejects insufficient funds, fractional shares, zero/negative shares, and missing fields.
+- **Sell flow**: credits revenue, removes fully-sold positions from portfolio, and handles partial sells correctly. Rejects selling unowned stock and over-selling.
+- **Transaction history**: returns results sorted newest-first and respects the `limit` query parameter.
+- **Price caching**: verifies that a second fetch for the same symbol within the 5-minute TTL skips the API call entirely.
+- **API fallback**: confirms the fallback mock-price table is used when Alpha Vantage is rate-limited or unreachable.
 
 ---
 

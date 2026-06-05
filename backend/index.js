@@ -1,22 +1,10 @@
-const express = require('express');
 const mongoose = require('mongoose');
-const cors = require('cors');
 const dotenv = require('dotenv');
 const bcrypt = require('bcrypt');
 const { MongoMemoryServer } = require('mongodb-memory-server');
+const app = require('./app');
 
 dotenv.config();
-
-const app = express();
-app.use(express.json());
-app.use(cors());
-
-// Import Routes
-const userRoutes = require('./routes/userRoutes');
-const transactionRoutes = require('./routes/transactionRoutes');
-const leaderboardRoutes = require('./routes/leaderboardRoutes');
-const newsRoutes = require('./routes/newsRoutes');
-const stockRoutes = require('./routes/stockRoutes');
 
 // Health check route
 app.get('/', (req, res) => {
@@ -36,13 +24,6 @@ app.get('/', (req, res) => {
 app.get('/health', (req, res) => {
   res.json({ status: 'ok', database: dbReady ? 'ready' : 'initializing', timestamp: new Date().toISOString() });
 });
-
-// Use Routes
-app.use('/api/user', userRoutes);
-app.use('/api/transactions', transactionRoutes);
-app.use('/api/leaderboard', leaderboardRoutes);
-app.use('/api/news', newsRoutes);
-app.use('/api/stocks', stockRoutes);
 
 let dbReady = false;
 
