@@ -29,7 +29,7 @@ const StockSearch = ({ userId, onAddToWatchlist, watchlist = [] }) => {
 
   return (
     <div>
-      <div className="section-header" style={{ background: 'rgba(79,70,229,0.08)', color: '#4f46e5', borderBottom: '1px solid rgba(79,70,229,0.12)', padding: '16px 22px', fontSize: '0.88rem', fontWeight: 700, letterSpacing: '0.04em', textTransform: 'uppercase' }}>
+      <div className="section-header blue">
         Stock Lookup
       </div>
       <div className="section-body">

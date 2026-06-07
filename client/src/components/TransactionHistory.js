@@ -49,10 +49,10 @@ const TransactionHistory = ({ userId }) => {
 
   return (
     <div className="transaction-history-container">
-      <div className="section-header purple" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+      <div className="section-header purple">
         <span>Recent Transactions</span>
         {transactions.length > 0 && (
-          <button className="csv-export-btn" onClick={exportCSV}>↓ Export CSV</button>
+          <button className="csv-export-btn" onClick={exportCSV} style={{ marginLeft: 'auto' }}>↓ Export CSV</button>
         )}
       </div>
       <div className="section-body">
@@ -80,8 +80,10 @@ const TransactionHistory = ({ userId }) => {
                     : null;
                 return (
                   <tr key={transaction._id}>
-                    <td className={transaction.type === 'buy' ? 'type-buy' : 'type-sell'}>
-                      {transaction.type.toUpperCase()}
+                    <td className="type-cell">
+                      <span className={transaction.type === 'buy' ? 'type-buy' : 'type-sell'}>
+                        {transaction.type.toUpperCase()}
+                      </span>
                     </td>
                     <td>{transaction.symbol}</td>
                     <td>{transaction.shares}</td>

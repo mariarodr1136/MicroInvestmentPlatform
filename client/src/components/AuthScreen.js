@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import API_URL from '../config';
+import logo from '../logo.png';
 
 const AuthScreen = ({ onLogin }) => {
   const [mode, setMode] = useState('login');
   const [username, setUsername] = useState('');
-
   const [password, setPassword] = useState('');
   const [balance, setBalance] = useState('');
   const [error, setError] = useState('');
@@ -15,10 +15,7 @@ const AuthScreen = ({ onLogin }) => {
   const handleLogin = async (e) => {
     e.preventDefault();
     setError('');
-    if (!username || !password) {
-      setError('Please enter both username and password');
-      return;
-    }
+    if (!username || !password) { setError('Please enter both username and password'); return; }
     setIsLoading(true);
     try {
       const response = await axios.post(`${API_URL}/api/user/login`, { username, password });
@@ -33,20 +30,13 @@ const AuthScreen = ({ onLogin }) => {
   const handleSignUp = async (e) => {
     e.preventDefault();
     setError('');
-    if (!username || !password) {
-      setError('Please fill in all required fields');
-      return;
-    }
+    if (!username || !password) { setError('Please fill in all required fields'); return; }
     setIsLoading(true);
     try {
       const payload = { username, password };
       if (balance) {
         const parsed = parseFloat(balance);
-        if (isNaN(parsed) || parsed < 0) {
-          setError('Please enter a valid balance');
-          setIsLoading(false);
-          return;
-        }
+        if (isNaN(parsed) || parsed < 0) { setError('Please enter a valid balance'); setIsLoading(false); return; }
         payload.balance = parsed;
       }
       const response = await axios.post(`${API_URL}/api/user/register`, payload);
@@ -75,16 +65,22 @@ const AuthScreen = ({ onLogin }) => {
     setMode(newMode);
     setError('');
     setUsername('');
-
     setPassword('');
     setBalance('');
   };
 
   return (
     <div className="auth-screen">
+      <div className="auth-bg-orb auth-orb-1" />
+      <div className="auth-bg-orb auth-orb-2" />
+
       <div className="auth-card">
-        <h1 className="auth-title">Micro-Investment Education Platform</h1>
-        <p className="auth-subtitle">Learn to invest with virtual money</p>
+        <div className="auth-logo">
+          <img src={logo} alt="VestLab" className="auth-logo-img" />
+        </div>
+
+        <h1 className="auth-title">VestLab</h1>
+        <p className="auth-subtitle">Trade smart. Learn faster.</p>
 
         <div className="auth-tabs">
           <button
@@ -120,7 +116,7 @@ const AuthScreen = ({ onLogin }) => {
               autoComplete="current-password"
             />
             <button type="submit" className="auth-submit" disabled={isLoading}>
-              {isLoading ? 'Logging in...' : 'Log In'}
+              {isLoading ? 'Logging in…' : 'Log In'}
             </button>
             <button
               type="button"
@@ -128,7 +124,7 @@ const AuthScreen = ({ onLogin }) => {
               onClick={handleGuestLogin}
               disabled={isLoading}
             >
-              {isLoading ? 'Entering demo...' : 'Continue as Guest'}
+              {isLoading ? 'Entering demo…' : 'Continue as Guest'}
             </button>
           </form>
         ) : (
@@ -140,7 +136,6 @@ const AuthScreen = ({ onLogin }) => {
               onChange={(e) => setUsername(e.target.value)}
               autoComplete="username"
             />
-
             <input
               type="password"
               placeholder="Password"
@@ -157,20 +152,14 @@ const AuthScreen = ({ onLogin }) => {
               step="0.01"
             />
             <button type="submit" className="auth-submit" disabled={isLoading}>
-              {isLoading ? 'Creating account...' : 'Create Account'}
+              {isLoading ? 'Creating account…' : 'Create Account'}
             </button>
           </form>
         )}
 
         <p className="auth-hint">
           {mode === 'login'
-            ? (
-              <>
-                Not ready to create an account?
-                <br />
-                Continue as Guest to explore demo data.
-              </>
-            )
+            ? <>Not ready to create an account?<br />Continue as Guest to explore demo data.</>
             : 'Already have an account? Click Log In above.'}
         </p>
 
