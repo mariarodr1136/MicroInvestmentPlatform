@@ -1,10 +1,11 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 
 const ConfirmModal = ({ type, symbol, shares, price, onConfirm, onCancel }) => {
   const isBuy = type === 'buy';
   const estimatedTotal = price != null ? (shares * price).toFixed(2) : null;
 
-  return (
+  return ReactDOM.createPortal(
     <div className="modal-overlay" onClick={onCancel}>
       <div className="modal-card" onClick={e => e.stopPropagation()}>
         <h3 className="modal-title">{isBuy ? 'Confirm Purchase' : 'Confirm Sale'}</h3>
@@ -35,7 +36,8 @@ const ConfirmModal = ({ type, symbol, shares, price, onConfirm, onCancel }) => {
           </button>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 };
 
