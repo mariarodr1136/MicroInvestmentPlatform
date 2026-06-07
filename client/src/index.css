@@ -925,8 +925,8 @@ body {
   min-width: 52px;
 }
 
-.transaction-table .type-buy  { background: #166534; color: #fff; }
-.transaction-table .type-sell { background: #b91c1c; color: #fff; }
+.transaction-table .type-buy  { background: #16a34a; color: #fff; }
+.transaction-table .type-sell { background: #ef4444; color: #fff; }
 
 /* ===== Toast ===== */
 .toast-container {
