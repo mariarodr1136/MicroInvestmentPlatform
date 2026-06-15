@@ -17,7 +17,7 @@ Live Application: https://microinvestmentplatform-frontend.onrender.com/
 ### Demo Recording
 
 
-https://github.com/user-attachments/assets/0faa7863-726e-45a1-ba55-0813f73b1b6d
+https://github.com/user-attachments/assets/a6b5230d-2601-4fa1-afe8-9e08e7436ab7
 
 
 ---
