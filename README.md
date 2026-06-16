@@ -105,7 +105,9 @@ MicroInvestmentPlatform/
 └── client/
     └── src/
         ├── App.js                # Root layout and state
+        ├── App.css
         ├── index.css             # Global design system (CSS variables, all component styles)
+        ├── config.js             # API base URL and auth header helper
         ├── components/
         │   ├── AuthScreen.js
         │   ├── WelcomeBanner.js
@@ -127,10 +129,11 @@ MicroInvestmentPlatform/
         │   ├── UserStats.js              # Trade stats with tooltips
         │   ├── Tooltip.js                # Reusable hover tooltip
         │   ├── ConfirmModal.js           # Trade confirmation dialog
-        │   ├── ScrollNav.js              # Floating dot navigation
-        │   └── WelcomeBanner.js
-        └── context/
-            └── ToastContext.js
+        │   └── ScrollNav.js              # Floating dot navigation
+        ├── context/
+        │   └── ToastContext.js
+        └── hooks/
+            └── useDebounce.js
 ```
 
 ---
@@ -259,8 +262,8 @@ npm test
 
 | File | Tests | What's covered |
 |---|---|---|
-| `userRoutes.test.js` | 16 | Auth (register/login), portfolio, balance, and full watchlist CRUD |
-| `transactionRoutes.test.js` | 20 | Buy/sell trade flows, input validation, and transaction history |
+| `userRoutes.test.js` | 18 | Auth (register/login), portfolio, balance, and full watchlist CRUD |
+| `transactionRoutes.test.js` | 18 | Buy/sell trade flows, input validation, and transaction history |
 | `stockPrice.test.js` | 5 | Alpha Vantage price parsing, rate-limit fallback, error fallback, and 5-min cache |
 
 **Key scenarios tested**
