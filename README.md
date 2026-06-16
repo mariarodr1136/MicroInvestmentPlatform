@@ -223,6 +223,16 @@ API keys:
 
 ---
 
+<img width="1470" height="800" alt="Screenshot 2026-06-16 at 5 33 15 PM" src="https://github.com/user-attachments/assets/a75bb8df-3b29-4b10-be69-ebba730c2ce3" />
+
+---
+
+
+<img width="1470" height="800" alt="Screenshot 2026-06-16 at 5 33 24 PM" src="https://github.com/user-attachments/assets/d2772355-0864-4f9f-9b11-b300578042ad" />
+
+---
+
+
 ### API Reference
 
 Base URL: `http://localhost:5001`
