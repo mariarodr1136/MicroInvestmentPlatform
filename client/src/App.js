@@ -10,10 +10,8 @@ import TransactionHistory from './components/TransactionHistory';
 import LatestNews from './components/LatestNews';
 import StockChart from './components/StockChart';
 import AuthScreen from './components/AuthScreen';
-import ScrollNav from './components/ScrollNav';
-import MarketIndices from './components/MarketIndices';
-import StockSearch from './components/StockSearch';
 import WhatIfSimulator from './components/WhatIfSimulator';
+import StockSearch from './components/StockSearch';
 import Watchlist from './components/Watchlist';
 import PortfolioPerformance from './components/PortfolioPerformance';
 import UserStats from './components/UserStats';
@@ -60,7 +58,6 @@ const App = () => {
     setError('');
   };
 
-  // Reset the "has loaded" flag whenever the user changes (login/logout)
   useEffect(() => {
     hasLoadedOnce.current = false;
   }, [user?._id]);
@@ -88,7 +85,6 @@ const App = () => {
     fetchUserData();
   }, [user?._id, refreshTrigger]);
 
-  // Keep a local watchlist copy so StockSearch can read it
   useEffect(() => {
     if (!user) return;
     axios.get(`${API_URL}/api/user/${user._id}/watchlist`, { headers: getAuthHeader() })
@@ -105,98 +101,120 @@ const App = () => {
   if (!user) return <AuthScreen onLogin={handleLogin} />;
 
   return (
-    <div className="App">
-      <WelcomeBanner username={user.username} isLoading={isLoading} error={error} onLogout={handleLogout} />
-      <MarketIndices />
+    <div className="app-shell">
+      <WelcomeBanner username={user.username} isLoading={isLoading} onLogout={handleLogout} />
 
-      {error && (
-        <div className="error-banner">
-          {error}
-          <ul className="error-details">
-            <li>Check that the backend server is running on port 5001</li>
-            <li>Check that CORS is enabled</li>
-          </ul>
-        </div>
-      )}
-
-      {isLoading ? (
-        <div className="loading">Loading…</div>
-      ) : (
-        <>
-        <ScrollNav />
-
-        {/* Portfolio */}
-        <div id="section-portfolio" className="full-width-section">
-          <div className="component-container">
-            <Portfolio userId={user._id} balance={balance} refreshTrigger={refreshTrigger} />
+      <main className="app-main">
+        {error && (
+          <div className="error-banner">
+            {error}
+            <ul className="error-details">
+              <li>Check that the backend server is running on port 5001</li>
+              <li>Check that CORS is enabled</li>
+            </ul>
           </div>
-        </div>
+        )}
 
-        {/* Portfolio Performance */}
-        <div id="section-performance" className="full-width-section">
-          <div className="component-container">
-            <PortfolioPerformance userId={user._id} balance={balance} />
-          </div>
-        </div>
-
-        {/* Chart + Trade sidebar */}
-        <div className="layout-chart-trade">
-          <div id="section-chart" className="component-container layout-chart-main">
-            <StockChart />
-          </div>
-          <div className="layout-trade-side">
-            <div id="section-buy" className="component-container">
-              <BuyStock userId={user._id} onBuyComplete={handleBuyComplete} />
+        {isLoading ? (
+          <div className="loading">Loading…</div>
+        ) : (
+          <>
+            {/* Hero bar */}
+            <div className="hero-bar">
+              <div className="hero-greeting">
+                <span className="hero-label">Welcome back</span>
+                <span className="hero-name">{user.username}</span>
+              </div>
+              <div className="hero-right">
+                <div className="hero-stat">
+                  <span className="hero-stat-label">Cash Balance</span>
+                  <span className="hero-stat-value">
+                    ${balance.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                  </span>
+                </div>
+                <div className="hero-divider" />
+                <div className="hero-stat">
+                  <span className="hero-stat-label">Platform</span>
+                  <span className="hero-stat-value hero-stat-badge">Live</span>
+                </div>
+              </div>
             </div>
-            <div id="section-sell" className="component-container">
-              <SellStock userId={user._id} onSellComplete={handleSellComplete} />
+
+            {/* Portfolio — full width */}
+            <div id="section-portfolio" className="content-section">
+              <div className="component-container">
+                <Portfolio userId={user._id} balance={balance} refreshTrigger={refreshTrigger} />
+              </div>
             </div>
-          </div>
-        </div>
 
-        {/* What-if Simulator | Stock Search + Watchlist stacked */}
-        <div className="layout-two-col">
-          <div id="section-simulator" className="component-container">
-            <WhatIfSimulator />
-          </div>
-          <div className="layout-trade-side">
-            <div id="section-search" className="component-container">
-              <StockSearch userId={user._id} onAddToWatchlist={handleAddToWatchlist} watchlist={watchlist} />
+            {/* Stock Chart — full width, moved up */}
+            <div id="section-chart" className="content-section">
+              <div className="component-container">
+                <StockChart />
+              </div>
             </div>
-            <div id="section-watchlist" className="component-container">
-              <Watchlist userId={user._id} externalAdd={watchlistAdd} />
+
+            {/* Performance (left) + Trade column (right) */}
+            <div className="layout-perf-trade content-section">
+              <div id="section-performance" className="component-container perf-panel">
+                <PortfolioPerformance userId={user._id} balance={balance} />
+              </div>
+              <div className="trade-col">
+                <div id="section-buy" className="component-container">
+                  <BuyStock userId={user._id} onBuyComplete={handleBuyComplete} />
+                </div>
+                <div id="section-sell" className="component-container">
+                  <SellStock userId={user._id} onSellComplete={handleSellComplete} />
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
 
-        {/* Popular | Leaderboard | News */}
-        <div className="layout-three-col">
-          <div id="section-popular" className="component-container">
-            <PopularStocks />
-          </div>
-          <div id="section-leaderboard" className="component-container">
-            <Leaderboard />
-          </div>
-          <div id="section-news" className="component-container">
-            <LatestNews />
-          </div>
-        </div>
+            {/* Three equal columns: Leaderboard | Simulator | News */}
+            <div className="layout-three-col content-section">
+              <div id="section-leaderboard" className="component-container">
+                <Leaderboard />
+              </div>
+              <div id="section-simulator" className="component-container">
+                <WhatIfSimulator />
+              </div>
+              <div id="section-news" className="component-container">
+                <LatestNews />
+              </div>
+            </div>
 
-        {/* Stats — full width */}
-        <div className="full-width-section">
-          <div id="section-stats" className="component-container">
-            <UserStats userId={user._id} />
-          </div>
-        </div>
+            {/* Two col: [Search + Watchlist] | [Popular] */}
+            <div className="layout-two-col content-section">
+              <div className="col-stack">
+                <div id="section-search" className="component-container">
+                  <StockSearch userId={user._id} onAddToWatchlist={handleAddToWatchlist} watchlist={watchlist} />
+                </div>
+                <div id="section-watchlist" className="component-container">
+                  <Watchlist userId={user._id} externalAdd={watchlistAdd} />
+                </div>
+              </div>
+              <div className="col-stack">
+                <div id="section-popular" className="component-container">
+                  <PopularStocks />
+                </div>
+              </div>
+            </div>
 
-        {/* Transactions */}
-        <div className="full-width-section">
-          <div id="section-history" className="component-container">
-            <TransactionHistory userId={user._id} />
-          </div>
-        </div>
-        </>
-      )}
+            {/* Transaction History — full width */}
+            <div id="section-history" className="content-section">
+              <div className="component-container">
+                <TransactionHistory userId={user._id} />
+              </div>
+            </div>
+
+            {/* Your Stats — full width, below transactions */}
+            <div id="section-stats" className="content-section">
+              <div className="component-container">
+                <UserStats userId={user._id} />
+              </div>
+            </div>
+          </>
+        )}
+      </main>
     </div>
   );
 };

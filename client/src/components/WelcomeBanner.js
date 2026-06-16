@@ -1,42 +1,77 @@
-import React from 'react';
-import logo from '../logo.png';
+import React, { useState } from 'react';
+import MarketIndices from './MarketIndices';
+import VestLabLogo from './VestLabLogo';
+
+const NAV_SECTIONS = [
+  { id: 'section-portfolio',   label: 'Portfolio',    accent: 'var(--green)' },
+  { id: 'section-chart',       label: 'Chart',        accent: 'var(--blue)' },
+  { id: 'section-performance', label: 'Performance',  accent: 'var(--blue)' },
+  { id: 'section-buy',         label: 'Trade',        accent: 'var(--green)' },
+  { id: 'section-leaderboard', label: 'Leaderboard',  accent: 'var(--amber)' },
+  { id: 'section-simulator',   label: 'Simulator',    accent: 'var(--amber)' },
+  { id: 'section-search',      label: 'Search',       accent: 'var(--purple)' },
+  { id: 'section-history',     label: 'History',      accent: 'var(--teal)' },
+];
 
 const WelcomeBanner = ({ username, isLoading, onLogout }) => {
+  const [active, setActive] = useState('');
+
+  const scrollTo = (id) => {
+    setActive(id);
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
+
   return (
-    <header className="top-nav">
-      <div className="nav-content">
-        <div className="nav-brand">
-          <img src={logo} alt="VestLab" className="nav-logo-img" />
-          <div>
-            <div className="nav-brand-name">VestLab</div>
-            <div className="nav-brand-sub">Micro-Investment Platform</div>
-          </div>
+    <aside className="app-sidebar">
+      <div className="sidebar-brand">
+        <div className="sidebar-logo-wrap">
+          <VestLabLogo size={22} />
         </div>
-
-        <div className="nav-actions">
-          {isLoading ? (
-            <div className="nav-skeleton" />
-          ) : username ? (
-            <div className="nav-user">
-              <div className="nav-avatar">{username[0].toUpperCase()}</div>
-              <span className="nav-username">{username}</span>
-            </div>
-          ) : null}
-
-          {onLogout && (
-            <button className="logout-btn" onClick={onLogout}>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
-                strokeLinecap="round" strokeLinejoin="round" width="13" height="13">
-                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
-                <polyline points="16 17 21 12 16 7" />
-                <line x1="21" y1="12" x2="9" y2="12" />
-              </svg>
-              Sign Out
-            </button>
-          )}
+        <div>
+          <div className="sidebar-brand-name">VestLab</div>
+          <div className="sidebar-brand-sub">Micro-Investment</div>
         </div>
       </div>
-    </header>
+
+      <nav className="sidebar-nav">
+        <div className="sidebar-nav-label">Navigation</div>
+        {NAV_SECTIONS.map(({ id, label, accent }) => (
+          <button
+            key={id}
+            className={`sidebar-nav-item${active === id ? ' active' : ''}`}
+            style={{ '--nav-accent': accent }}
+            onClick={() => scrollTo(id)}
+          >
+            <span className="sidebar-nav-dot" />
+            {label}
+          </button>
+        ))}
+      </nav>
+
+      <div className="sidebar-markets">
+        <div className="sidebar-section-label">Markets</div>
+        <MarketIndices />
+      </div>
+
+      <div className="sidebar-footer">
+        {isLoading ? (
+          <div className="nav-skeleton" />
+        ) : username ? (
+          <div className="sidebar-user">
+            <div className="nav-avatar">{username[0].toUpperCase()}</div>
+            <div className="sidebar-user-info">
+              <span className="nav-username">{username}</span>
+              <span className="sidebar-user-sub">Investor</span>
+            </div>
+          </div>
+        ) : null}
+        {onLogout && (
+          <button className="logout-btn sidebar-logout" onClick={onLogout}>
+            Sign Out
+          </button>
+        )}
+      </div>
+    </aside>
   );
 };
 

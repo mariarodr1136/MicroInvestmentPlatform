@@ -4,7 +4,7 @@ import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-const COLORS = ['#6366f1','#059669','#dc2626','#d97706','#2563eb','#7c3aed','#0891b2','#f59e0b','#10b981','#ef4444','#f97316','#8b5cf6'];
+const COLORS = ['#818cf8','#22c55e','#f43f5e','#fbbf24','#38bdf8','#a78bfa','#2dd4bf','#fb923c','#34d399','#fb7185','#4ade80','#c084fc'];
 
 const PortfolioAllocation = ({ portfolio, currentPrices }) => {
   if (!portfolio || portfolio.length === 0) return null;
@@ -23,7 +23,7 @@ const PortfolioAllocation = ({ portfolio, currentPrices }) => {
       data: data.map(d => d.value),
       backgroundColor: data.map(d => d.color),
       borderWidth: 2,
-      borderColor: '#fff',
+      borderColor: '#0f1220',
     }],
   };
 

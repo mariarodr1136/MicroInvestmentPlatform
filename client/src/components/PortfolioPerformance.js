@@ -74,7 +74,7 @@ const PortfolioPerformance = ({ userId, balance }) => {
   const start = points[0].value;
   const end = points[points.length - 1].value;
   const isUp = end >= start;
-  const lineColor = isUp ? '#059669' : '#dc2626';
+  const lineColor = isUp ? '#22c55e' : '#f43f5e';
   const totalReturn = end - start;
   const returnPct = ((end - start) / start) * 100;
 
@@ -83,7 +83,7 @@ const PortfolioPerformance = ({ userId, balance }) => {
     datasets: [{
       data: points.map(p => p.value),
       borderColor: lineColor,
-      backgroundColor: isUp ? 'rgba(5,150,105,0.07)' : 'rgba(220,38,38,0.07)',
+      backgroundColor: isUp ? 'rgba(34,197,94,0.1)' : 'rgba(244,63,94,0.1)',
       borderWidth: 2,
       pointRadius: points.length > 10 ? 0 : 3,
       pointHitRadius: 10,
@@ -100,8 +100,8 @@ const PortfolioPerformance = ({ userId, balance }) => {
       tooltip: { callbacks: { label: ctx => `$${ctx.parsed.y.toFixed(2)}` } },
     },
     scales: {
-      x: { grid: { display: false }, ticks: { font: { size: 11 }, maxTicksLimit: 8 } },
-      y: { grid: { color: '#f0f0f0' }, ticks: { font: { size: 11 }, callback: val => `$${val.toLocaleString()}` } },
+      x: { grid: { display: false }, ticks: { color: 'rgba(255,255,255,0.3)', font: { size: 11 }, maxTicksLimit: 8 } },
+      y: { grid: { color: 'rgba(255,255,255,0.06)' }, ticks: { color: 'rgba(255,255,255,0.3)', font: { size: 11 }, callback: val => `$${val.toLocaleString()}` } },
     },
   };
 

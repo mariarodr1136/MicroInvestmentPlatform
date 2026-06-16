@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import API_URL from '../config';
-import logo from '../logo.png';
+import VestLabLogo from './VestLabLogo';
 
 const AuthScreen = ({ onLogin }) => {
   const [mode, setMode] = useState('login');
@@ -76,7 +76,7 @@ const AuthScreen = ({ onLogin }) => {
 
       <div className="auth-card">
         <div className="auth-logo">
-          <img src={logo} alt="VestLab" className="auth-logo-img" />
+          <VestLabLogo size={44} />
         </div>
 
         <h1 className="auth-title">VestLab</h1>

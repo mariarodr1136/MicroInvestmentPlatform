@@ -2,12 +2,22 @@ const axios = require('axios');
 
 const priceCache = new Map();
 const PRICE_CACHE_TTL = 5 * 60 * 1000;
+const MAX_CACHE_SIZE = 500;
+
+// Periodically evict stale entries so symbols never re-fetched don't linger forever.
+setInterval(() => {
+  const now = Date.now();
+  for (const [key, value] of priceCache.entries()) {
+    if (now - value.timestamp >= PRICE_CACHE_TTL) priceCache.delete(key);
+  }
+}, PRICE_CACHE_TTL);
 
 async function fetchStockPrice(symbol) {
   const key = symbol.toUpperCase();
   const cached = priceCache.get(key);
-  if (cached && Date.now() - cached.timestamp < PRICE_CACHE_TTL) {
-    return cached.price;
+  if (cached) {
+    if (Date.now() - cached.timestamp < PRICE_CACHE_TTL) return cached.price;
+    priceCache.delete(key); // evict stale entry on access
   }
 
   try {
@@ -28,6 +38,11 @@ async function fetchStockPrice(symbol) {
 
     const latestTimestamp = Object.keys(timeSeries)[0];
     const price = parseFloat(timeSeries[latestTimestamp]['4. close']);
+
+    // Evict oldest entry if cache is at capacity before inserting.
+    if (priceCache.size >= MAX_CACHE_SIZE) {
+      priceCache.delete(priceCache.keys().next().value);
+    }
     priceCache.set(key, { price, timestamp: Date.now() });
     return price;
   } catch {

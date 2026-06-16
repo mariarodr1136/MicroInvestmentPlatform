@@ -119,8 +119,8 @@ const StockChart = () => {
         datasets: [
           {
             data: chartData.prices,
-            borderColor: '#1a1a1a',
-            backgroundColor: 'rgba(26, 26, 26, 0.05)',
+            borderColor: '#818cf8',
+            backgroundColor: 'rgba(99,102,241,0.08)',
             borderWidth: 2,
             pointRadius: 0,
             pointHitRadius: 10,
@@ -135,6 +135,7 @@ const StockChart = () => {
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
+      legend: { display: false },
       tooltip: {
         callbacks: {
           label: (ctx) => `$${ctx.parsed.y.toFixed(2)}`,
@@ -144,11 +145,12 @@ const StockChart = () => {
     scales: {
       x: {
         grid: { display: false },
-        ticks: { font: { size: 11 }, maxTicksLimit: 8 },
+        ticks: { color: 'rgba(255,255,255,0.3)', font: { size: 11 }, maxTicksLimit: 8 },
       },
       y: {
-        grid: { color: '#f0f0f0' },
+        grid: { color: 'rgba(255,255,255,0.06)' },
         ticks: {
+          color: 'rgba(255,255,255,0.3)',
           font: { size: 11 },
           callback: (val) => `$${val}`,
         },
