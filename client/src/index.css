@@ -229,63 +229,19 @@ body {
   box-shadow: 0 0 8px var(--nav-accent, var(--primary));
 }
 
-/* Sidebar Markets */
-.sidebar-markets {
-  border-top: 1px solid var(--border);
-  padding: 12px 0 8px;
-  flex-shrink: 0;
+/* Markets section (below hero bar) */
+.markets-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
-.sidebar-section-label {
+.markets-section-label {
   font-size: 0.59rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.1em;
   color: var(--text-muted);
-  padding: 0 18px;
-  margin-bottom: 8px;
-}
-
-/* Override market-indices-bar when inside sidebar */
-.sidebar-markets .market-indices-bar {
-  flex-direction: column;
-  background: transparent;
-  border: none;
-  border-radius: 0;
-  box-shadow: none;
-  margin: 0;
-}
-
-.sidebar-markets .market-index-item {
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  padding: 7px 18px;
-  border-right: none;
-  border-bottom: 1px solid var(--border-light);
-  gap: 6px;
-}
-
-.sidebar-markets .market-index-item:last-child { border-bottom: none; }
-.sidebar-markets .market-index-item:hover { background: rgba(255,255,255,0.03); }
-
-.sidebar-markets .index-name {
-  font-size: 0.64rem;
-  color: var(--text-muted);
-  flex: 1;
-}
-
-.sidebar-markets .index-price {
-  font-size: 0.76rem;
-  font-weight: 700;
-  color: var(--text-primary);
-}
-
-.sidebar-markets .index-change {
-  font-size: 0.66rem;
-  font-weight: 600;
-  min-width: 52px;
-  text-align: right;
 }
 
 /* Sidebar Footer */

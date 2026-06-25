@@ -15,6 +15,7 @@ import StockSearch from './components/StockSearch';
 import Watchlist from './components/Watchlist';
 import PortfolioPerformance from './components/PortfolioPerformance';
 import UserStats from './components/UserStats';
+import MarketIndices from './components/MarketIndices';
 import axios from 'axios';
 import API_URL, { getAuthHeader } from './config';
 import './App.css';
@@ -138,6 +139,12 @@ const App = () => {
                   <span className="hero-stat-value hero-stat-badge">Live</span>
                 </div>
               </div>
+            </div>
+
+            {/* Markets — full width, below hero */}
+            <div className="markets-section content-section">
+              <div className="markets-section-label">Markets</div>
+              <MarketIndices />
             </div>
 
             {/* Portfolio — full width */}

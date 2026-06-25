@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import MarketIndices from './MarketIndices';
 import VestLabLogo from './VestLabLogo';
 
 const NAV_SECTIONS = [
@@ -47,11 +46,6 @@ const WelcomeBanner = ({ username, isLoading, onLogout }) => {
           </button>
         ))}
       </nav>
-
-      <div className="sidebar-markets">
-        <div className="sidebar-section-label">Markets</div>
-        <MarketIndices />
-      </div>
 
       <div className="sidebar-footer">
         {isLoading ? (
