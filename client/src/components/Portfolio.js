@@ -71,7 +71,13 @@ const Portfolio = ({ userId, balance, refreshTrigger }) => {
   return (
     <div className="portfolio-container">
       <div className="portfolio-header">
-        <h3 className="portfolio-title">Your Portfolio</h3>
+        <div className="portfolio-title-group">
+          <h3 className="portfolio-title">Your Portfolio</h3>
+          <span className="portfolio-live-badge">
+            <span className="portfolio-live-dot" />
+            Platform Live
+          </span>
+        </div>
         <div className="portfolio-summary">
           <div className="summary-item">
             <span className="summary-label">Balance</span>

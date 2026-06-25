@@ -2,12 +2,12 @@
 
 .portfolio-container {
   width: 100%;
-  padding: 22px;
+  padding: 14px 22px 22px;
 }
 
 .portfolio-header {
-  padding: 0 0 18px;
-  margin-bottom: 16px;
+  padding: 0 0 12px;
+  margin-bottom: 12px;
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
@@ -16,12 +16,37 @@
   border-bottom: 1px solid var(--border);
 }
 
+.portfolio-title-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
 .portfolio-title {
   font-size: 1.12rem;
   font-weight: 700;
   color: var(--text-primary);
   margin: 0;
   letter-spacing: -0.2px;
+}
+
+.portfolio-live-badge {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: var(--green);
+  letter-spacing: 0.04em;
+}
+
+.portfolio-live-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--green);
+  flex-shrink: 0;
+  animation: live-blink 1.8s ease-in-out infinite;
 }
 
 .portfolio-summary {

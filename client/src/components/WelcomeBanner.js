@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import VestLabLogo from './VestLabLogo';
+import SidebarWatchlist from './SidebarWatchlist';
 
 const NAV_SECTIONS = [
   { id: 'section-portfolio',   label: 'Portfolio',    accent: 'var(--green)' },
@@ -12,7 +13,7 @@ const NAV_SECTIONS = [
   { id: 'section-history',     label: 'History',      accent: 'var(--teal)' },
 ];
 
-const WelcomeBanner = ({ username, isLoading, onLogout }) => {
+const WelcomeBanner = ({ username, isLoading, onLogout, userId, watchlistAdd }) => {
   const [active, setActive] = useState('');
 
   const scrollTo = (id) => {
@@ -46,6 +47,8 @@ const WelcomeBanner = ({ username, isLoading, onLogout }) => {
           </button>
         ))}
       </nav>
+
+      {userId && <SidebarWatchlist userId={userId} externalAdd={watchlistAdd} />}
 
       <div className="sidebar-footer">
         {isLoading ? (

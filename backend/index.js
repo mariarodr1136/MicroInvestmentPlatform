@@ -53,6 +53,7 @@ async function startServer() {
         { symbol: 'AMZN', shares: 2, avgPrice: 165.50 },
         { symbol: 'NVDA', shares: 1, avgPrice: 680.00 },
       ],
+      watchlist: ['META', 'AMD', 'NFLX'],
     });
 
     await User.create({

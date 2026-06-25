@@ -12,7 +12,6 @@ import StockChart from './components/StockChart';
 import AuthScreen from './components/AuthScreen';
 import WhatIfSimulator from './components/WhatIfSimulator';
 import StockSearch from './components/StockSearch';
-import Watchlist from './components/Watchlist';
 import PortfolioPerformance from './components/PortfolioPerformance';
 import UserStats from './components/UserStats';
 import MarketIndices from './components/MarketIndices';
@@ -103,7 +102,7 @@ const App = () => {
 
   return (
     <div className="app-shell">
-      <WelcomeBanner username={user.username} isLoading={isLoading} onLogout={handleLogout} />
+      <WelcomeBanner username={user.username} isLoading={isLoading} onLogout={handleLogout} userId={user._id} watchlistAdd={watchlistAdd} />
 
       <main className="app-main">
         {error && (
@@ -126,24 +125,10 @@ const App = () => {
                 <span className="hero-label">Welcome back</span>
                 <span className="hero-name">{user.username}</span>
               </div>
-              <div className="hero-right">
-                <div className="hero-stat">
-                  <span className="hero-stat-label">Cash Balance</span>
-                  <span className="hero-stat-value">
-                    ${balance.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                  </span>
-                </div>
-                <div className="hero-divider" />
-                <div className="hero-stat">
-                  <span className="hero-stat-label">Platform</span>
-                  <span className="hero-stat-value hero-stat-badge">Live</span>
-                </div>
-              </div>
             </div>
 
             {/* Markets — full width, below hero */}
-            <div className="markets-section content-section">
-              <div className="markets-section-label">Markets</div>
+            <div className="markets-section">
               <MarketIndices />
             </div>
 
@@ -189,20 +174,13 @@ const App = () => {
               </div>
             </div>
 
-            {/* Two col: [Search + Watchlist] | [Popular] */}
+            {/* Two col: Search | Popular */}
             <div className="layout-two-col content-section">
-              <div className="col-stack">
-                <div id="section-search" className="component-container">
-                  <StockSearch userId={user._id} onAddToWatchlist={handleAddToWatchlist} watchlist={watchlist} />
-                </div>
-                <div id="section-watchlist" className="component-container">
-                  <Watchlist userId={user._id} externalAdd={watchlistAdd} />
-                </div>
+              <div id="section-search" className="component-container">
+                <StockSearch userId={user._id} onAddToWatchlist={handleAddToWatchlist} watchlist={watchlist} />
               </div>
-              <div className="col-stack">
-                <div id="section-popular" className="component-container">
-                  <PopularStocks />
-                </div>
+              <div id="section-popular" className="component-container">
+                <PopularStocks />
               </div>
             </div>
 

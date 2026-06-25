@@ -48,12 +48,12 @@ https://github.com/user-attachments/assets/209aa449-844b-4291-9f85-5c7b797e50c5
 - **Colour-Coded Portfolio Cards**: Each held stock shows a live gain/loss badge (▲/▼ % and $) comparing the current price to your average cost.
 - **Portfolio Allocation Chart**: Donut chart showing the percentage breakdown of your holdings by market value.
 - **Portfolio Performance Chart**: Line chart tracking your total portfolio value over time, computed from your full transaction history.
-- **Watchlist**: Persist a list of stocks to monitor — prices refresh every 30 seconds. Add from the Stock Lookup or type directly.
+- **Watchlist**: Persist a list of stocks to monitor — prices refresh every 30 seconds. The watchlist lives in the sidebar for quick access: add a ticker with the inline form or via Stock Lookup, and remove any stock with the ✕ button.
 - **Stock Lookup**: Search any ticker symbol to see its current price before committing to a trade, with a one-click add to your watchlist.
 - **CSV Export**: Download your full transaction history as a CSV file.
 
 **Market Data & Insights**
-- **Market Indices Bar**: Live-ticking strip showing S&P 500, NASDAQ, DOW Jones, Russell 2000, and VIX at the top of the dashboard.
+- **Market Indices Bar**: Live-ticking strip showing S&P 500, NASDAQ, DOW Jones, Russell 2000, and VIX — displayed directly below the welcome banner.
 - **Interactive Stock Charts**: 30-day price trends for 15 tickers rendered with Chart.js. Buttons scroll horizontally — no wrapping.
 - **Latest Stock News**: Market headlines powered by NewsAPI, cached server-side and scrollable without pagination buttons.
 - **Popular Stocks**: 39 tickers as pill buttons linking to Yahoo Finance for quick research.
@@ -69,7 +69,7 @@ https://github.com/user-attachments/assets/209aa449-844b-4291-9f85-5c7b797e50c5
 - **Glossary Tooltips**: Hover the `?` icon on any stat label for a plain-English explanation.
 - **Shimmer Skeleton Loaders**: Shown while portfolio data is loading.
 - **Slide-in Toast Notifications**: Success and error feedback on every trade.
-- **Floating Scroll-Spy Nav**: Dot navigation on the right side highlights the active section and jumps to any section on click.
+- **Sidebar Navigation**: Fixed left sidebar with section jump-links, inline watchlist with live prices, and user/logout footer.
 - **Scrollable Sections**: Transaction history and news both scroll within a fixed-height container — no show-more buttons.
 - **Seeded Demo Data**: Eight pre-built users with portfolios and transactions for instant demo use.
 
@@ -120,6 +120,7 @@ MicroInvestmentPlatform/
         │   ├── SellStock.js
         │   ├── StockSearch.js            # Ticker lookup + watchlist add
         │   ├── Watchlist.js              # Persistent watchlist with live prices
+        │   ├── SidebarWatchlist.js       # Compact watchlist panel rendered inside the sidebar
         │   ├── WhatIfSimulator.js        # Hypothetical return calculator
         │   ├── PopularStocks.js          # 39 ticker chips
         │   ├── Leaderboard.js            # Top 8 users
@@ -215,7 +216,7 @@ Environment variables are split by layer:
    ```bash
    npm start
    ```
-   The app runs on `http://localhost:5002` by default.
+   The app runs on `http://localhost:3000` by default.
 
 API keys:
 - Alpha Vantage: https://www.alphavantage.co

@@ -6,16 +6,16 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-const isTest = process.env.NODE_ENV === 'test';
+const skipLimiter = () => process.env.NODE_ENV === 'test' || process.env.NODE_ENV !== 'production';
 
 // Strict limit on auth endpoints to prevent brute force.
 const authLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 20,
+  windowMs: 15 * 60 * 1000,
+  max: 100,
   standardHeaders: true,
   legacyHeaders: false,
   message: { error: 'Too many requests, please try again later.' },
-  skip: () => isTest,
+  skip: skipLimiter,
 });
 
 // General limit for all other API routes.
@@ -25,7 +25,7 @@ const apiLimiter = rateLimit({
   standardHeaders: true,
   legacyHeaders: false,
   message: { error: 'Too many requests, please try again later.' },
-  skip: () => isTest,
+  skip: skipLimiter,
 });
 
 app.use('/api/user/login', authLimiter);
