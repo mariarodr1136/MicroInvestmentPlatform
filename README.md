@@ -16,7 +16,11 @@ Live Application: https://microinvestmentplatform-frontend.onrender.com/
 
 ### Demo Recording
 
-https://github.com/user-attachments/assets/76476e76-94a4-46f5-b06e-4f240b5223ec
+
+
+https://github.com/user-attachments/assets/75a268bf-17b6-4bf9-af47-05a5dddcf999
+
+
 
 ---
 
@@ -134,6 +138,12 @@ MicroInvestmentPlatform/
         └── hooks/
             └── useDebounce.js
 ```
+
+---
+
+
+<img width="1470" height="729" alt="Screenshot 2026-06-29 at 3 12 45 PM" src="https://github.com/user-attachments/assets/d7628811-afb8-4efa-88d7-a535c3a3fd5e" />
+
 
 ---
 
