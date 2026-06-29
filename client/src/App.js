@@ -9,7 +9,7 @@ import WelcomeBanner from './components/WelcomeBanner';
 import TransactionHistory from './components/TransactionHistory';
 import LatestNews from './components/LatestNews';
 import StockChart from './components/StockChart';
-import AuthScreen from './components/AuthScreen';
+import LandingPage from './components/LandingPage';
 import WhatIfSimulator from './components/WhatIfSimulator';
 import StockSearch from './components/StockSearch';
 import PortfolioPerformance from './components/PortfolioPerformance';
@@ -98,7 +98,7 @@ const App = () => {
     setTimeout(() => setWatchlistAdd(null), 100);
   };
 
-  if (!user) return <AuthScreen onLogin={handleLogin} />;
+  if (!user) return <LandingPage onLogin={handleLogin} />;
 
   return (
     <div className="app-shell">

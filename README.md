@@ -41,9 +41,16 @@ https://github.com/user-attachments/assets/75a268bf-17b6-4bf9-af47-05a5dddcf999
 
 ### Features
 
+**Landing Page**
+- **Public Homepage**: A marketing landing page greets visitors before they log in — no account required to browse.
+- **Scrolling Stock Ticker**: A continuously scrolling banner across the top of the landing page displays 18 stocks with live-simulated price fluctuations.
+- **Live Markets Grid**: 18 stock cards showing symbol, price, % change badge, and a directional mini-bar — all updating every 3 seconds.
+- **Feature Highlights**: Four cards covering Real-Time Charts, Portfolio Tracking, Leaderboard, and the What-If Simulator.
+- **Embedded Login**: The login section at the bottom of the landing page displays the shared demo credentials (username and password visible) so anyone can enter the platform instantly with one click — no sign-up required.
+
 **Trading & Portfolio**
-- **Secure Authentication**: Registration and login with bcrypt-hashed passwords and JWT tokens. All user-specific routes are protected and ownership-verified.
-- **Guest Mode**: Explore the app instantly with seeded demo data — no account required.
+- **Secure Authentication**: Login with bcrypt-hashed passwords and JWT tokens. All user-specific routes are protected and ownership-verified.
+- **Guest Mode**: Credentials for the demo account (`Guest` / `demo123`) are shown directly on the landing page — enter the platform with one click, no account creation needed.
 - **Virtual Money Management**: Every user starts with a $10,000 virtual balance to simulate real trading.
 - **Buy & Sell Stocks**: Simulated trades update portfolio and balance in real time with toast notifications.
 - **Live Price Preview**: Typing a stock symbol in the buy/sell form fetches the current price and shows the estimated cost or revenue before you trade.
@@ -111,6 +118,7 @@ MicroInvestmentPlatform/
         ├── index.css             # Global design system (CSS variables, all component styles)
         ├── config.js             # API base URL and auth header helper
         ├── components/
+        │   ├── LandingPage.js            # Public homepage (ticker, markets grid, embedded login)
         │   ├── AuthScreen.js
         │   ├── WelcomeBanner.js
         │   ├── MarketIndices.js          # Live indices strip
