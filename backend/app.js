@@ -28,6 +28,8 @@ const apiLimiter = rateLimit({
   skip: skipLimiter,
 });
 
+app.get('/api/health', (req, res) => res.status(200).json({ status: 'ok' }));
+
 app.use('/api/user/login', authLimiter);
 app.use('/api/user/register', authLimiter);
 app.use('/api/', apiLimiter);
